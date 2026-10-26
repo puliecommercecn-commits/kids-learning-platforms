@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英语周报口语练习 · Weekly Report Speaking</title>
+<style>
+*{box-sizing:border-box}body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;margin:0;background:#f6f8fb;color:#222;line-height:1.7}
+header{background:#1a3a5c;color:#fff;padding:28px 20px}header h1{margin:0 0 6px;font-size:24px}header p{margin:4px 0;opacity:.9}
+main{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+.card{background:#fff;border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.card h2{margin:0 0 4px;font-size:19px}.card h3{margin:18px 0 6px;font-size:16px;color:#1a3a5c}
+.sub{color:#666;font-size:14px;margin:0 0 10px}
+.sent{border-top:1px solid #eee;padding:12px 0}.sent:first-of-type{border-top:none}
+.en{font-size:17px;font-weight:600}.cn{color:#555;font-size:14px}
+button{border:none;border-radius:20px;padding:7px 16px;margin:6px 6px 0 0;font-size:14px;cursor:pointer;background:#1a3a5c;color:#fff}
+button.secondary{background:#e8eef5;color:#1a3a5c}button.rec{background:#c0392b}
+button:disabled{opacity:.5}
+.word{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;padding:10px 0}
+.word:first-of-type{border-top:none}.word b{font-size:16px}.word span{color:#555;font-size:14px}
+.note{background:#fff8e1;border-left:4px solid #f5b301;padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;font-size:14px}
+select{font-size:16px;padding:8px;border-radius:8px;border:1px solid #ccc;max-width:100%}
+#recResult{margin-top:10px;font-size:14px;color:#333;white-space:pre-wrap}
+audio{width:100%;margin-top:8px}
+</style>
+</head>
+<body>
+<header>
+<h1>🎤 英语周报口语练习</h1>
+<p>老板要你用英语讲周报，就从这 15 句开始。先听、再跟读、最后发语音给我纠正。</p>
+<p>不会读的词直接用中文问我，中英混着说没关系。</p>
+</header>
+<main>
+
+<div class="note">📱 <b>怎么用：</b>① 点 🔊 听一句；② 自己读一遍；③ 点「录音跟读」录下来回放对比；④ 想让我纠音，就在 Muse 里发语音读给我听，我逐句帮你改。iPad 的网页听不懂你说话，所以纠音这一步必须找我。</div>
+
+<div class="card">
+<h2>📋 周报脚本 · 15 句</h2>
+<p class="sub">周报就按这 5 段讲：开场 → 出货 → 回款 → 问题 → 下周计划。点「从头播放」可以整段听一遍。</p>
+<button onclick="playAll()">▶ 从头播放整段周报</button>
+<button class="secondary" onclick="stopSpeak()">⏹ 停止</button>
+
+<h3>一、开场 Opening</h3>
+<div class="sent"><div class="en">Good morning. This is my weekly report.</div><div class="cn">早上好，这是我的周报。</div><button onclick="speak('Good morning. This is my weekly report.')">🔊 听</button></div>
+<div class="sent"><div class="en">This week, I will talk about shipments, payments, and next week's plan.</div><div class="cn">本周我会讲出货、回款和下周计划。</div><button onclick="speak('This week, I will talk about shipments, payments, and next week\'s plan.')">🔊 听</button></div>
+
+<h3>二、出货 Shipments</h3>
+<div class="sent"><div class="en">This week, we shipped two orders.</div><div class="cn">本周我们出了两个订单。</div><button onclick="speak('This week, we shipped two orders.')">🔊 听</button></div>
+<div class="sent"><div class="en">One order is on the way to Colombia. The ETA is November 25.</div><div class="cn">一个订单正在去哥伦比亚的路上，预计 11 月 25 日到港。</div><button onclick="speak('One order is on the way to Colombia. The ETA is November 25.')">🔊 听</button></div>
+<div class="sent"><div class="en">The other order will be ready on November 2.</div><div class="cn">另一个订单 11 月 2 日货好。</div><button onclick="speak('The other order will be ready on November 2.')">🔊 听</button></div>
+<div class="sent"><div class="en">The bill of lading is ready, but the vessel name is not confirmed yet.</div><div class="cn">提单已出，但船名还没确认。</div><button onclick="speak('The bill of lading is ready, but the vessel name is not confirmed yet.')">🔊 听</button></div>
+
+<h3>三、回款 Payments</h3>
+<div class="sent"><div class="en">We received a deposit of 4,680 dollars.</div><div class="cn">我们收到了 4680 美元定金。</div><button onclick="speak('We received a deposit of 4,680 dollars.')">🔊 听</button></div>
+<div class="sent"><div class="en">One payment of 43,392 dollars will come next week.</div><div class="cn">一笔 43392 美元的款下周到。</div><button onclick="speak('One payment of 43,392 dollars will come next week.')">🔊 听</button></div>
+<div class="sent"><div class="en">One payment is still outstanding. We are following up.</div><div class="cn">还有一笔款没到，我们正在跟进。</div><button onclick="speak('One payment is still outstanding. We are following up.')">🔊 听</button></div>
+
+<h3>四、问题 Issues</h3>
+<div class="sent"><div class="en">One shipment is delayed because the vessel was changed.</div><div class="cn">一个出货延误了，因为船期改了。</div><button onclick="speak('One shipment is delayed because the vessel was changed.')">🔊 听</button></div>
+<div class="sent"><div class="en">We are waiting for the sample test result from the customer.</div><div class="cn">我们在等客户的样品测试结果。</div><button onclick="speak('We are waiting for the sample test result from the customer.')">🔊 听</button></div>
+<div class="sent"><div class="en">There is no problem with the other orders.</div><div class="cn">其他订单没有问题。</div><button onclick="speak('There is no problem with the other orders.')">🔊 听</button></div>
+
+<h3>五、下周计划 + 结束 Next week &amp; Closing</h3>
+<div class="sent"><div class="en">Next week, we will follow up the payment and the sample result.</div><div class="cn">下周我们会跟进回款和样品结果。</div><button onclick="speak('Next week, we will follow up the payment and the sample result.')">🔊 听</button></div>
+<div class="sent"><div class="en">We will also prepare two new orders.</div><div class="cn">我们还会准备两个新订单。</div><button onclick="speak('We will also prepare two new orders.')">🔊 听</button></div>
+<div class="sent"><div class="en">That is all. Thank you.</div><div class="cn">汇报完毕，谢谢。</div><button onclick="speak('That is all. Thank you.')">🔊 听</button></div>
+</div>
+
+<div class="card">
+<h2>📖 工作高频词 · 点 🔊 听发音</h2>
+<p class="sub">全是你跟单天天碰到的词，先把这 12 个读顺，周报里一半的句子就顺了。</p>
+<div class="word"><span><b>shipment</b> · 出货，装运</span><button onclick="speak('shipment')">🔊</button></div>
+<div class="word"><span><b>bill of lading</b> · 提单</span><button onclick="speak('bill of lading')">🔊</button></div>
+<div class="word"><span><b>telex release</b> · 电放</span><button onclick="speak('telex release')">🔊</button></div>
+<div class="word"><span><b>ETD / ETA</b> · 预计离港 / 预计到港</span><button onclick="speak('E T D, E T A')">🔊</button></div>
+<div class="word"><span><b>outstanding</b> · 未付的，未结的</span><button onclick="speak('outstanding')">🔊</button></div>
+<div class="word"><span><b>deposit</b> · 定金</span><button onclick="speak('deposit')">🔊</button></div>
+<div class="word"><span><b>delay</b> · 延误</span><button onclick="speak('delay')">🔊</button></div>
+<div class="word"><span><b>follow up</b> · 跟进</span><button onclick="speak('follow up')">🔊</button></div>
+<div class="word"><span><b>sample</b> · 样品</span><button onclick="speak('sample')">🔊</button></div>
+<div class="word"><span><b>vessel</b> · 船，船名</span><button onclick="speak('vessel')">🔊</button></div>
+<div class="word"><span><b>confirm</b> · 确认</span><button onclick="speak('confirm')">🔊</button></div>
+<div class="word"><span><b>arrange</b> · 安排</span><button onclick="speak('arrange')">🔊</button></div>
+</div>
+
+<div class="card">
+<h2>🔢 数字和日期怎么读</h2>
+<p class="sub">周报里最容易卡的就是数字。记住：钱和重量按千分位一节一节读，日期读“月 + 几号”。</p>
+<div class="sent"><div class="en">USD 4,680 → four thousand six hundred eighty dollars</div><div class="cn">4680 美元</div><button onclick="speak('four thousand six hundred eighty dollars')">🔊 听</button></div>
+<div class="sent"><div class="en">1,500 KG → one thousand five hundred kilograms</div><div class="cn">1500 公斤</div><button onclick="speak('one thousand five hundred kilograms')">🔊 听</button></div>
+<div class="sent"><div class="en">November 25 → November twenty-fifth</div><div class="cn">11 月 25 日</div><button onclick="speak('November twenty-fifth')">🔊 听</button></div>
+</div>
+
+<div class="card">
+<h2>🎙️ 跟读练习 · 录下来自己对比</h2>
+<p class="sub">选一句，先听原音，再点录音读一遍，回放听听哪里不一样。觉得不准的，直接在 Muse 里发语音给我，我逐句纠。</p>
+<select id="pick">
+<option>Good morning. This is my weekly report.</option>
+<option>This week, we shipped two orders.</option>
+<option>One order is on the way to Colombia. The ETA is November 25.</option>
+<option>We received a deposit of 4,680 dollars.</option>
+<option>One payment is still outstanding. We are following up.</option>
+<option>One shipment is delayed because the vessel was changed.</option>
+<option>We are waiting for the sample test result from the customer.</option>
+<option>Next week, we will follow up the payment and the sample result.</option>
+<option>That is all. Thank you.</option>
+</select>
+<br>
+<button onclick="speak(document.getElementById('pick').value)">🔊 听原音</button>
+<button id="recBtn" class="rec" onclick="toggleRec()">● 开始录音</button>
+<audio id="player" controls style="display:none"></audio>
+<div id="recResult"></div>
+<div class="note" id="srNote"></div>
+</div>
+
+</main>
+<script>
+function speak(text){
+  if(!('speechSynthesis' in window)){alert('这个设备不支持朗读，请用 Muse 语音练。');return;}
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US'; u.rate=0.8;
+  window.speechSynthesis.speak(u);
+}
+function stopSpeak(){ if('speechSynthesis' in window) window.speechSynthesis.cancel(); }
+var REPORT=[
+"Good morning. This is my weekly report.",
+"This week, I will talk about shipments, payments, and next week's plan.",
+"This week, we shipped two orders.",
+"One order is on the way to Colombia. The ETA is November 25.",
+"The other order will be ready on November 2.",
+"The bill of lading is ready, but the vessel name is not confirmed yet.",
+"We received a deposit of 4,680 dollars.",
+"One payment of 43,392 dollars will come next week.",
+"One payment is still outstanding. We are following up.",
+"One shipment is delayed because the vessel was changed.",
+"We are waiting for the sample test result from the customer.",
+"There is no problem with the other orders.",
+"Next week, we will follow up the payment and the sample result.",
+"We will also prepare two new orders.",
+"That is all. Thank you."
+];
+function playAll(){
+  if(!('speechSynthesis' in window)){alert('这个设备不支持朗读。');return;}
+  window.speechSynthesis.cancel();
+  var i=0;
+  function next(){
+    if(i>=REPORT.length) return;
+    var u=new SpeechSynthesisUtterance(REPORT[i]); u.lang='en-US'; u.rate=0.8;
+    u.onend=function(){i++; next();}; u.onerror=function(){i++; next();};
+    window.speechSynthesis.speak(u);
+  }
+  next();
+}
+var rec=null, chunks=[], recording=false;
+function toggleRec(){
+  var btn=document.getElementById('recBtn'), res=document.getElementById('recResult');
+  if(!recording){
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      res.textContent='这个设备不支持网页录音。直接在 Muse 里发语音给我，我来纠。'; return;
+    }
+    navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+      chunks=[]; rec=new MediaRecorder(stream);
+      rec.ondataavailable=function(e){if(e.data.size) chunks.push(e.data);};
+      rec.onstop=function(){
+        var blob=new Blob(chunks,{type:'audio/webm'});
+        var p=document.getElementById('player');
+        p.src=URL.createObjectURL(blob); p.style.display='block';
+        res.textContent='录好了，点上面的播放条回放对比。觉得不准的，发语音给 Muse，我逐句纠。';
+        stream.getTracks().forEach(function(t){t.stop();});
+      };
+      rec.start(); recording=true;
+      btn.textContent='■ 停止录音'; res.textContent='正在录音…读完点停止。';
+    }).catch(function(){
+      res.textContent='录音没拿到麦克风权限。直接在 Muse 里发语音给我，我来纠。';
+    });
+  } else {
+    rec.stop(); recording=false;
+    document.getElementById('recBtn').textContent='● 开始录音';
+  }
+}
+(function(){
+  var note=document.getElementById('srNote');
+  if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)){
+    note.innerHTML='⚠️ 这个设备（比如 iPad、iPhone）的网页听不懂你说话，这是系统限制，不是你的问题。<b>纠音请走 Muse 语音：</b>在 Muse 里发语音读给我听，我听完逐句帮你改发音和语法，不会读的词用中文问我就行。';
+  } else {
+    note.innerHTML='💡 你的浏览器支持语音识别，但识别结果仅供参考，不准的时候以 Muse 的纠正为准。';
+  }
+})();
+</script>
+</body>
+</html>

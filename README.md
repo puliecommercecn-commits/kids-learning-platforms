@@ -12,6 +12,10 @@ on iPad (no VPN, no login). Each page is a single self-contained HTML file.
   multiple knapsack, interval DP: stone merging) → graphs (adjacency
   matrix/list, DFS/BFS, topological sort, Floyd/Dijkstra/heap Dijkstra,
   SPFA, Prim/Kruskal).
+- `english/index.html` — English weekly-report speaking practice: a
+  15-sentence report script with listen buttons, work vocabulary,
+  number/date reading, and shadowing recording. Pronunciation
+  correction is done by Muse in chat, not by the page.
 - `math/index.html` — Shaokeyuan math platform, 3 number theory modules:
   factors/primes/multiples, divisibility/remainders, place value and
   perfect squares. Each module has worked examples, consolidation
