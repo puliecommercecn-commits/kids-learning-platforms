@@ -1,0 +1,1994 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>C++ 学习平台 · 信息学全学期 18 讲</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        --bg:#F5F8F1;
+        --surface:#FFFFFF;
+        --surface2:#EBF2E3;
+        --ink:#21301D;
+        --muted:#5D6E55;
+        --line:#D8E2CC;
+        --green:#2F7D46;
+        --green-dark:#256A3A;
+        --green-soft:#DDEEDB;
+        --amber:#E39A2D;
+        --amber-soft:#FBEED3;
+        --coral:#D9552C;
+        --coral-soft:#FBE3D8;
+        --blue:#2E6FB7;
+        --blue-soft:#DEEBF8;
+        --code-bg:#15211A;
+        --code-ink:#CFE6C8;
+        --shadow:0 2px 10px rgba(33,48,29,.07);
+        --radius:18px;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg:#10160E;
+          --surface:#1B2417;
+          --surface2:#242F1F;
+          --ink:#E7F0DF;
+          --muted:#A3B598;
+          --line:#35422B;
+          --green:#63C37C;
+          --green-dark:#7ED492;
+          --green-soft:#2A4230;
+          --amber:#EDB04C;
+          --amber-soft:#4A3A1B;
+          --coral:#F0805F;
+          --coral-soft:#4E2E21;
+          --blue:#6FA8DE;
+          --blue-soft:#26394F;
+          --code-bg:#0C130E;
+          --code-ink:#CFE6C8;
+          --shadow:0 2px 12px rgba(0,0,0,.35);
+        }
+      }
+      *{box-sizing:border-box}
+      html{scroll-behavior:smooth}
+      body{
+        margin:0;background:var(--bg);color:var(--ink);
+        font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+        font-size:16px;line-height:1.65;
+        -webkit-font-smoothing:antialiased;
+      }
+      .wrap{max-width:1060px;margin:0 auto;padding:0 18px 70px}
+      h1,h2,h3{font-family:"Fredoka","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.25;margin:0}
+      code,.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
+
+      /* ---------- hero ---------- */
+      .hero{padding:38px 0 8px;display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+      .hero-text{flex:1 1 420px;min-width:280px}
+      .hero h1{font-size:clamp(30px,5vw,44px);font-weight:700;letter-spacing:.5px}
+      .hero h1 .hl{color:var(--green)}
+      .hero p{color:var(--muted);font-size:17px;margin:14px 0 0;max-width:34em}
+      .hero-art{flex:0 1 300px;min-width:230px}
+      .hero-art svg{width:100%;height:auto;display:block}
+      .pain{margin:22px 0 4px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px}
+      .pain h3{font-size:18px;margin-bottom:10px}
+      .pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+      .pain-item{background:var(--surface2);border-radius:12px;padding:12px 14px;font-size:14.5px}
+      .pain-item b{color:var(--green-dark);display:block;margin-bottom:2px;font-size:15px}
+      .pain-item span{color:var(--muted)}
+
+      /* ---------- toc ---------- */
+      .toc{position:sticky;top:0;z-index:20;background:var(--bg);padding:12px 0 10px;display:flex;gap:8px;flex-wrap:wrap}
+      .toc a{
+        text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);
+        padding:7px 14px;border-radius:999px;font-size:14.5px;font-weight:600;box-shadow:var(--shadow);
+      }
+      .toc a:hover{border-color:var(--green);color:var(--green-dark)}
+
+      /* ---------- sections ---------- */
+      section.card{
+        background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+        box-shadow:var(--shadow);padding:26px 24px;margin-top:26px;
+      }
+      .sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:6px}
+      .sec-num{
+        flex:0 0 auto;width:38px;height:38px;border-radius:12px;background:var(--green);color:#fff;
+        display:flex;align-items:center;justify-content:center;font-family:"Fredoka",sans-serif;font-size:19px;font-weight:700;
+      }
+      .sec-head h2{font-size:24px}
+      .sec-head p{margin:4px 0 0;color:var(--muted);font-size:15px}
+      .analogy{
+        background:var(--amber-soft);border-radius:12px;padding:12px 16px;font-size:15px;margin:14px 0;
+      }
+      .analogy b{color:#8A5E10}
+      @media (prefers-color-scheme: dark){ .analogy b{color:var(--amber)} }
+
+      /* ---------- generic controls ---------- */
+      .btn{
+        appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);
+        border-radius:11px;padding:9px 16px;font-size:15px;font-weight:600;cursor:pointer;
+        font-family:inherit;transition:border-color .15s,background .15s;
+      }
+      .btn:hover{border-color:var(--green)}
+      .btn.primary{background:var(--green);border-color:var(--green);color:#fff}
+      .btn.primary:hover{background:var(--green-dark)}
+      .btn:disabled{opacity:.45;cursor:not-allowed}
+      .seg{display:inline-flex;background:var(--surface2);border-radius:12px;padding:4px;gap:4px;flex-wrap:wrap}
+      .seg button{
+        appearance:none;border:none;background:transparent;color:var(--muted);font-family:inherit;
+        padding:7px 14px;border-radius:9px;font-size:15px;font-weight:600;cursor:pointer;
+      }
+      .seg button.on{background:var(--surface);color:var(--green-dark);box-shadow:var(--shadow)}
+      .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:14px 0}
+
+      /* ---------- tree stage ---------- */
+      .stage{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;margin-top:8px}
+      @media (max-width:820px){ .stage{grid-template-columns:1fr} }
+      .treebox{background:var(--surface2);border-radius:14px;padding:10px;overflow:hidden}
+      .treebox svg{width:100%;height:auto;display:block}
+      .sidebox{display:flex;flex-direction:column;gap:14px;min-width:0}
+      .panel{background:var(--surface2);border-radius:14px;padding:14px 16px}
+      .panel h4{margin:0 0 8px;font-size:14px;color:var(--muted);letter-spacing:.04em}
+      .panel .big{font-size:16.5px}
+      svg .edge{stroke:var(--muted);stroke-width:2;opacity:.55}
+      svg .node{cursor:pointer}
+      svg .node circle{fill:var(--surface);stroke:var(--green);stroke-width:2.4;transition:fill .2s,stroke .2s}
+      svg .node text{fill:var(--ink);font-weight:700;font-size:16px;text-anchor:middle;dominant-baseline:central;pointer-events:none;font-family:"JetBrains Mono",monospace}
+      svg .node.static{cursor:default}
+      svg .node.instack circle{stroke:var(--blue);stroke-width:3}
+      svg .node.visited circle{fill:var(--green);stroke:var(--green)}
+      svg .node.visited text{fill:#fff}
+      svg .node.active circle{fill:var(--amber);stroke:var(--coral);stroke-width:3.4}
+      svg .node.active text{fill:#221806}
+      svg .node.isparent circle{stroke:var(--blue);stroke-width:3.2}
+      svg .node.ischild circle{fill:var(--green-soft);stroke:var(--green);stroke-width:3}
+      svg .node.issub circle{fill:var(--amber-soft)}
+      svg .node.pathhit circle{fill:var(--blue-soft);stroke:var(--blue);stroke-width:3.2}
+      svg .node.fresh circle{fill:var(--amber);stroke:var(--coral);stroke-width:3.4}
+      svg .node.fresh text{fill:#221806}
+      .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13.5px;color:var(--muted);margin-top:10px}
+      .legend i{display:inline-block;width:13px;height:13px;border-radius:50%;vertical-align:-2px;margin-right:5px;border:2px solid var(--green);background:var(--surface)}
+      .legend i.p{border-color:var(--blue)}
+      .legend i.c{background:var(--green-soft)}
+      .legend i.s{background:var(--amber-soft)}
+      .legend i.a{background:var(--amber);border-color:var(--coral)}
+
+      /* ---------- code + stack ---------- */
+      .codeblock{
+        background:var(--code-bg);border-radius:14px;padding:14px 6px;font-family:"JetBrains Mono",monospace;
+        font-size:13.8px;line-height:1.75;color:var(--code-ink);overflow-x:auto;
+      }
+      .codeblock .ln{display:block;padding:0 14px;white-space:pre;border-left:3px solid transparent}
+      .codeblock .ln.hl{background:rgba(227,154,45,.18);border-left-color:var(--amber);color:#FFE9BC}
+      .codeblock .kw{color:#8FD0FF}
+      .codeblock .fn{color:#FFD479}
+      .codeblock .cm{color:#7E9B78}
+      .stackframes{display:flex;flex-direction:column-reverse;gap:6px;min-height:44px}
+      .frame{
+        border:1.6px solid var(--blue);background:var(--blue-soft);color:var(--ink);border-radius:9px;
+        padding:5px 12px;font-family:"JetBrains Mono",monospace;font-size:14px;font-weight:600;
+        display:flex;justify-content:space-between;gap:8px;
+      }
+      .frame small{color:var(--muted);font-weight:400}
+      .frame.nullf{border-style:dashed;border-color:var(--muted);background:transparent;color:var(--muted)}
+      .stackempty{color:var(--muted);font-size:14px;padding:8px 0}
+      .say{
+        background:var(--green-soft);border-radius:12px;padding:12px 15px;font-size:15.5px;min-height:52px;
+        display:flex;align-items:center;
+      }
+      .chips{display:flex;gap:7px;flex-wrap:wrap;align-items:center;min-height:36px}
+      .chip{
+        width:34px;height:34px;border-radius:10px;background:var(--green);color:#fff;font-weight:700;
+        display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:15px;
+      }
+      .chip.empty{background:transparent;border:1.6px dashed var(--line);color:var(--muted);width:auto;padding:0 12px;font-family:inherit;font-size:13.5px;font-weight:500}
+      .progress{font-size:13.5px;color:var(--muted)}
+      input[type=range]{accent-color:var(--green)}
+
+      /* ---------- facts / terms ---------- */
+      .factlist{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-size:15px}
+      .factlist div b{color:var(--green-dark)}
+      .terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin-top:16px}
+      .term{background:var(--surface2);border-radius:12px;padding:13px 15px;font-size:14.5px}
+      .term b{display:block;font-size:15.5px;margin-bottom:3px}
+      .term span{color:var(--muted)}
+
+      /* ---------- formula ---------- */
+      .formula{
+        font-family:"JetBrains Mono",monospace;font-size:15.5px;background:var(--code-bg);color:var(--code-ink);
+        border-radius:12px;padding:14px 18px;line-height:2;
+      }
+      .formula .v{color:#FFD479;font-weight:700}
+      .arrrow{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px}
+      .cell{
+        flex:1 1 44px;min-width:44px;text-align:center;border:1.6px solid var(--line);border-radius:9px;
+        padding:7px 2px 5px;cursor:pointer;background:var(--surface);
+      }
+      .cell .idx{display:block;font-size:11px;color:var(--muted);font-family:"JetBrains Mono",monospace}
+      .cell .val{font-weight:700;font-family:"JetBrains Mono",monospace;font-size:16px}
+      .cell.on{border-color:var(--coral);background:var(--amber-soft)}
+      .cell.par{border-color:var(--blue);background:var(--blue-soft)}
+      .cell.kid{border-color:var(--green);background:var(--green-soft)}
+      .cell.dead{opacity:.45;cursor:default}
+
+      /* ---------- quiz ---------- */
+      .quiz-q{border-top:1px solid var(--line);padding:18px 0 4px}
+      .quiz-q:first-of-type{border-top:none}
+      .quiz-q h3{font-size:17.5px;margin-bottom:4px}
+      .quiz-q .qfig{margin:8px 0}
+      .opts{display:grid;gap:8px;margin:10px 0}
+      .opt{
+        text-align:left;appearance:none;border:1.6px solid var(--line);background:var(--surface);color:var(--ink);
+        border-radius:11px;padding:10px 14px;font-size:15.5px;cursor:pointer;font-family:inherit;
+      }
+      .opt:hover{border-color:var(--green)}
+      .opt.right{border-color:var(--green);background:var(--green-soft);font-weight:700}
+      .opt.wrong{border-color:var(--coral);background:var(--coral-soft)}
+      .opt:disabled{cursor:default;opacity:.92}
+      .explain{display:none;background:var(--surface2);border-radius:11px;padding:11px 14px;font-size:14.5px;color:var(--muted)}
+      .explain.show{display:block}
+      .explain b{color:var(--ink)}
+      .scorebar{display:flex;align-items:center;gap:12px;margin-top:8px;font-weight:700;font-size:16px}
+      .scorebar .track{flex:1;height:10px;background:var(--surface2);border-radius:99px;overflow:hidden}
+      .scorebar .fill{height:100%;background:var(--green);width:0%;transition:width .4s}
+
+      /* ---------- snippets ---------- */
+      .snip{margin-top:18px}
+      .snip-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+      .snip-head h3{font-size:17px}
+      .snip .codeblock{padding:14px 16px;white-space:pre;font-size:13.5px}
+      .copybtn{font-size:13.5px;padding:6px 12px}
+      .tip{font-size:14.5px;color:var(--muted);margin-top:10px}
+      .footer-note{margin-top:30px;text-align:center;color:var(--muted);font-size:14px}
+      .kbd-note{font-size:13.5px;color:var(--muted)}
+      .chip.w{width:auto;padding:0 11px;font-size:13.5px}
+      .chip.sm{width:27px;height:27px;font-size:13px;border-radius:8px}
+      .seqrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:7px 0}
+      .seqrow b{flex:0 0 auto;font-size:14.5px}
+      .arrlabel{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:13.5px;color:var(--muted);margin:10px 0 0}
+      .cell.zero .val{color:var(--muted)}
+      .quiz-q .qfig svg{width:min(340px,100%);height:auto}
+      .io{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+      @media (max-width:560px){ .io{grid-template-columns:1fr} }
+    /* ---------- extra for new stations ---------- */
+.dptable{border-collapse:collapse;font-family:"JetBrains Mono",monospace;font-size:14.5px;margin-top:10px}
+.dptable td,.dptable th{border:1.6px solid var(--line);padding:6px 10px;text-align:center;min-width:40px;background:var(--surface)}
+.dptable th{background:var(--surface2);color:var(--muted);font-weight:600}
+.dptable td.on{border-color:var(--coral);background:var(--amber-soft);font-weight:700}
+.dptable td.done{background:var(--green-soft);font-weight:700}
+.dptable td.path{background:var(--blue-soft);border-color:var(--blue);font-weight:700}
+.steplist{font-size:15px;line-height:1.9}
+.steplist li{margin:2px 0}
+.cmp{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:10px}
+.cmp th,.cmp td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+.cmp th{background:var(--surface2)}
+.triebox{font-family:"JetBrains Mono",monospace;font-size:15px;line-height:2;background:var(--surface2);border-radius:12px;padding:12px 16px;white-space:pre;overflow-x:auto}
+input.txtin{width:130px;padding:9px 12px;border-radius:11px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:15px;font-family:inherit}
+</style>
+  </head>
+  <body>
+    <div class="wrap">
+
+      <!-- ================= HERO ================= -->
+      <div class="hero">
+        <div class="hero-text">
+          <h1>信息学全学期<br /><span class="hl">18 讲</span>，一站一站过。</h1>
+          <p>按本学期授课内容排：树（1–9）→ DP 动态规划（10–14）→ 图论（15–18）。前两讲还是讲义原树原题，后面每一讲都配一个能动手点的小演示、一份能抄的代码模板和自查题。看不懂文字没关系，先把演示播一遍。</p>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <svg viewBox="0 0 300 240">
+            <line x1="150" y1="52" x2="80" y2="118" stroke="var(--muted)" stroke-width="2.5" opacity=".55"/>
+            <line x1="150" y1="52" x2="220" y2="118" stroke="var(--muted)" stroke-width="2.5" opacity=".55"/>
+            <line x1="80" y1="118" x2="42" y2="182" stroke="var(--muted)" stroke-width="2.5" opacity=".55"/>
+            <line x1="80" y1="118" x2="118" y2="182" stroke="var(--muted)" stroke-width="2.5" opacity=".55"/>
+            <line x1="220" y1="118" x2="258" y2="182" stroke="var(--muted)" stroke-width="2.5" opacity=".55"/>
+            <circle cx="150" cy="40" r="23" fill="var(--amber)" stroke="var(--coral)" stroke-width="3"/>
+            <circle cx="80" cy="118" r="21" fill="var(--surface)" stroke="var(--green)" stroke-width="2.6"/>
+            <circle cx="220" cy="118" r="21" fill="var(--surface)" stroke="var(--green)" stroke-width="2.6"/>
+            <circle cx="42" cy="186" r="19" fill="var(--green)" stroke="var(--green)" stroke-width="2.6"/>
+            <circle cx="118" cy="186" r="19" fill="var(--surface)" stroke="var(--green)" stroke-width="2.6"/>
+            <circle cx="258" cy="186" r="19" fill="var(--surface)" stroke="var(--green)" stroke-width="2.6"/>
+            <text x="150" y="41" text-anchor="middle" dominant-baseline="central" font-weight="700" font-size="17" fill="#221806" font-family="JetBrains Mono,monospace">1</text>
+            <text x="80" y="119" text-anchor="middle" dominant-baseline="central" font-weight="700" font-size="16" fill="var(--ink)" font-family="JetBrains Mono,monospace">2</text>
+            <text x="220" y="119" text-anchor="middle" dominant-baseline="central" font-weight="700" font-size="16" fill="var(--ink)" font-family="JetBrains Mono,monospace">3</text>
+            <text x="42" y="187" text-anchor="middle" dominant-baseline="central" font-weight="700" font-size="15" fill="#fff" font-family="JetBrains Mono,monospace">4</text>
+            <text x="118" y="187" text-anchor="middle" dominant-baseline="central" font-weight="700" font-size="15" fill="var(--ink)" font-family="JetBrains Mono,monospace">5</text>
+            <text x="258" y="187" text-anchor="middle" dominant-baseline="central" font-weight="700" font-size="15" fill="var(--ink)" font-family="JetBrains Mono,monospace">6</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="pain">
+        <h3>本学期路线图（点任意一站直接跳过去）</h3>
+        <div class="pain-grid">
+          <div class="pain-item"><b>🌳 树 1–9</b><span>树概念 → 二叉树 → 遍历 → 完全二叉树 → BST → 哈夫曼 → Trie → 树状数组 → 树综合</span></div>
+          <div class="pain-item"><b>🧩 DP 10–14</b><span>DP 基础 → 线性 DP（数字三角形 / LIS / LCS）→ 01 背包 → 完全·多重背包 → 区间 DP 石子合并</span></div>
+          <div class="pain-item"><b>🕸️ 图 15–18</b><span>图基础 DFS/BFS → 拓扑排序 → 最短路 → SPFA + 最小生成树 + 综合复习</span></div>
+        </div>
+      </div>
+
+      <nav class="toc">
+        <a href="#s1">1 树概念</a><a href="#s2">2 二叉树·链式</a><a href="#s3">3 递归遍历</a><a href="#s4">4 完全二叉树</a><a href="#s5">5 BST</a><a href="#s6">6 哈夫曼</a><a href="#s7">7 Trie</a><a href="#s8">8 树状数组</a><a href="#s9">9 树综合</a>
+        <a href="#s10">10 DP基础</a><a href="#s11">11 线性DP</a><a href="#s12">12 01背包</a><a href="#s13">13 完全·多重背包</a><a href="#s14">14 区间DP</a>
+        <a href="#s15">15 图基础</a><a href="#s16">16 拓扑排序</a><a href="#s17">17 最短路</a><a href="#s18">18 SPFA·最小生成树</a>
+        <a href="#quiz">自查题</a><a href="#code">代码模板</a>
+      </nav>
+
+      <!-- ================= SECTION 1 ================= -->
+      <section class="card" id="s1">
+        <div class="sec-head">
+          <div class="sec-num">1</div>
+          <div>
+            <h2>认识树：它就是一张族谱</h2>
+            <p>这就是讲义第 1 讲从头讲到尾的那棵示例树：12 个结点，编号 1~12（也写作 A~L）。点任意一个圆圈，看看它是谁的孩子、谁的爸爸——讲义里的 12 个术语，全能在这棵树上找到。</p>
+          </div>
+        </div>
+        <div class="analogy">🌳 <b>讲义的引入就是这四个：</b>家谱、文件夹目录、学校组织架构、淘汰赛赛制图——长得完全不一样，在计算机里是同一个结构：<b>一个在上、多个在下、且不绕回来</b>。文件夹里「文档」是大文件夹（根），小文件夹是孩子，文件就是没有孩子的叶子。</div>
+        <div class="stage">
+          <div>
+            <div class="treebox"><svg id="tree1" viewBox="0 0 470 300" role="img" aria-label="一棵普通树的示意图，可以点击每个节点"></svg></div>
+            <div class="legend">
+              <span><i class="a"></i>选中的节点</span>
+              <span><i class="p"></i>父节点</span>
+              <span><i class="c"></i>子节点</span>
+              <span><i class="s"></i>它的子树</span>
+            </div>
+          </div>
+          <div class="sidebox">
+            <div class="panel">
+              <h4>节点档案</h4>
+              <div class="factlist" id="facts1"></div>
+            </div>
+            <div class="say" id="say1"></div>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:16px">
+          <h4>这棵树的 fa[] 数组（第 1 讲 · 存储一：双亲表示法）—— 点格子或点树上的结点都行</h4>
+          <div class="arrrow" id="faRow"></div>
+          <p class="tip" style="margin:8px 0 0">fa[i] 只存一件事：「我爸是谁」，根的 fa 记 0。找双亲 O(1) 一步到位；但想找某个结点的孩子，只能把全表扫一遍 O(n)——所以本专题的主力存储是邻接表 g[]（代码在最后「代码模板」）。</p>
+        </div>
+        <div class="panel" style="margin-top:14px">
+          <h4>这棵树的三种遍历（第 1 讲 · 普通树只有这三种，没有中序）</h4>
+          <div class="seqrow"><b>先根 · 拿到就打印</b><span class="chip sm">1</span><span class="chip sm">2</span><span class="chip sm">5</span><span class="chip sm">11</span><span class="chip sm">12</span><span class="chip sm">6</span><span class="chip sm">3</span><span class="chip sm">7</span><span class="chip sm">4</span><span class="chip sm">8</span><span class="chip sm">9</span><span class="chip sm">10</span></div>
+          <div class="seqrow"><b>后根 · 孩子干完再打印</b><span class="chip sm">11</span><span class="chip sm">12</span><span class="chip sm">5</span><span class="chip sm">6</span><span class="chip sm">2</span><span class="chip sm">7</span><span class="chip sm">3</span><span class="chip sm">8</span><span class="chip sm">9</span><span class="chip sm">10</span><span class="chip sm">4</span><span class="chip sm">1</span></div>
+          <div class="seqrow"><b>层次 · 用队列排队</b><span class="chip sm">1</span><span class="chip sm">2</span><span class="chip sm">3</span><span class="chip sm">4</span><span class="chip sm">5</span><span class="chip sm">6</span><span class="chip sm">7</span><span class="chip sm">8</span><span class="chip sm">9</span><span class="chip sm">10</span><span class="chip sm">11</span><span class="chip sm">12</span></div>
+          <p class="tip" style="margin:6px 0 0">同一个 A（1 号），在先根里排最前、后根里排最后、层次里又排最前。二叉树的遍历动画在第 3 站。</p>
+        </div>
+        <div class="analogy" style="margin-top:14px">⭐ <b>通法三件套 —— 本专题最重要的交付物：</b>① 建邻接表（只加 父 → 子）② 写 dfs(u, p) ③ 得到 fa[] 和 dep[]。后面 9 讲所有算法都站在这两个数组上，完整代码在最后「代码模板」，先混个脸熟。</div>
+        <div class="terms">
+          <div class="term"><b>根</b><span>没有双亲的唯一结点：A（1 号）。</span></div>
+          <div class="term"><b>双亲（父）</b><span>路径上离它最近的上面那个点：E（5）的双亲是 B（2）。</span></div>
+          <div class="term"><b>孩子</b><span>直接连在它下面的点：B 的孩子是 E、F。</span></div>
+          <div class="term"><b>兄弟</b><span>同一个双亲的孩子：E 和 F；H、I、J。</span></div>
+          <div class="term"><b>堂兄弟</b><span>双亲在同一层的结点：G 与 E、F、H、I、J 互为堂兄弟。</span></div>
+          <div class="term"><b>祖先</b><span>根到该结点路径上的其他结点（不含自己）：K 的祖先是 A、B、E。</span></div>
+          <div class="term"><b>子孙</b><span>以该结点为根的子树中的所有结点：B 的子孙是 E、F、K、L。</span></div>
+          <div class="term"><b>度 / 树的度</b><span>结点的度 = 它有几个孩子：B 的度 2、D 的度 3、K 的度 0。全树最大度 = 3，就是「树的度」。</span></div>
+          <div class="term"><b>分支结点</b><span>度 &gt; 0 的结点：A、B、C、D、E。</span></div>
+          <div class="term"><b>叶子（终端结点）</b><span>度 = 0 的结点：K、L、F、G、H、I、J，共 7 个。</span></div>
+          <div class="term"><b>深度 vs 高度 ⚠</b><span>方向相反！深度从上往下（根 = 1），高度从下往上（叶 = 1）。E 的深度是 3、高度是 2。整棵树：高度 4，宽度 6（第 3 层最多）。</span></div>
+          <div class="term"><b>子树</b><span>某结点及其所有子孙构成的树：以 E 为根的子树含 {E, K, L}。树里套树——这正是递归的来源。</span></div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 2 ================= -->
+      <section class="card" id="s2">
+        <div class="sec-head">
+          <div class="sec-num">2</div>
+          <div>
+            <h2>第 2 讲 · 二叉树定义、性质与链式存储</h2>
+            <p>第 2 讲的存储。孩子最多两个、还有名字（左 / 右），就不用第 1 讲的邻接表（给每个结点挂一张孩子清单）了——开两个数组就行：lch[u] 是左孩子编号，rch[u] 是右孩子编号，0 表示「没有」。点结点或点格子，对着示例树把这张表填一遍。</p>
+          </div>
+        </div>
+        <div class="stage">
+          <div>
+            <div class="treebox"><svg id="tree3" viewBox="0 0 470 320" role="img" aria-label="讲义第 2 讲的示例二叉树，可以点击每个结点"></svg></div>
+            <div class="legend">
+              <span><i class="a"></i>选中的结点</span>
+              <span><i class="p"></i>双亲</span>
+              <span><i class="c"></i>孩子</span>
+            </div>
+          </div>
+          <div class="sidebox">
+            <div class="panel">
+              <h4>示例树对应的两个数组（讲义原表）</h4>
+              <div class="arrlabel">lch[]</div>
+              <div class="arrrow" id="lchRow"></div>
+              <div class="arrlabel">rch[]</div>
+              <div class="arrrow" id="rchRow"></div>
+            </div>
+            <div class="say" id="say3"></div>
+            <div class="panel">
+              <h4>三个必讲点</h4>
+              <div class="big" style="font-size:15.5px">
+                ① <b>0 = 空子树</b>：编号从 1 开始，0 专门表示「不存在」，lch[u] == 0 就是没有左孩子。<br />
+                ② 表里的 0 都落在 C、D、E 身上——「没有左孩子」和「没有右孩子」是两回事，一个都不能省。<br />
+                ③ 一句话记住：<b>下标就是指针，0 就是 nullptr</b>。教科书的 struct Node *left, *right 认识即可，竞赛里不用。
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="analogy">⚠ <b>输入形式也变了：</b>第 1 讲读的是「边集」（n−1 行 u v，父亲 → 孩子）；第 2 讲读的是「孩子表」（n 行 l r，每行就是一个结点的左右孩子）。先看清题目给的是哪种，别条件反射写 push_back。</div>
+      </section>
+
+      <!-- ================= SECTION 4 ================= -->
+      <section class="card" id="s2b">
+        <div class="sec-head">
+          <div class="sec-num">2</div>
+          <div>
+            <h2>第 2 讲续 · 二叉树五条性质：n₀ = n₂ + 1</h2>
+            <p>第 2 讲另一半时间在「算账」。五条性质不许背——每条都能现场推。先在示例树上把三种度数清楚：n₀ = 3（叶子 G、H、F），n₁ = 3（C、D、E），n₂ = 2（A、B）。</p>
+          </div>
+        </div>
+        <div class="terms" style="margin-top:6px">
+          <div class="term"><b>性质 1 · 第 i 层最多 2^(i−1) 个</b><span>第 1 层 1 个，往下每层最多翻倍。示例树第 3 层有 D、E、F 共 3 个 ≤ 2² = 4，没满是因为 C 缺了左孩子。</span></div>
+          <div class="term"><b>性质 2 · 深度 k 最多 2^k − 1 个</b><span>各层最多加起来：1 + 2 + 4 + … + 2^(k−1) = 2^k − 1。反过来：深度 k 最少 k 个（斜树，每层只放 1 个）。两个「最多 / 最少」正好是满二叉树和斜树两个极端。</span></div>
+          <div class="term"><b>性质 4 · 完全二叉树深度</b><span>n 个结点的完全二叉树，深度 = ⌊log₂ n⌋ + 1。代入：n = 100 → ⌊log₂ 100⌋ + 1 = 6 + 1 = 7。</span></div>
+          <div class="term"><b>性质 5 · 点数 ↔ 深度互推</b><span>深度 k → 点数在 k ~ 2^k − 1 之间；点数 n → 叶子数在 1 ~ ⌈n/2⌉ 之间。范围题套路：把 n₁（度为 1 的结点数）当成一个可以滑动的滑块，先代最小、再代最大，两头各算一次。</span></div>
+        </div>
+        <div class="panel" style="margin-top:16px">
+          <h4>⭐ 性质 3 推导：两本账，一减出答案（初赛年年考，必须会推）</h4>
+          <div class="formula">按「点」数：　n = n₀ + n₁ + n₂ = 3 + 3 + 2 = <span class="v">8</span><br />按「度」数：　n − 1 = 0·n₀ + 1·n₁ + 2·n₂ = 0 + 3 + 4 = <span class="v">7</span><br />两式相减 → 1 = n₀ − n₂ → <span class="v">n₀ = n₂ + 1</span> ∎</div>
+          <p class="tip" style="margin-bottom:0">为什么按度数数出来是 n − 1？每个结点向下连出的边数就是它的度，总度数 = 边数，而树有 n − 1 条边（第 1 讲性质 1）。示例树当场验证：n₀ = 3，n₂ + 1 = 3 ✓。三连问自测：① n₀ = 20、n₁ = 5 → n = 44；② n₂ = 0 的二叉树长什么样？→ 斜树，n₀ = 1；③ 性质 3 能用到普通树上吗？→ 不能，普通树的度没有上限。现在翻开草稿纸，把这两本账自己重演一遍——推一遍，比背十遍管用。</p>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 6 · 二叉搜索树 ================= -->
+      <section class="card" id="s3">
+        <div class="sec-head">
+          <div class="sec-num">3</div>
+          <div>
+            <h2>第 3 讲 · 二叉树递归遍历：前序、中序、后序</h2>
+            <p>遍历 = 把每个结点都访问一遍。这棵树是讲义第 2 讲的示例二叉树（8 个结点，编号即下标，1=A … 8=H），右边代码就是 lch[] / rch[] 的写法。选一种遍历按播放——左边是树，右边是代码和真实的函数调用栈，一步一步对着看。</p>
+          </div>
+        </div>
+        <div class="analogy">🌀 <b>递归是什么？就是「自己叫自己干活」。</b>处理一棵树 = 处理根 + 处理左子树 + 处理右子树；子树也是小树，接着用同样的办法……就像打开套娃，一层一层往里开，直到打开一个空盒子——<b>空结点就是出口</b>，到了出口就往回走。没有出口，程序会一直钻下去、卡死（这叫爆栈）。</div>
+        <div class="controls">
+          <div class="seg" id="orderSeg" role="tablist">
+            <button data-order="pre" class="on">前序</button>
+            <button data-order="in">中序</button>
+            <button data-order="post">后序</button>
+            <button data-order="bfs">层序</button>
+          </div>
+          <span class="kbd-note" id="orderHint">前序：根 → 左 → 右（先记下自己，再去管孩子）</span>
+        </div>
+        <div class="stage">
+          <div>
+            <div class="treebox"><svg id="tree2" viewBox="0 0 470 320" role="img" aria-label="用于演示遍历的二叉树"></svg></div>
+            <div class="controls">
+              <button class="btn" id="btnPrev">← 上一步</button>
+              <button class="btn primary" id="btnPlay">▶ 播放</button>
+              <button class="btn" id="btnNext">下一步 →</button>
+              <button class="btn" id="btnReset">↺ 重来</button>
+              <label class="kbd-note">速度 <input type="range" id="speed" min="1" max="3" step="1" value="2" style="vertical-align:middle" /></label>
+              <span class="progress" id="prog2"></span>
+            </div>
+            <div class="panel">
+              <h4 id="resultTitle">输出顺序</h4>
+              <div class="chips" id="chips2"></div>
+            </div>
+          </div>
+          <div class="sidebox">
+            <div class="codeblock" id="code2"></div>
+            <div class="panel">
+              <h4 id="stackTitle">函数调用栈（正在运行的调用）</h4>
+              <div class="stackframes" id="stack2"></div>
+            </div>
+            <div class="say" id="say2"></div>
+          </div>
+        </div>
+        <p class="tip">💡 讲义 T4 故意只给了先序，中序、后序让你自己琢磨——先在草稿纸上写出你的版本，再切到中序 / 后序播一遍对答案，比直接看讲解记得牢。三者的唯一区别，就是 <code>cout</code> 那一行夹在两次递归调用的哪个位置；栈里每多一层，就是程序「钻进」了一棵更小的子树，某一层消失，就是那棵子树全部处理完、退回来了。</p>
+      </section>
+
+      <!-- ================= SECTION 3 ================= -->
+      <section class="card" id="s3b">
+        <div class="sec-head">
+          <div class="sec-num">3</div>
+          <div>
+            <h2>第 3 讲续 · 递归三件套：一个模具通吃统计题</h2>
+            <p>第 2 讲的看家本领。问整棵 = 问左子树、问右子树，再把两个答案合并——cnt（结点数）/ depth（深度）/ leaves（叶子数）三个函数长得一模一样，只差最后「合并」那一行。选一个播一遍，看返回值怎么一层层算出来，还是这棵示例树。</p>
+          </div>
+        </div>
+        <div class="controls">
+          <div class="seg" id="fnSeg" role="tablist">
+            <button data-fn="cnt" class="on">cnt · 结点数</button>
+            <button data-fn="depth">depth · 深度</button>
+            <button data-fn="leaves">leaves · 叶子数</button>
+          </div>
+          <span class="kbd-note" id="fnHint">合并：左 + 右 + 自己这 1 个</span>
+        </div>
+        <div class="stage">
+          <div>
+            <div class="treebox"><svg id="tree4" viewBox="0 0 470 320" role="img" aria-label="用于演示递归三件套的示例二叉树"></svg></div>
+            <div class="controls">
+              <button class="btn" id="btnPrev4">← 上一步</button>
+              <button class="btn primary" id="btnPlay4">▶ 播放</button>
+              <button class="btn" id="btnNext4">下一步 →</button>
+              <button class="btn" id="btnReset4">↺ 重来</button>
+              <label class="kbd-note">速度 <input type="range" id="speed4" min="1" max="3" step="1" value="2" style="vertical-align:middle" /></label>
+              <span class="progress" id="prog4"></span>
+            </div>
+            <div class="panel">
+              <h4>已经算完的子树（返回值）</h4>
+              <div class="chips" id="chips4"></div>
+            </div>
+          </div>
+          <div class="sidebox">
+            <div class="codeblock" id="code4"></div>
+            <div class="panel">
+              <h4>函数调用栈（正在运行的调用）</h4>
+              <div class="stackframes" id="stack4"></div>
+            </div>
+            <div class="say" id="say4"></div>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:16px">
+          <h4>课堂编程题 T2（讲义原题）· 给定每个点的左右孩子，输出结点数、最大深度、叶子数</h4>
+          <p style="margin:0 0 10px;font-size:15px">输入 n，接下来 n 行，第 i 行两个数 l r，表示 i 号结点的左、右孩子编号（0 表示空），根为 1 号点。输出三行：① 总结点数（<b>不许直接输出输入的 n，必须递归算</b>）② 树的最大深度（根深度为 1）③ 叶子结点个数。</p>
+          <div class="io">
+            <div>
+              <div class="arrlabel">输入样例（就是示例树）</div>
+              <div class="formula" style="white-space:pre;line-height:1.7">8
+2 3
+4 5
+0 6
+7 0
+0 8
+0 0
+0 0
+0 0</div>
+            </div>
+            <div>
+              <div class="arrlabel">输出样例</div>
+              <div class="formula" style="white-space:pre;line-height:1.7">8
+4
+3</div>
+              <p class="tip" style="margin:8px 0 0">上面三个按钮算的正是这三行。口头验证法：cnt(1) = 8、depth(1) = 4、leaves(1) = 3（叶子是 G、H、F）——三个数全对上，这个模具才算过关。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 5 · 五条性质 ================= -->
+      <!-- ================= SECTION 4 完全二叉树 ================= -->
+<section class="card" id="s4">
+  <div class="sec-head"><div class="sec-num">4</div><div>
+    <h2>第 4 讲 · 完全二叉树：性质与数组存储</h2>
+    <p>完全二叉树 = 除了最后一层，每层都塞满，最后一层从左到右连续不留空。它的超能力是：不用 lch/rch，直接用一个数组存，靠下标算亲戚。</p>
+  </div></div>
+  <div class="analogy">🏢 <b>像按楼层和门牌号编号的宿舍楼：</b>根是 1 号，往下从左到右依次 2、3、4……只要知道你的编号，你爸住几号（⌊i/2⌋）、你两个孩子住几号（2i、2i+1）直接算出来，不用问任何人。</div>
+  <div class="stage">
+    <div>
+      <div class="treebox"><svg id="treeCbt" viewBox="0 0 470 300" role="img" aria-label="完全二叉树，编号1到10"></svg></div>
+      <div class="legend"><span><i class="a"></i>选中</span><span><i class="p"></i>双亲 i/2</span><span><i class="c"></i>孩子 2i、2i+1</span></div>
+    </div>
+    <div class="sidebox">
+      <div class="panel"><h4>数组 a[]（下标就是编号）—— 点树或点格子</h4><div class="arrrow" id="cbtRow"></div></div>
+      <div class="say" id="sayCbt"></div>
+      <div class="panel"><h4>必记 4 条</h4><div class="big" style="font-size:15.5px">
+        ① 编号 i 的双亲 = ⌊i/2⌋，左孩子 = 2i，右孩子 = 2i+1。<br>
+        ② n 个结点，深度 = ⌊log₂ n⌋ + 1（n=10 → 4）。<br>
+        ③ 叶子都在最后两层；编号 &gt; n/2 的都是叶子（n=10：6~10 号是叶子）。<br>
+        ④ 判断完全二叉树：层序遍历时，一旦见到空位，后面不能再有结点。
+      </div></div>
+    </div>
+  </div>
+</section>
+
+      <section class="card" id="s5">
+        <div class="sec-head">
+          <div class="sec-num">5</div>
+          <div>
+            <h2>第 5 讲 · 二叉搜索树 BST：定义、查找、插入</h2>
+            <p>这就是第 5 讲：二叉搜索树。规矩只有一条：每个结点，左边的数都比它小，右边的数都比它大。找数的时候，每比一次就能排除一半——就像查字典，你不会一页一页翻，而是直接翻到中间那一片。</p>
+          </div>
+        </div>
+        <div class="controls">
+          <input type="number" id="bstInput" min="1" max="99" placeholder="输入 1~99" style="width:120px;padding:9px 12px;border-radius:11px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:15px;font-family:inherit" />
+          <button class="btn primary" id="btnInsert">插入</button>
+          <button class="btn" id="btnSearch">查找</button>
+          <button class="btn" id="btnRandom">随机插入一个</button>
+          <button class="btn" id="btnBstReset">↺ 重置</button>
+        </div>
+        <div class="stage">
+          <div>
+            <div class="treebox"><svg id="tree6" viewBox="0 0 560 330" role="img" aria-label="二叉搜索树"></svg></div>
+          </div>
+          <div class="sidebox">
+            <div class="say" id="say6">这棵树是把 8、3、10、1、6、14、4、7、13 一个一个放进来的：第一个数 8 当了根，后来的数都自己找座位——比当前结点小就往左，比它大就往右。输入一个数，试着把它放进来，或者找出来。</div>
+            <div class="panel">
+              <h4>两个好玩的实验，自己动手试</h4>
+              <div class="big" style="font-size:15.5px">
+                ① 把这棵树的数按<b>中序遍历</b>走一遍（方法在第 3 站），走出来的正好是<b>从小到大排好队</b>的数——不是巧合，是「左小右大」决定的。<br />
+                ② 先点重置，再按 1、2、3、4、5 的顺序一个一个插入，看它长成什么样：会变成一条向右的斜线！讲义管这叫<b>斜树</b>，是搜索树最倒霉的样子——找数慢得像排队一个个问。
+              </div>
+            </div>
+            <div class="codeblock" style="padding:12px 16px;white-space:pre;font-size:13.5px">找一个数 x（和查字典一个道理）：
+从根开始比一比：
+  x 更小 → 去左边找
+  x 更大 → 去右边找
+  一样大 → 找到了！
+走到空位置还没找到 → 树里没有它</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 7 ================= -->
+      <!-- ================= SECTION 6 哈夫曼 ================= -->
+<section class="card" id="s6">
+  <div class="sec-head"><div class="sec-num">6</div><div>
+    <h2>第 6 讲 · 哈夫曼树：每次挑最轻的两个合并</h2>
+    <p>给每个叶子一个「重量」（出现次数），目标是让重的叶子离根近、轻的离根远，这样总代价最小。构造法只有一招：反复挑最轻的两个，合成一个新结点放回去。</p>
+  </div></div>
+  <div class="analogy">🎒 <b>像把行李塞箱子：</b>常用的东西（重）放上面随手拿， rarely 用的（轻）压箱底。哈夫曼编码就是这样给每个字符发「门牌号」：常用字符给短编码，没人用的给长编码，谁也不是谁的前缀，所以不会认错。</div>
+  <div class="controls">
+    <span class="kbd-note">叶子重量：2、3、5、7</span>
+    <button class="btn primary" id="btnHuff">下一步合并 →</button>
+    <button class="btn" id="btnHuffReset">↺ 重来</button>
+    <span class="progress" id="progHuff"></span>
+  </div>
+  <div class="stage">
+    <div><div class="panel"><h4>当前还没合并的结点（从小到大）</h4><div class="chips" id="chipsHuff"></div></div></div>
+    <div class="sidebox">
+      <div class="say" id="sayHuff">准备好了。一共要合并 3 次：每次挑最轻的两个。点「下一步合并」开始。</div>
+      <div class="panel"><h4>算总代价 WPL（带权路径长度）</h4><div class="big" style="font-size:15.5px">WPL 不用真的去数每片叶子的深度——有个偷懒法：<b>把每次合并产生的新重量加起来就行</b>。合并出 5、10、17，WPL = 5 + 10 + 17 = 32。最后给出的编码：5 → 01，7 → 1，2 → 000，3 → 001。验算：5×2 + 7×1 + 2×3 + 3×3 = 32 ✓ 两种算法对上了。</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SECTION 7 Trie ================= -->
+<section class="card" id="s7">
+  <div class="sec-head"><div class="sec-num">7</div><div>
+    <h2>第 7 讲 · 字典树 Trie：把单词挂在树上</h2>
+    <p>思想一句话：单词是一条从根往下走的路，字母写在边上。开头相同的单词共用前面一段路——所以查一个单词、或者数有多少单词以某串开头，都只要沿着路走一遍。</p>
+  </div></div>
+  <div class="analogy">📖 <b>像查字典的部首索引：</b>查「苹」不用翻完整本书，先翻到草字头那一叠，再往里找。Trie 就是把每个字母都做成一层索引，公共前缀只存一份，省地方又查得快。</div>
+  <div class="controls">
+    <input class="txtin" id="trieInput" placeholder="输入小写单词" maxlength="8" />
+    <button class="btn primary" id="btnTrieInsert">插入单词</button>
+    <button class="btn" id="btnTrieQuery">查询单词</button>
+    <button class="btn" id="btnTriePrefix">数前缀个数</button>
+    <button class="btn" id="btnTrieReset">↺ 重置</button>
+  </div>
+  <div class="stage">
+    <div><div class="triebox" id="trieBox"></div><p class="tip">树里预先放了 cat、car、card、dog。带 * 的结点表示「有一个单词在这里结束」。</p></div>
+    <div class="sidebox">
+      <div class="say" id="sayTrie">试试查询 car（有）、ca（只是半截路，不是单词）、或者数一数以 ca 开头的单词有几个（应该是 3 个）。</div>
+      <div class="panel"><h4>两个动作，一个模具</h4><div class="big" style="font-size:15.5px"><b>插入：</b>从根出发，字母的路在就走下去，不在就新建一个结点；走完在最后结点打个「结束」标记，并让沿途每个结点的 cnt++（记着有多少单词经过我）。<br><b>查询：</b>同样沿着走，走不通 = 没有这个单词；走到头还要看结束标记。<b>数前缀：</b>走到前缀的最后一个字母，读它的 cnt 就是答案。</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SECTION 8 树状数组 ================= -->
+<section class="card" id="s8">
+  <div class="sec-head"><div class="sec-num">8</div><div>
+    <h2>第 8 讲 · 树状数组：管一段区间的「组长」</h2>
+    <p>要反复做两件事：改一个数、问前 x 个数的和。普通数组改得快问得慢（要一个个加），前缀和数组问得快改得慢（后面全要重算）。树状数组让两件事都只要跳几步。</p>
+  </div></div>
+  <div class="analogy">👥 <b>像班级小组制：</b>tree[i] 是个组长，负责管一段区间，管多长由 lowbit(i) 决定——i 的二进制里最低位的 1 是多少，就管多少个。问总分不用挨个问同学，问几个组长加起来就行；改一个人的分，也只要通知管着他的几个组长。</div>
+  <div class="controls">
+    <input class="txtin" id="bitX" type="number" min="1" max="8" value="5" style="width:90px" />
+    <button class="btn primary" id="btnBitSum">查前 x 个的和</button>
+    <input class="txtin" id="bitDelta" type="number" value="10" style="width:90px" />
+    <button class="btn" id="btnBitAdd">给 a[x] 加上这个数</button>
+    <button class="btn" id="btnBitReset">↺ 重置</button>
+  </div>
+  <div class="panel"><h4>原数组 a[1..8]（开始时 a[i] = i）</h4><div class="arrrow" id="bitARow"></div>
+  <h4 style="margin:14px 0 0;font-size:14px;color:var(--muted)">树状数组 tree[]（tree[i] 管 lowbit(i) 个数）</h4><div class="arrrow" id="bitTRow"></div></div>
+  <div class="say" id="sayBit" style="margin-top:14px">点「查前 x 个的和」：看它从 x 出发，每次减掉 lowbit，跳两三步就把答案拼出来了。</div>
+  <div class="panel" style="margin-top:14px"><h4>就两个循环，别背错方向</h4><div class="big" style="font-size:15.5px"><b>修改</b>（通知组长）：i = x; i ≤ n; i += lowbit(i) —— 往上跳。<b>查询</b>（问组长要小计）：i = x; i ≥ 1; i −= lowbit(i) —— 往回跳。区间和 [l, r] = 前缀(r) − 前缀(l−1)。lowbit(x) 在代码里写 x &amp; −x。</div></div>
+</section>
+
+<!-- ================= SECTION 9 树综合 ================= -->
+<section class="card" id="s9">
+  <div class="sec-head"><div class="sec-num">9</div><div>
+    <h2>第 9 讲 · 树专题综合：前面学的要合起来用</h2>
+    <p>综合题不考新知识，考的是「看到题目，认出该用哪件工具」。这一站把树这一大块收个尾。</p>
+  </div></div>
+  <div class="terms" style="margin-top:6px">
+    <div class="term"><b>子树大小 sz[u]</b><span>dfs 时把孩子的 sz 加起来再 +1。问「删掉 u 后最大的一块」就靠它。</span></div>
+    <div class="term"><b>树的直径</b><span>最长的那条链。做法：随便找个点，dfs 找离它最远的点 A；再从 A 出发找最远的点 B，A→B 就是直径。不用证明，会用就行。</span></div>
+    <div class="term"><b>LCA 最近公共祖先</b><span>两个点往上走，第一次碰头的祖先。朴素法先把深的那个抬到同一深度再一起往上跳；数据大时用倍增（先跳 2^k 步）加速，思想和树状数组的 lowbit 一样：按二进制拆步数。</span></div>
+    <div class="term"><b>认题口诀</b><span>问祖先/距离 → LCA；问最长链 → 直径两遍 dfs；问删点/子树 → sz 和 fa；给两个遍历序列 → 先还原树再做题。</span></div>
+  </div>
+  <div class="controls"><button class="btn primary" id="btnDiam">演示：两遍 DFS 找第 1 讲示例树的直径</button></div>
+  <div class="say" id="sayDiam">点按钮，用第 1 站那棵 12 结点的树现场算一次直径。</div>
+</section>
+<!-- ================= SECTION 10 DP基础 ================= -->
+<section class="card" id="s10">
+  <div class="sec-head"><div class="sec-num">10</div><div>
+    <h2>第 10 讲 · DP 基础：把大问题拆成填过的格子</h2>
+    <p>DP（动态规划）三件套：<b>状态</b>（一个格子代表什么）、<b>转移</b>（这个格子从哪几个格子算出来）、<b>边界</b>（最开始几个格子直接写死）。三样说不清，代码就写不出。</p>
+  </div></div>
+  <div class="analogy">🧗 <b>爬楼梯：</b>每次能走 1 级或 2 级，问走到第 n 级有几种走法。别硬数——到第 n 级的最后一步，要么从 n−1 级迈上来，要么从 n−2 级跨上来，所以 f[n] = f[n−1] + f[n−2]。这就是一条转移方程。</div>
+  <div class="controls"><button class="btn primary" id="btnStairs">一步步填表 f[1..8]</button><button class="btn" id="btnStairsReset">↺ 重来</button><span class="progress" id="progStairs"></span></div>
+  <div class="panel"><h4>f[i] = 走到第 i 级的走法数（边界：f[1]=1，f[2]=2）</h4><div class="arrrow" id="stairsRow"></div></div>
+  <div class="say" id="sayStairs" style="margin-top:14px">点「一步步填表」，看每个格子怎么由左边两个格子加出来。</div>
+  <div class="panel" style="margin-top:14px"><h4>递推和 DP 是什么关系？</h4><div class="big" style="font-size:15.5px">递推是「按顺序一个个算」的做法，DP 是「把子问题的答案存下来重复用」的思想——爬楼梯既是递推也是最简单的 DP。它们共同的敌人是<b>重复计算</b>：如果用递归硬算 f(8)，f(5) 会被算好多遍；填表只算一遍。判断能不能用 DP 就看两条：小问题的答案能拼出大问题（最优子结构）、同一个小问题会被问很多次（重叠子问题）。</div></div>
+</section>
+
+<!-- ================= SECTION 11 线性DP ================= -->
+<section class="card" id="s11">
+  <div class="sec-head"><div class="sec-num">11</div><div>
+    <h2>第 11 讲 · 线性 DP：数字三角形、LIS、LCS</h2>
+    <p>「线性」是说状态排成一条线或一张表，按顺序填。三个经典模型，状态定义各背一句就够。</p>
+  </div></div>
+  <h3 style="font-size:18px;margin-top:10px">① 数字三角形：从下往上填</h3>
+  <p style="font-size:15px;color:var(--muted)">从顶走到底，每步只能往左下或右下走，求路径和最大。状态 f[i][j] = 从这个格子出发往下走能拿到的最大值。下面的格子先有答案，上面的才能算——所以从最后一行往上填。</p>
+  <div class="controls"><button class="btn primary" id="btnTri">从下往上填一步</button><button class="btn" id="btnTriReset">↺ 重来</button><span class="progress" id="progTri"></span></div>
+  <div id="triBox"></div>
+  <div class="say" id="sayTri" style="margin-top:12px">点按钮，从最底行开始往上算。正确答案：最大路径和 = 25，走法 7 → 3 → 8 → 7。</div>
+  <div class="terms" style="margin-top:16px">
+    <div class="term"><b>② LIS 最长上升子序列</b><span>例：10, 9, 2, 5, 3, 7, 101, 18。f[i] = 以第 i 个数结尾的最长长度，f[i] = max(f[j]) + 1（j &lt; i 且 a[j] &lt; a[i]）。答案 4：2, 3, 7, 101（或 2, 5, 7, 101）。注意子序列可以不连续，但顺序不能乱。</span></div>
+    <div class="term"><b>③ LCS 最长公共子序列</b><span>两个字符串都出现的、顺序一致的最长子序列。f[i][j]：第一个串前 i 个、第二个串前 j 个的 LCS。末尾字符相同 → f[i−1][j−1] + 1；不同 → max(f[i−1][j], f[i][j−1])。例："ABCBDAB" 与 "BDCABA" 的 LCS = 4（BCBA）。</span></div>
+  </div>
+</section>
+
+<!-- ================= SECTION 12 01背包 ================= -->
+<section class="card" id="s12">
+  <div class="sec-head"><div class="sec-num">12</div><div>
+    <h2>第 12 讲 · 01 背包：每件东西只能选一次</h2>
+    <p>背包容量 5，有 3 件物品（重量, 价值）= (1,15)、(3,20)、(4,30)，每件最多拿 1 件（这就是「01」：拿或不拿）。状态 f[i][w] = 只看前 i 件、容量 w 时的最大价值。</p>
+  </div></div>
+  <div class="analogy">🧳 <b>像收行李箱：</b>每件行李只有两个选择——装，或者不装。装了就占重量换价值，不装就保持原样。每个格子都在比这两条路哪个更值：f[i][w] = max(不装 f[i−1][w], 装 f[i−1][w−重量] + 价值)。</div>
+  <div class="controls"><button class="btn primary" id="btnKnap">填下一行</button><button class="btn" id="btnKnapReset">↺ 重来</button><span class="progress" id="progKnap"></span></div>
+  <div id="knapBox" style="overflow-x:auto"></div>
+  <div class="say" id="sayKnap" style="margin-top:12px">一行一件物品：一行行往下填。最后右下角就是答案。</div>
+  <div class="panel" style="margin-top:14px"><h4>核心模板（一维写法）为什么要倒着填？</h4><div class="big" style="font-size:15.5px">把二维表压成一行 f[w] 时，w 必须<b>从大到小</b>倒着走：这样用到的 f[w−重量] 还是「上一件物品时」的值，不会把同一件物品重复装两次。正着走就变成下一讲的完全背包了——一个方向之差，是两类题。</div></div>
+</section>
+
+<!-- ================= SECTION 13 完全多重背包 ================= -->
+<section class="card" id="s13">
+  <div class="sec-head"><div class="sec-num">13</div><div>
+    <h2>第 13 讲 · 完全背包、多重背包，与「求方案数」</h2>
+    <p>区别只在每件物品能拿几次：01 背包 1 次，完全背包无限次，多重背包有上限（比如最多 3 件）。</p>
+  </div></div>
+  <div class="terms" style="margin-top:6px">
+    <div class="term"><b>完全背包</b><span>一维写法把容量循环改成<b>从小到大</b>正着走，同一件物品就能被反复装。经典题：无限的硬币凑金额、完全背包求最大价值。</span></div>
+    <div class="term"><b>多重背包入门</b><span>每件有个数上限 s。笨办法是把它拆成 s 件 01 物品；快办法是<b>二进制拆分</b>：s = 13 拆成 1、2、4、6 四捆，每捆当一件 01 物品——1+2+4+6 能拼出 0~13 的任何件数。</span></div>
+    <div class="term"><b>背包求方案数</b><span>把 max 换成加法：f[w] += f[w − 重量]，f[0] = 1（什么都不装是 1 种方案）。注意循环顺序决定数的是「组合」还是「排列」：先遍历物品再遍历容量 = 组合（不分顺序）；反过来 = 排列。</span></div>
+  </div>
+  <h3 style="font-size:18px;margin-top:16px">小演示：硬币 1、2、5（无限枚）凑 5 元，有几种凑法？</h3>
+  <div class="controls"><button class="btn primary" id="btnCoin">用一种硬币更新一步</button><button class="btn" id="btnCoinReset">↺ 重来</button><span class="progress" id="progCoin"></span></div>
+  <div class="panel"><h4>f[w] = 凑出 w 元的方案数（f[0] = 1）</h4><div class="arrrow" id="coinRow"></div></div>
+  <div class="say" id="sayCoin" style="margin-top:14px">依次用硬币 1、2、5 更新一遍。最后 f[5] = 4：{5}、{2,2,1}、{2,1,1,1}、{1,1,1,1,1}。</div>
+</section>
+
+<!-- ================= SECTION 14 区间DP ================= -->
+<section class="card" id="s14">
+  <div class="sec-head"><div class="sec-num">14</div><div>
+    <h2>第 14 讲 · 区间 DP：石子合并（基础版）</h2>
+    <p>状态变成一个区间：f[l][r] = 把第 l 堆到第 r 堆合并成一堆的最小代价。填的顺序很关键：先算短区间，再算长区间（按长度从小到大）。</p>
+  </div></div>
+  <div class="analogy">🪨 <b>合并石子像拼乐高塔：</b>相邻两堆才能合并，合并代价 = 两堆石子总数。不管你怎么合，最后一步一定是「左边一坨 + 右边一坨」拼起来——所以枚举最后一个分界点 k：f[l][r] = min(f[l][k] + f[k+1][r]) + 这段的总和。</div>
+  <div class="controls"><button class="btn primary" id="btnStone">看最优合并的下一步</button><button class="btn" id="btnStoneReset">↺ 重来</button><span class="progress" id="progStone"></span></div>
+  <div class="panel"><h4>石子堆（从左到右）：4、1、2、3</h4><div class="chips" id="chipsStone"></div></div>
+  <div class="say" id="sayStone" style="margin-top:14px">最优顺序不是从左往右一路合。点按钮看：先合最便宜的一对。最小总代价 = 19。</div>
+  <div class="panel" style="margin-top:14px"><h4>DP 专题认题小结</h4><div class="big" style="font-size:15.5px">状态是一条线 → 线性 DP；状态是容量 → 背包；状态是一段区间、要枚举分界点 → 区间 DP。写代码前先把三句话说清：<b>f 是什么、从哪转移、边界是多少</b>，说不清就先别敲键盘。</div></div>
+</section>
+<!-- ================= SECTION 15 图基础 ================= -->
+<section class="card" id="s15">
+  <div class="sec-head"><div class="sec-num">15</div><div>
+    <h2>第 15 讲 · 图基础：点、边，两种存法，两种遍历</h2>
+    <p>图 = 一堆点 + 连点的边（树是图的一种：连通、无环、边数 = 点数 − 1）。存图两招：邻接矩阵（一张打勾表）和邻接表（每个点挂一张邻居清单，竞赛主力）。</p>
+  </div></div>
+  <div class="analogy">🗺️ <b>像地铁线路图：</b>站点是点，线路是边。邻接矩阵是把所有站排成一张方格表，相连就打勾——查得快但空表占地方；邻接表是每个站只写自己的邻居——省地方，遍历也顺手。</div>
+  <div class="controls">
+    <div class="seg" id="graphModeSeg"><button data-m="dfs" class="on">DFS 深度优先</button><button data-m="bfs">BFS 广度优先</button></div>
+    <button class="btn primary" id="btnGraph">下一步 →</button>
+    <button class="btn" id="btnGraphReset">↺ 重来</button>
+    <span class="progress" id="progGraph"></span>
+  </div>
+  <div class="stage">
+    <div><div class="treebox"><svg id="graphSvg" viewBox="0 0 470 300" role="img" aria-label="五个点的无向图"></svg></div>
+      <div class="panel" style="margin-top:12px"><h4>访问顺序</h4><div class="chips" id="chipsGraph"></div></div></div>
+    <div class="sidebox">
+      <div class="say" id="sayGraph">从 1 号点出发。DFS 像走迷宫一条路走到底，BFS 像涟漪一圈圈扩散。点「下一步」对比两种顺序。</div>
+      <div class="panel"><h4>这张图的两种存法</h4><div class="big" style="font-size:15px">
+        <b>邻接表：</b>1:{2,3}　2:{1,4}　3:{1,4}　4:{2,3,5}　5:{4}<br>
+        <b>邻接矩阵：</b>第 i 行第 j 列 = 1 表示 i、j 相连（无向图对称）。点稀疏时矩阵大片是 0，浪费，所以多用邻接表。
+      </div></div>
+      <div class="panel"><h4>DFS / BFS 用什么装待办？</h4><div class="big" style="font-size:15.5px">DFS 用<b>递归（栈）</b>，一头扎到底再回头；BFS 用<b>队列</b>，先到的先扩展。眼熟吗——和树的递归遍历、层序遍历是同一套模具，图上多一步：用 vis[] 标记走过的点，防止绕圈死循环。</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SECTION 16 拓扑 ================= -->
+<section class="card" id="s16">
+  <div class="sec-head"><div class="sec-num">16</div><div>
+    <h2>第 16 讲 · 拓扑排序：先修课排个先后</h2>
+    <p>有向无环图（DAG）里，边 u → v 表示「u 必须排在 v 前面」。拓扑排序就是把所有点排成一条满足所有先后的线。排不出来 = 图里有环 = 互相等对方先做，死锁。</p>
+  </div></div>
+  <div class="analogy">🎓 <b>像选课：</b>先修完基础课才能上进阶课。做法（Kahn 算法）像剥洋葱：先找一门没先修要求的课（入度为 0）排上，划掉它，别的课的先修要求就少一门——反复剥，直到剥完。</div>
+  <div class="controls"><button class="btn primary" id="btnTopo">剥下一门课 →</button><button class="btn" id="btnTopoReset">↺ 重来</button><span class="progress" id="progTopo"></span></div>
+  <div class="panel"><h4>课程与先修关系：1 → 2，1 → 3，2 → 4，3 → 4，4 → 5（箭头 = 先修完左边才能学右边）</h4>
+  <div class="big" style="font-size:15.5px" id="topoState">入度：1 号 0 门先修，2 号 1 门，3 号 1 门，4 号 2 门，5 号 1 门。</div>
+  <h4 style="margin:12px 0 0;font-size:14px;color:var(--muted)">已排好的顺序</h4><div class="chips" id="chipsTopo" style="margin-top:8px"></div></div>
+  <div class="say" id="sayTopo" style="margin-top:14px">点按钮，一次剥掉一个入度为 0 的点。如果中途没有入度为 0 的点却还剩点没排——有环，这门课的先修关系自己等自己。</div>
+</section>
+
+<!-- ================= SECTION 17 最短路 ================= -->
+<section class="card" id="s17">
+  <div class="sec-head"><div class="sec-num">17</div><div>
+    <h2>第 17 讲 · 最短路：Dijkstra 一步步松弛</h2>
+    <p>带权图里从起点到各点的最短距离。Dijkstra 的想法很直白：每次从「还没定案的点」里挑当前距离最小的那个定下来（它不可能再被绕近了），再用它去更新邻居的距离（这步叫松弛）。</p>
+  </div></div>
+  <div class="analogy">🚗 <b>像导航报路况：</b>dis[v] 是目前已知的到 v 的最短 ETA。一旦某个路口的 ETA 是所有待定路口里最小的，导航就敢拍板「这条就是最短的」——因为任何别的绕法只会更长（前提：没有负权边，路上不能有「倒贴时间」的路段）。</div>
+  <div class="controls"><button class="btn primary" id="btnDij">定案下一个点 →</button><button class="btn" id="btnDijReset">↺ 重来</button><span class="progress" id="progDij"></span></div>
+  <div class="panel"><h4>边：1→2 距离 2，1→3 距离 5，2→3 距离 1，2→4 距离 4，3→4 距离 1（从 1 出发）</h4>
+  <div id="dijBox" style="overflow-x:auto"></div></div>
+  <div class="say" id="sayDij" style="margin-top:14px">一步步看 dis 怎么变小：1→3 本来以为是 5，绕道 2 号点才发现 2+1=3 更近。最终答案：dis = [0, 2, 3, 4]。</div>
+  <div style="overflow-x:auto"><table class="cmp"><tr><th>算法</th><th>解决什么</th><th>怎么做</th><th>注意</th></tr>
+  <tr><td><b>Floyd</b></td><td>任意两点之间（多源）</td><td>三重循环，枚举中转点 k：dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j])</td><td>k 必须在最外层；n ≤ 约 400 时用</td></tr>
+  <tr><td><b>朴素 Dijkstra</b></td><td>单源，无负权</td><td>每轮 O(n) 扫一遍找最小的未定案点</td><td>O(n²)，n 到几千够用，代码短</td></tr>
+  <tr><td><b>堆优化 Dijkstra</b></td><td>单源，无负权，点边多</td><td>用优先队列（小根堆）取最小点，邻接表存边</td><td>O((n+m) log n)，大数据的标配写法</td></tr></table></div>
+</section>
+
+<!-- ================= SECTION 18 SPFA + MST ================= -->
+<section class="card" id="s18">
+  <div class="sec-head"><div class="sec-num">18</div><div>
+    <h2>第 18 讲 · SPFA、最小生成树，与图论复习</h2>
+    <p>SPFA 一句话：Dijkstra 管不了的负权边，它能管——把被更新变小的点丢进队列继续松弛，直到队列空。最小生成树（MST）一句话：用 n−1 条边把所有点连起来，总权最小。</p>
+  </div></div>
+  <h3 style="font-size:18px">Kruskal 演示：边从小到大挑，能连就连</h3>
+  <div class="controls"><button class="btn primary" id="btnKrus">挑下一条边 →</button><button class="btn" id="btnKrusReset">↺ 重来</button><span class="progress" id="progKrus"></span></div>
+  <div class="panel"><h4>边（已按权从小到大排好）：1–2 权1，3–4 权1，2–3 权2，1–3 权3，2–4 权4</h4><div class="chips" id="chipsKrus"></div></div>
+  <div class="say" id="sayKrus" style="margin-top:14px">规则：挑当前最短的边，两端不在同一伙（连通块）就收下，用并查集判断；已经一伙了就跳过——收了它会形成圈。点按钮挑完 5 条候选边。</div>
+  <div style="overflow-x:auto"><table class="cmp"><tr><th>算法</th><th>干什么</th><th>核心动作</th><th>关键词</th></tr>
+  <tr><td><b>SPFA</b></td><td>单源最短路，可有负权边</td><td>队列 + 反复松弛，某点入队次数 ≥ n 说明有负环</td><td>队列，能判负环</td></tr>
+  <tr><td><b>Prim</b></td><td>最小生成树</td><td>从一个点出发，每次把离「已选点集合」最近的点拉进来</td><td>长树，像 Dijkstra 的亲戚</td></tr>
+  <tr><td><b>Kruskal</b></td><td>最小生成树</td><td>边按权排序，从小到大挑，不成环就收</td><td>排序 + 并查集</td></tr>
+  <tr><td><b>图论复习线</b></td><td colspan="3">存图（邻接表）→ 遍历（DFS/BFS）→ 先后关系（拓扑）→ 最短路（Floyd / Dijkstra / SPFA）→ 连通代价最小（Prim / Kruskal）。看到题先问三句：有向还是无向？边带权吗？问的是顺序、距离，还是连通？</td></tr></table></div>
+</section>
+<section class="card" id="quiz">
+        <div class="sec-head">
+          <div class="sec-num">✓</div>
+          <div>
+            <h2>全学期自查题：树 + DP + 图</h2>
+            <p>前 9 题是前两讲讲义原题，后面是本学期新内容（完全二叉树、哈夫曼、Trie、树状数组、DP、背包、图论）的概念题。先想好再点，点错正好知道哪一讲没吃透。</p>
+          </div>
+        </div>
+        <div id="quizBox"></div>
+        <div class="scorebar">
+          <span id="scoreText">答对 0 题</span>
+          <div class="track"><div class="fill" id="scoreFill"></div></div>
+          <button class="btn" id="btnQuizReset">重新练</button>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 8 ================= -->
+      <section class="card" id="code">
+        <div class="sec-head">
+          <div class="sec-num">&lt;/&gt;</div>
+          <div>
+            <h2>代码模板：18 讲全套，抄下来改一改就是自己的</h2>
+            <p>两讲的代码都在这里了：第 1 讲的通法三件套是后面 9 讲的地基，第 2 讲的递归三件套是统计题的模具。</p>
+          </div>
+        </div>
+        <div id="snips"></div>
+        <p class="tip">📌 建议练法：先对着第 2 站的动画，把遍历模板默写一遍；卡住的时候回来看栈是怎么进出的，比死背代码管用得多。</p>
+      </section>
+
+      <p class="footer-note">18 讲都走完后，回头做一遍自查题：错哪一讲，就回哪一站把演示再播一遍。🌱</p>
+    </div>
+
+    <script>
+    "use strict";
+    const $ = (id) => document.getElementById(id);
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+    /* ============ generic tree layout + SVG drawing ============ */
+    // binary layout: x from inorder position, y from depth
+    function layoutBinary(root, L, R) {
+      const pos = {}; let c = 0;
+      (function walk(u, d) {
+        if (!u) return;
+        walk(L(u), d + 1);
+        pos[u] = { x: c++, depth: d };
+        walk(R(u), d + 1);
+      })(root, 0);
+      return pos;
+    }
+    // general tree layout: leaves get slots, parents sit over their children
+    function layoutGeneral(root, kidsOf) {
+      const pos = {}; let c = 0;
+      (function walk(u, d) {
+        const ks = kidsOf(u);
+        if (!ks.length) { pos[u] = { x: c++, depth: d }; return; }
+        ks.forEach((k) => walk(k, d + 1));
+        pos[u] = { x: (pos[ks[0]].x + pos[ks[ks.length - 1]].x) / 2, depth: d };
+      })(root, 0);
+      return pos;
+    }
+    function drawTree(svg, pos, edges, labels, opts) {
+      opts = opts || {};
+      const sx = opts.sx || 62, sy = opts.sy || 74, px = opts.px || 42, py = opts.py || 42, r = opts.r || 21;
+      let h = "";
+      edges.forEach(([a, b]) => {
+        h += '<line class="edge" x1="' + (pos[a].x * sx + px) + '" y1="' + (pos[a].depth * sy + py) +
+             '" x2="' + (pos[b].x * sx + px) + '" y2="' + (pos[b].depth * sy + py) + '"/>';
+      });
+      Object.keys(pos).forEach((id) => {
+        const cls = (opts.cls && opts.cls(id)) || "";
+        const click = opts.noClick ? " static" : "";
+        h += '<g class="node' + click + " " + cls + '" data-node="' + id + '">' +
+             '<circle cx="' + (pos[id].x * sx + px) + '" cy="' + (pos[id].depth * sy + py) + '" r="' + r + '"/>' +
+             "<text x=\"" + (pos[id].x * sx + px) + '" y="' + (pos[id].depth * sy + py) + '">' + labels[id] + "</text></g>";
+      });
+      svg.innerHTML = h;
+    }
+
+    /* ================================================================
+       SECTION 1 — general tree explorer
+       ================================================================ */
+    const LTR = { 1: "A", 2: "B", 3: "C", 4: "D", 5: "E", 6: "F", 7: "G", 8: "H", 9: "I", 10: "J", 11: "K", 12: "L" };
+    const NM = (u) => u + "（" + LTR[u] + "）";
+    const T1 = {
+      kids: { 1: [2, 3, 4], 2: [5, 6], 3: [7], 4: [8, 9, 10], 5: [11, 12], 6: [], 7: [], 8: [], 9: [], 10: [], 11: [], 12: [] },
+      parent: { 1: 0, 2: 1, 3: 1, 4: 1, 5: 2, 6: 2, 7: 3, 8: 4, 9: 4, 10: 4, 11: 5, 12: 5 },
+      fa: [0, 0, 1, 1, 1, 2, 2, 3, 4, 4, 4, 5, 5] // fa[i]，下标从 1 开始
+    };
+    const pos1 = layoutGeneral(1, (u) => T1.kids[u]);
+    const edges1 = [];
+    Object.keys(T1.kids).forEach((p) => T1.kids[p].forEach((k) => edges1.push([Number(p), k])));
+    const labels1 = {}; for (let i = 1; i <= 12; i++) labels1[i] = i;
+    let sel1 = 5;
+
+    function depth1(u) { let d = 1; while (T1.parent[u]) { u = T1.parent[u]; d++; } return d; } // 本专题统一：根深度 = 1
+    function height1(u) { const ks = T1.kids[u]; if (!ks.length) return 1; return 1 + Math.max.apply(null, ks.map(height1)); } // 叶子高度 = 1
+    function subtree1(u) { const out = [u]; T1.kids[u].forEach((k) => out.push(...subtree1(k))); return out; }
+    function ancestors1(u) { const out = []; let p = T1.parent[u]; while (p) { out.push(p); p = T1.parent[p]; } return out; }
+    function cousins1(u) {
+      const d = depth1(u), par = T1.parent[u], out = [];
+      if (!par) return out;
+      for (let i = 1; i <= 12; i++)
+        if (i !== u && T1.parent[i] && T1.parent[i] !== par && depth1(i) === d) out.push(i);
+      return out;
+    }
+
+    function render1() {
+      const sub = new Set(subtree1(sel1));
+      const par = T1.parent[sel1];
+      const kids = new Set(T1.kids[sel1]);
+      drawTree($("tree1"), pos1, edges1, labels1, {
+        sx: 58, sy: 70, px: 40, py: 40, r: 20,
+        cls: (id) => {
+          id = Number(id);
+          if (id === sel1) return "active";
+          if (id === par) return "isparent";
+          if (kids.has(id)) return "ischild";
+          if (sub.has(id)) return "issub";
+          return "";
+        }
+      });
+      $("tree1").querySelectorAll(".node").forEach((g) => {
+        g.addEventListener("click", () => { sel1 = Number(g.getAttribute("data-node")); render1(); });
+      });
+      const leaf = T1.kids[sel1].length === 0;
+      const sib = par ? T1.kids[par].filter((x) => x !== sel1) : [];
+      const anc = ancestors1(sel1);
+      const cou = cousins1(sel1);
+      $("facts1").innerHTML =
+        "<div><b>结点</b>：" + NM(sel1) + "</div>" +
+        "<div><b>身份</b>：" + (sel1 === 1 ? "根（没有双亲）" : leaf ? "叶子（度 = 0）" : "分支结点（度 &gt; 0）") + "</div>" +
+        "<div><b>双亲</b>：" + (par ? NM(par) : "无") + "</div>" +
+        "<div><b>孩子</b>：" + (leaf ? "无" : T1.kids[sel1].map(NM).join("、")) + "</div>" +
+        "<div><b>度</b>：" + T1.kids[sel1].length + "</div>" +
+        "<div><b>深度</b>：" + depth1(sel1) + "（根 = 1，往下数）</div>" +
+        "<div><b>高度</b>：" + height1(sel1) + "（叶子 = 1，往上数）</div>" +
+        "<div><b>兄弟</b>：" + (sib.length ? sib.map(NM).join("、") : "无") + "</div>" +
+        "<div><b>堂兄弟</b>：" + (cou.length ? cou.map(NM).join("、") : "无") + "</div>" +
+        "<div><b>祖先</b>：" + (anc.length ? anc.map(NM).join("、") : "无（不含自己）") + "</div>" +
+        "<div><b>子树大小</b>：" + sub.size + " 个结点（含自己）</div>" +
+        "<div><b>fa[" + sel1 + "]</b>：" + T1.fa[sel1] + "</div>";
+      const SAY1 = {
+        1: "A 是根：没有双亲，其余 11 个点都是它的子孙。整棵树 n = 12、边数 11 = n − 1，高度 4，各层结点数 1、3、6、2 → 宽度 6。",
+        4: "D 的度是 3（孩子 H、I、J），是全树最大的度 → 这棵树的度 = 3。讲义 T1-5 那种「数度」的题，数的就是它。",
+        5: "E 是讲义辨析题的主角：深度 3（从上往下数：A → B → E），高度 2（从下往上数：E → K）。方向相反，所以两个数不一样——这正是 T1-4 的问法。",
+        11: "K 在第 4 层，深度 4；它的祖先是 A、B、E（往上跳三步，不含自己）。",
+        12: "L 的祖先：E、B、A——讲义 T1-3 问的就是它。求祖先就是拿着 fa[] 一路往上跳，通法三件套算出的 fa[] 正是干这个的。"
+      };
+      $("say1").textContent = SAY1[sel1] || (leaf
+        ? NM(sel1) + " 是叶子：度 = 0、高度 = 1。它在第 " + depth1(sel1) + " 层，顺着 fa[] 往上跳 " + (depth1(sel1) - 1) + " 步就回到根。"
+        : NM(sel1) + " 的子树就是图里浅色的部分：" + subtree1(sel1).map(NM).join("、") + "。把这棵小树单独拎出来，结构和整棵树一模一样——遍历、求高度的代码能对子树重复使用，靠的就是这一点。");
+      let cells = "";
+      for (let i = 1; i <= 12; i++) {
+        const cls = i === sel1 ? "on" : (i === par ? "par" : "");
+        cells += '<div class="cell ' + cls + '" data-i="' + i + '"><span class="idx">fa[' + i + "]</span>" + '<span class="val">' + T1.fa[i] + "</span></div>";
+      }
+      $("faRow").innerHTML = cells;
+      $("faRow").querySelectorAll(".cell").forEach((c) =>
+        c.addEventListener("click", () => { sel1 = Number(c.getAttribute("data-i")); render1(); }));
+    }
+    render1();
+
+    /* ================================================================
+       SECTION 2 — traversal player
+       讲义第 2 讲示例二叉树（8 个结点），lch[] / rch[] 存储，0 = 空
+               1(A)
+             /      \
+          2(B)        3(C)
+         /   \          \
+       4(D)   5(E)       6(F)
+       /        \
+     7(G)        8(H)
+       ================================================================ */
+    const BT = {
+      a:  [0, 1, 2, 3, 4, 5, 6, 7, 8],
+      l:  [0, 2, 4, 0, 7, 0, 0, 0, 0],
+      r:  [0, 3, 5, 6, 0, 8, 0, 0, 0]
+    };
+    const pos2 = layoutBinary(1, (u) => BT.l[u], (u) => BT.r[u]);
+    const edges2 = [];
+    for (let i = 1; i <= 8; i++) { if (BT.l[i]) edges2.push([i, BT.l[i]]); if (BT.r[i]) edges2.push([i, BT.r[i]]); }
+    const labels2 = {}; for (let i = 1; i <= 8; i++) labels2[i] = BT.a[i];
+
+    const CODE = {
+      pre: {
+        name: "前序遍历 preorder", visitLine: 2,
+        lines: [
+          "void preorder(int u) {",
+          "  if (u == 0) return;",
+          '  cout << u << " ";       // 先输出自己',
+          "  preorder(lch[u]);     // 再去左子树",
+          "  preorder(rch[u]);     // 最后去右子树",
+          "}"
+        ],
+        hint: "前序：根 → 左 → 右（先记下自己，再去管孩子）"
+      },
+      in: {
+        name: "中序遍历 inorder", visitLine: 3,
+        lines: [
+          "void inorder(int u) {",
+          "  if (u == 0) return;",
+          "  inorder(lch[u]);      // 先去左子树",
+          '  cout << u << " ";       // 回来时输出自己',
+          "  inorder(rch[u]);      // 再去右子树",
+          "}"
+        ],
+        hint: "中序：左 → 根 → 右（先把左边的处理完，回来才轮到自己）"
+      },
+      post: {
+        name: "后序遍历 postorder", visitLine: 4,
+        lines: [
+          "void postorder(int u) {",
+          "  if (u == 0) return;",
+          "  postorder(lch[u]);    // 先去左子树",
+          "  postorder(rch[u]);    // 再去右子树",
+          '  cout << u << " ";       // 两边都完事，最后输出自己',
+          "}"
+        ],
+        hint: "后序：左 → 右 → 根（孩子都处理完，自己才露面）"
+      },
+      bfs: {
+        name: "层序遍历 bfs", visitLine: 5,
+        lines: [
+          "void bfs(int root) {",
+          "  queue<int> q;",
+          "  q.push(root);",
+          "  while (!q.empty()) {",
+          "    int u = q.front(); q.pop();",
+          '    cout << u << " ";',
+          "    if (lch[u]) q.push(lch[u]);",
+          "    if (rch[u]) q.push(rch[u]);",
+          "  }",
+          "}"
+        ],
+        hint: "层序：一层一层来，靠的是队列（排队）——先进先出"
+      }
+    };
+    const CALL_LINE = { pre: [3, 4], in: [2, 4], post: [2, 3] }; // [leftCallLine, rightCallLine]
+
+    function genDfsSteps(order) {
+      const steps = [], stack = [], visited = [];
+      const visitLn = CODE[order].visitLine, [lc, rc] = CALL_LINE[order];
+      function visit(u) {
+        visited.push(u);
+        steps.push({ line: visitLn, active: u, stack: [...stack], visited: [...visited], kind: "visit",
+          text: "输出结点 " + NM(u) + "。这是它在" + { pre: "前", in: "中", post: "后" }[order] + "序里露面的时刻。" });
+      }
+      function rec(u, callLine) {
+        stack.push(u);
+        if (u === 0) {
+          steps.push({ line: 1, active: null, stack: [...stack], visited: [...visited], kind: "base",
+            text: "传进来的是 0，也就是空位置——这里什么都没有，正好命中 if (u == 0) return，直接回去。记住：空位置就是递归的出口，走到它就往回走。" });
+          stack.pop();
+          steps.push({ line: null, active: stack.length ? stack[stack.length - 1] : null, stack: [...stack], visited: [...visited], kind: "ret",
+            text: "从空位置回来，接着做上一层没做完的事。" });
+          return;
+        }
+        steps.push({ line: callLine, active: u, stack: [...stack], visited: [...visited], kind: "call",
+          text: "进入 " + CODE[order].name.split(" ")[0] + "(" + u + ")：开始处理以结点 " + NM(u) + " 为根的这棵小树。右边调用栈里多了一层——又打开了一层套娃。" });
+        if (order === "pre") visit(u);
+        rec(BT.l[u], lc);
+        if (order === "in") visit(u);
+        rec(BT.r[u], rc);
+        if (order === "post") visit(u);
+        stack.pop();
+        steps.push({ line: 5, active: stack.length ? stack[stack.length - 1] : null, stack: [...stack], visited: [...visited], kind: "ret",
+          text: "结点 " + NM(u) + " 的整棵子树全部处理完，函数返回，栈里少了一层。" });
+      }
+      rec(1, 0);
+      return steps;
+    }
+    function genBfsSteps() {
+      const steps = [], visited = [];
+      let queue = [1];
+      steps.push({ line: 2, active: 1, queue: [...queue], visited: [...visited], kind: "push",
+        text: "把根结点 1（A）放进队列。队列就是排队买票：先来的先出去。层序遍历就是不断地重复：队头出来一个，它的孩子排到队尾。" });
+      while (queue.length) {
+        const u = queue.shift();
+        visited.push(u);
+        steps.push({ line: 5, active: u, queue: [...queue], visited: [...visited], kind: "visit",
+          text: "队头结点 " + NM(u) + " 出队，输出它。" });
+        if (BT.l[u]) { queue.push(BT.l[u]); steps.push({ line: 6, active: u, queue: [...queue], visited: [...visited], kind: "push",
+          text: "结点 " + NM(u) + " 的左孩子 " + NM(BT.l[u]) + " 排到队尾。" }); }
+        if (BT.r[u]) { queue.push(BT.r[u]); steps.push({ line: 7, active: u, queue: [...queue], visited: [...visited], kind: "push",
+          text: "结点 " + NM(u) + " 的右孩子 " + NM(BT.r[u]) + " 排到队尾。" }); }
+      }
+      steps.push({ line: 3, active: null, queue: [], visited: [...visited], kind: "done",
+        text: "队列空了，所有结点都出过队——层序遍历结束。注意：它没用递归，靠的是老老实实排队。" });
+      return steps;
+    }
+
+    const P = { order: "pre", steps: [], i: -1, timer: null };
+    function curStep() { return P.i >= 0 ? P.steps[P.i] : null; }
+
+    function render2() {
+      const st = curStep();
+      const visited = st ? st.visited : [];
+      const inStack = st && st.stack ? st.stack.filter((x) => x !== 0) : (st && st.queue ? st.queue : []);
+      const active = st ? st.active : null;
+      drawTree($("tree2"), pos2, edges2, labels2, {
+        sx: 56, sy: 76, px: 44, py: 42, r: 22, noClick: true,
+        cls: (id) => {
+          if (String(active) === String(id)) return "active";
+          if (visited.map(String).includes(String(id))) return "visited";
+          if (inStack.map(String).includes(String(id))) return "instack";
+          return "";
+        }
+      });
+      // code
+      const code = CODE[P.order];
+      $("code2").innerHTML = code.lines.map((ln, idx) => {
+        const esc = ln.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+        const isHl = st && st.line === idx;
+        return '<span class="ln' + (isHl ? " hl" : "") + '">' + esc + "</span>";
+      }).join("");
+      // stack / queue panel
+      $("stackTitle").textContent = P.order === "bfs" ? "队列（排队中的节点）" : "函数调用栈（正在运行的调用）";
+      $("resultTitle").textContent = "输出顺序（" + code.name + "）";
+      if (P.order === "bfs") {
+        const q = st ? st.queue : [];
+        $("stack2").innerHTML = q.length
+          ? "<div style='display:flex;gap:6px;flex-wrap:wrap;flex-direction:row'>" + q.map((u) =>
+              '<div class="frame">结点 ' + NM(u) + "</div>").join("") + "</div>" +
+              '<div class="stackempty" style="padding:2px 0">← 队头从左边出，孩子从右边进</div>'
+          : '<div class="stackempty">队列是空的</div>';
+      } else {
+        const sk = st ? st.stack : [];
+        $("stack2").innerHTML = sk.length
+          ? sk.map((u) => u === 0
+              ? '<div class="frame nullf">' + CODE[P.order].name.split(" ")[0] + "(0) <small>空节点，马上返回</small></div>"
+              : '<div class="frame">' + CODE[P.order].name.split(" ")[0] + "(" + u + ") <small>处理结点 " + NM(u) + " 的子树</small></div>").join("")
+          : '<div class="stackempty">栈是空的 —— 还没开始，或者已经全部返回</div>';
+      }
+      // chips
+      $("chips2").innerHTML = visited.length
+        ? visited.map((u) => '<div class="chip">' + BT.a[u] + "</div>").join("")
+        : '<div class="chip empty">还没有输出，点「播放」或「下一步」</div>';
+      $("say2").textContent = st ? st.text :
+        "准备好了。这棵树有 8 个结点，但因为要走进每个空孩子再返回，" + CODE[P.order].name + "一共会停 " + P.steps.length + " 步——正好把递归看个透。";
+      $("prog2").textContent = "第 " + Math.max(P.i + 1, 0) + " / " + P.steps.length + " 步";
+      $("btnPlay").textContent = P.timer ? "⏸ 暂停" : (P.i >= P.steps.length - 1 && P.steps.length ? "▶ 再播一遍" : "▶ 播放");
+      $("btnPrev").disabled = P.i < 0;
+      $("btnNext").disabled = P.i >= P.steps.length - 1;
+    }
+    function setOrder(order) {
+      stopPlay();
+      P.order = order;
+      P.steps = order === "bfs" ? genBfsSteps() : genDfsSteps(order);
+      P.i = -1;
+      $("orderHint").textContent = CODE[order].hint;
+      document.querySelectorAll("#orderSeg button").forEach((b) => b.classList.toggle("on", b.getAttribute("data-order") === order));
+      render2();
+    }
+    function stopPlay() { if (P.timer) { clearInterval(P.timer); P.timer = null; } }
+    function stepNext() { if (P.i < P.steps.length - 1) { P.i++; render2(); } else stopPlay(), render2(); }
+    $("btnNext").addEventListener("click", () => { stopPlay(); stepNext(); });
+    $("btnPrev").addEventListener("click", () => { stopPlay(); if (P.i >= 0) { P.i--; render2(); } });
+    $("btnReset").addEventListener("click", () => { stopPlay(); P.i = -1; render2(); });
+    $("btnPlay").addEventListener("click", () => {
+      if (P.timer) { stopPlay(); render2(); return; }
+      if (P.i >= P.steps.length - 1) P.i = -1;
+      const delay = [1500, 950, 520][Number($("speed").value) - 1] || 950;
+      stepNext();
+      P.timer = setInterval(() => {
+        if (P.i >= P.steps.length - 1) { stopPlay(); render2(); return; }
+        P.i++; render2();
+      }, delay);
+      render2();
+    });
+    document.querySelectorAll("#orderSeg button").forEach((b) =>
+      b.addEventListener("click", () => setOrder(b.getAttribute("data-order"))));
+    setOrder("pre");
+
+    /* ================================================================
+       SECTION 3 — lch[] / rch[] storage table （讲义第 2 讲示例树）
+       ================================================================ */
+    let sel3 = 3;
+    function parent2(u) { for (let i = 1; i <= 8; i++) if (BT.l[i] === u || BT.r[i] === u) return i; return 0; }
+    function render3() {
+      const par = parent2(sel3);
+      drawTree($("tree3"), pos2, edges2, labels2, {
+        sx: 56, sy: 76, px: 44, py: 42, r: 22,
+        cls: (id) => {
+          id = Number(id);
+          if (id === sel3) return "active";
+          if (id === par) return "isparent";
+          if (id === BT.l[sel3] || id === BT.r[sel3]) return "ischild";
+          return "";
+        }
+      });
+      $("tree3").querySelectorAll(".node").forEach((g) =>
+        g.addEventListener("click", () => { sel3 = Number(g.getAttribute("data-node")); render3(); }));
+      function row(arr) {
+        let h = "";
+        for (let i = 1; i <= 8; i++) {
+          const cls = (i === sel3 ? "on" : "") + (arr[i] === 0 ? " zero" : "");
+          h += '<div class="cell ' + cls + '" data-i="' + i + '"><span class="idx">' + i + "·" + LTR[i] + '</span><span class="val">' + arr[i] + "</span></div>";
+        }
+        return h;
+      }
+      $("lchRow").innerHTML = row(BT.l);
+      $("rchRow").innerHTML = row(BT.r);
+      [$("lchRow"), $("rchRow")].forEach((r) => r.querySelectorAll(".cell").forEach((c) =>
+        c.addEventListener("click", () => { sel3 = Number(c.getAttribute("data-i")); render3(); })));
+      const lc = BT.l[sel3], rc = BT.r[sel3];
+      const SAY3 = {
+        1: "1（A）：lch = 2、rch = 3，左右都满——它是全树仅有的两个度为 2 的结点之一（另一个是 B）。",
+        3: "3（C）：lch = 0、rch = 6——只有一个孩子，而且挂在右边。D 恰好相反（挂左），E 又挂右。普通树里这三种情况长得一模一样，二叉树里是三棵不同的树——「分左右」的活教材就是它们三个。",
+        4: "4（D）：lch = 7、rch = 0——只有一个孩子，挂在左边。和 C 对照着看：同样是单孩子，左右不同，就是两棵不同的二叉树。",
+        5: "5（E）：lch = 0、rch = 8——单孩子挂右。再提醒一次：lch 那一格的 0 不能省，省了就分不清它和 D 的区别。"
+      };
+      $("say3").textContent = SAY3[sel3] || (lc === 0 && rc === 0
+        ? NM(sel3) + " 是叶子：lch 和 rch 都是 0。判断叶子的代码就是 lch[u] == 0 && rch[u] == 0——必须左右都空、用 &&，写成 || 是讲义易错点第 6 条。"
+        : NM(sel3) + "：lch = " + lc + "（" + LTR[lc] + "），rch = " + rc + "（" + LTR[rc] + "）。读表的方法：第 i 列的两个数，就是 i 号结点的左右孩子。");
+    }
+    render3();
+
+    /* ================================================================
+       SECTION 4 — 递归三件套 player （讲义第 2 讲示例树 + T2）
+       ================================================================ */
+    const FN = {
+      cnt: {
+        name: "cnt",
+        hint: "合并：左边的个数 + 右边的个数 + 自己这 1 个",
+        retLine: 2,
+        lines: [
+          "int cnt(int u) {",
+          "  if (u == 0) return 0;",
+          "  return cnt(lch[u])",
+          "       + cnt(rch[u]) + 1;",
+          "}"
+        ],
+        combine: (l, r) => l + r + 1,
+        mergeText: (u, l, r, v) => "左右都问回来了，合并：cnt(" + u + ") = 左边 " + l + " 个 + 右边 " + r + " 个 + 自己 1 个 = " + v + " 个。"
+      },
+      depth: {
+        name: "depth",
+        hint: "合并：左右两边谁更深就用谁，再 + 1（自己这一层）",
+        retLine: 2,
+        lines: [
+          "int depth(int u) {",
+          "  if (u == 0) return 0;",
+          "  return max(depth(lch[u]),",
+          "             depth(rch[u])) + 1;",
+          "}"
+        ],
+        combine: (l, r) => Math.max(l, r) + 1,
+        mergeText: (u, l, r, v) => "左右都问回来了，合并：depth(" + u + ") —— 左边深 " + l + "、右边深 " + r + "，取更深的，再加上自己这一层 = " + v + "。"
+      },
+      leaves: {
+        name: "leaves", leafCheck: true,
+        hint: "合并：左边的叶子 + 右边的叶子（自己不是叶子，不加）",
+        retLine: 4,
+        lines: [
+          "int leaves(int u) {",
+          "  if (u == 0) return 0;",
+          "  if (lch[u] == 0 && rch[u] == 0)",
+          "    return 1;",
+          "  return leaves(lch[u])",
+          "       + leaves(rch[u]);",
+          "}"
+        ],
+        combine: (l, r) => l + r,
+        mergeText: (u, l, r, v) => "左右都问回来了，合并：leaves(" + u + ") = 左边 " + l + " 片叶子 + 右边 " + r + " 片 = " + v + " 片。"
+      }
+    };
+    function genFnSteps(key) {
+      const F = FN[key];
+      const steps = [], stack = [], done = [];
+      function push(o) { o.stack = stack.slice(); o.done = done.slice(); steps.push(o); }
+      function rec(u) {
+        stack.push(u);
+        if (u === 0) {
+          push({ line: 1, active: null, kind: "base",
+            text: F.name + "(0)：走到空位置了，什么都没有，直接回答 0 就回去。这一步叫「递归出口」——没有它，程序会一直往下钻，停不下来。" });
+          stack.pop();
+          push({ line: null, active: stack.length ? stack[stack.length - 1] : null, kind: "ret",
+            text: "空位置的答案是 0，回到上一层，接着算没算完的。" });
+          return 0;
+        }
+        push({ line: 0, active: u, kind: "call",
+          text: "轮到 " + F.name + "(" + u + ")：要算结点 " + NM(u) + " 这棵小树的答案。别急着算——先去问它的左、右两棵更小的树，就像先问完小组员，再汇总到组长这里。" });
+        if (F.leafCheck && BT.l[u] === 0 && BT.r[u] === 0) {
+          done.push([u, 1]);
+          push({ line: 3, active: u, kind: "leaf",
+            text: NM(u) + " 的左右两边都是 0，说明它没有孩子——它就是一片叶子！leaves(" + u + ") = 1。（记住：判断叶子要左右都空，用 &&。）" });
+          stack.pop();
+          push({ line: null, active: stack.length ? stack[stack.length - 1] : null, kind: "ret",
+            text: "leaves(" + u + ") = 1，把这个答案交回给上一层。" });
+          return 1;
+        }
+        const lv = rec(BT.l[u]);
+        const rv = rec(BT.r[u]);
+        const v = F.combine(lv, rv);
+        done.push([u, v]);
+        push({ line: F.retLine, active: u, kind: "merge", text: F.mergeText(u, lv, rv, v) });
+        stack.pop();
+        push({ line: null, active: stack.length ? stack[stack.length - 1] : null, kind: "ret",
+          text: stack.length
+            ? F.name + "(" + u + ") = " + v + "，把答案交回给上一层。"
+            : F.name + "(1) = " + v + " —— 全部算完啦！这正是 T2 要输出的其中一行，对照下面的输出样例看看对不对。" });
+        return v;
+      }
+      rec(1);
+      return steps;
+    }
+    const P4 = { fn: "cnt", steps: [], i: -1, timer: null };
+    function render4() {
+      const F = FN[P4.fn];
+      const st = P4.i >= 0 ? P4.steps[P4.i] : null;
+      const doneSet = new Set(st ? st.done.map((d) => d[0]) : []);
+      const inStack = st ? st.stack.filter((x) => x !== 0) : [];
+      drawTree($("tree4"), pos2, edges2, labels2, {
+        sx: 56, sy: 76, px: 44, py: 42, r: 22, noClick: true,
+        cls: (id) => {
+          id = Number(id);
+          if (st && st.active === id) return "active";
+          if (doneSet.has(id)) return "visited";
+          if (inStack.indexOf(id) >= 0) return "instack";
+          return "";
+        }
+      });
+      $("code4").innerHTML = F.lines.map((ln, idx) => {
+        const esc = ln.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+        return '<span class="ln' + (st && st.line === idx ? " hl" : "") + '">' + esc + "</span>";
+      }).join("");
+      const sk = st ? st.stack : [];
+      $("stack4").innerHTML = sk.length
+        ? sk.map((u) => u === 0
+            ? '<div class="frame nullf">' + F.name + '(0) <small>空位置，马上回答 0</small></div>'
+            : '<div class="frame">' + F.name + "(" + u + ") <small>正在算结点 " + NM(u) + " 这棵小树</small></div>").join("")
+        : '<div class="stackempty">栈是空的 —— 还没开始，或者已经全部算完</div>';
+      $("chips4").innerHTML = st && st.done.length
+        ? st.done.map((d) => '<div class="chip w">' + F.name + "(" + d[0] + ") = " + d[1] + "</div>").join("")
+        : '<div class="chip empty">还没有算完的子树，点「播放」或「下一步」</div>';
+      $("say4").textContent = st ? st.text :
+        "先猜一猜：对这棵示例树跑 " + F.name + "(1)，答案是多少？（提示：第 5 站和下面 T2 的输出样例里有。）然后按播放，看程序是不是和你猜的一样——每个结点都要等左、右两边先把答案交回来，自己才能合并。";
+      $("prog4").textContent = "第 " + Math.max(P4.i + 1, 0) + " / " + P4.steps.length + " 步";
+      $("btnPlay4").textContent = P4.timer ? "⏸ 暂停" : (P4.i >= P4.steps.length - 1 && P4.steps.length ? "▶ 再播一遍" : "▶ 播放");
+      $("btnPrev4").disabled = P4.i < 0;
+      $("btnNext4").disabled = P4.i >= P4.steps.length - 1;
+    }
+    function stopPlay4() { if (P4.timer) { clearInterval(P4.timer); P4.timer = null; } }
+    function setFn(key) {
+      stopPlay4();
+      P4.fn = key;
+      P4.steps = genFnSteps(key);
+      P4.i = -1;
+      $("fnHint").textContent = FN[key].hint;
+      document.querySelectorAll("#fnSeg button").forEach((b) => b.classList.toggle("on", b.getAttribute("data-fn") === key));
+      render4();
+    }
+    function stepNext4() { if (P4.i < P4.steps.length - 1) { P4.i++; render4(); } else { stopPlay4(); render4(); } }
+    $("btnNext4").addEventListener("click", () => { stopPlay4(); stepNext4(); });
+    $("btnPrev4").addEventListener("click", () => { stopPlay4(); if (P4.i >= 0) { P4.i--; render4(); } });
+    $("btnReset4").addEventListener("click", () => { stopPlay4(); P4.i = -1; render4(); });
+    $("btnPlay4").addEventListener("click", () => {
+      if (P4.timer) { stopPlay4(); render4(); return; }
+      if (P4.i >= P4.steps.length - 1) P4.i = -1;
+      const delay = [1500, 950, 520][Number($("speed4").value) - 1] || 950;
+      stepNext4();
+      P4.timer = setInterval(() => {
+        if (P4.i >= P4.steps.length - 1) { stopPlay4(); render4(); return; }
+        P4.i++; render4();
+      }, delay);
+      render4();
+    });
+    document.querySelectorAll("#fnSeg button").forEach((b) =>
+      b.addEventListener("click", () => setFn(b.getAttribute("data-fn"))));
+    setFn("cnt");
+
+    /* ================================================================
+       SECTION 6 — BST insert / search （第 5 讲）
+       ================================================================ */
+    let bstRoot = null, bstCount = 0;
+    function bstNewNode(v) { return { v: v, l: null, r: null }; }
+    function bstInsertPlain(root, v) {
+      if (!root) return bstNewNode(v);
+      if (v < root.v) root.l = bstInsertPlain(root.l, v);
+      else if (v > root.v) root.r = bstInsertPlain(root.r, v);
+      return root;
+    }
+    function bstLayout() {
+      const pos = {}; let c = 0, maxD = 0;
+      (function walk(n, d) {
+        if (!n) return;
+        walk(n.l, d + 1);
+        pos[n.v] = { x: c++, depth: d }; maxD = Math.max(maxD, d);
+        walk(n.r, d + 1);
+      })(bstRoot, 0);
+      return { pos: pos, w: Math.max(c, 1), h: maxD };
+    }
+    function bstEdgesLabels() {
+      const edges = [], labels = {};
+      (function walk(n) { if (!n) return; labels[n.v] = n.v; if (n.l) edges.push([n.v, n.l.v]); if (n.r) edges.push([n.v, n.r.v]); walk(n.l); walk(n.r); })(bstRoot);
+      return { edges: edges, labels: labels };
+    }
+    let bstHighlight = {}; // value -> class
+    function render6() {
+      const lay = bstLayout();
+      const pos = lay.pos;
+      const el = bstEdgesLabels();
+      const n = Object.keys(pos).length;
+      const sx = Math.min(64, 500 / Math.max(n, 1));
+      const height = Math.max(330, lay.h * 72 + 100);
+      $("tree6").setAttribute("viewBox", "0 0 " + Math.max(n * sx + 60, 320) + " " + height);
+      drawTree($("tree6"), pos, el.edges, el.labels, {
+        sx: sx, sy: 72, px: 40, py: 42, r: 21, noClick: true,
+        cls: (id) => bstHighlight[id] || ""
+      });
+    }
+    function bstReset() {
+      bstRoot = null; bstCount = 0; bstHighlight = {};
+      [8, 3, 10, 1, 6, 14, 4, 7, 13].forEach((v) => { bstRoot = bstInsertPlain(bstRoot, v); bstCount++; });
+      render6();
+      $("say6").textContent = "已重置。这棵树是把 8、3、10、1、6、14、4、7、13 一个一个放进来的：第一个数 8 当了根，后来的数都自己找座位——比当前结点小就往左，比它大就往右。";
+    }
+    let bstBusy = false;
+    async function bstWalk(x, mode) {
+      if (bstBusy) return;
+      if (!Number.isFinite(x) || x < 1 || x > 99) { $("say6").textContent = "先在框里输入一个 1~99 的数，再点「插入」或「查找」。"; return; }
+      bstBusy = true;
+      bstHighlight = {}; render6();
+      let node = bstRoot, steps = 0;
+      while (node) {
+        steps++;
+        bstHighlight[node.v] = "pathhit"; render6();
+        if (x === node.v) {
+          if (mode === "search") {
+            bstHighlight[node.v] = "fresh"; render6();
+            $("say6").textContent = "找到了！一共只比了 " + steps + " 次。想一想：如果把 " + bstCount + " 个数排成一队、从头一个个问，最坏要问 " + bstCount + " 次。这棵树每走一步，就把要找的范围砍掉一半——和查字典直接翻到中间那一片是一个道理。";
+          } else {
+            $("say6").textContent = x + " 已经在树里啦。同一个数只放一份，这次就不重复放了。";
+          }
+          bstBusy = false; return;
+        }
+        $("say6").textContent = "和 " + node.v + " 比一比：" + x + (x < node.v ? " 更小 → 往左边找" : " 更大 → 往右边找") + (mode === "insert" ? "个空位" : "") + "……";
+        await wait(620);
+        node = x < node.v ? node.l : node.r;
+      }
+      if (mode === "search") {
+        $("say6").textContent = "走到了空位置，还是没找到——" + x + " 不在这棵树里。不过也没白走：只比了 " + steps + " 次，就能肯定它不在。";
+      } else {
+        if (bstCount >= 15) { $("say6").textContent = "树里已经有 15 个数了，再放就挤成一团看不清啦。点「重置」重新来。"; bstBusy = false; return; }
+        bstRoot = bstInsertPlain(bstRoot, x); bstCount++;
+        bstHighlight = {}; bstHighlight[x] = "fresh"; render6();
+        $("say6").textContent = "放好啦！" + x + " 就落在刚才走到的那个空位置上。神奇的是：整棵树一个数都不用挪位置，「左边小、右边大」自动就成立了。";
+      }
+      bstBusy = false;
+    }
+    $("btnInsert").addEventListener("click", () => bstWalk(Number($("bstInput").value), "insert"));
+    $("btnSearch").addEventListener("click", () => bstWalk(Number($("bstInput").value), "search"));
+    $("btnRandom").addEventListener("click", () => {
+      const v = 1 + Math.floor(Math.random() * 99);
+      $("bstInput").value = v;
+      bstWalk(v, "insert");
+    });
+    $("btnBstReset").addEventListener("click", () => { if (!bstBusy) bstReset(); });
+    bstReset();
+
+    /* ================================================================
+       SECTION 5 — quiz
+       ================================================================ */
+    const QUIZ = [
+      {
+        tag: "第 1 讲 · T1-1",
+        q: "一棵树有 100 个结点，它有几条边？",
+        opts: ["100 条", "99 条", "101 条", "50 条"],
+        right: 1,
+        why: "想一想：除了根，每个结点都有一条边连着它的爸爸。100 个结点，去掉根，还剩 99 个——所以是 <b>99 条边</b>。这就是讲义性质 1：n 个点，恰好 n − 1 条边。"
+      },
+      {
+        tag: "第 1 讲 · T1-2",
+        q: "判断对错：「一个图有 n 个点、n − 1 条边，它一定是树。」",
+        opts: ["对，一定是树", "不对，还要连成一片、没有圈圈才行", "不对，边数应该是 n 条", "不对，树不能有叶子"],
+        right: 1,
+        why: "点数和边数对了还不够！比如 4 个点、3 条边，可以画成一个三角形，再加一个孤零零的点——边数是对的，可它断开了，不是树。树还要满足：<b>连通</b>（所有点连成一片）+ <b>无环</b>（没有圈圈）。这是讲义点名的头号陷阱。"
+      },
+      {
+        tag: "第 1 讲 · T1-3",
+        q: "看这棵示例树：L（12 号）的祖先有哪些？",
+        fig: "t1",
+        opts: ["A、B、E", "只有 E", "A、B、D", "E、K"],
+        right: 0,
+        why: "从 L 往上走：L 的爸爸是 E，E 的爸爸是 B，B 的爸爸是 A。所以祖先是 <b>A、B、E</b>。注意：祖先<b>不包括自己</b>。回第 1 站点一下 L，右边档案里写得清清楚楚。"
+      },
+      {
+        tag: "第 1 讲 · T1-4",
+        q: "还是这棵树：结点 E（5 号）的深度和高度分别是多少？",
+        fig: "t1",
+        opts: ["深度 2、高度 3", "深度 3、高度 2", "深度 3、高度 3", "深度 4、高度 2"],
+        right: 1,
+        why: "<b>深度从上往下数</b>：第 1 层 A、第 2 层 B、第 3 层就是 E，深度 3。<b>高度从下往上数</b>：E 下面是 K、L，再往下没了，高度 2。两个方向不一样，答案就不一样——这是讲义敲黑板的地方。"
+      },
+      {
+        tag: "第 1 讲 · T1-5",
+        q: "一棵树里，度为 3 的有 2 个、度为 2 的有 3 个、度为 1 的有 4 个。叶子有几个？",
+        opts: ["6 个", "7 个", "8 个", "9 个"],
+        right: 2,
+        why: "先算总度数：3×2 + 2×3 + 1×4 = 16。总度数 = 边数 = n − 1，所以 n = 17。再减掉不是叶子的 2 + 3 + 4 = 9 个：17 − 9 = <b>8 个叶子</b>。（度：一个结点有几个孩子，它的度就是几。）"
+      },
+      {
+        tag: "第 2 讲 · T1-①",
+        q: "一棵二叉树有 20 片叶子、5 个度为 1 的结点，一共有多少个结点？",
+        opts: ["25 个", "39 个", "44 个", "45 个"],
+        right: 2,
+        why: "先用第 5 站的性质 3：<b>叶子比度为 2 的结点多 1 个</b>，所以度为 2 的有 20 − 1 = 19 个。再全部加起来：20 + 5 + 19 = <b>44</b>。"
+      },
+      {
+        tag: "第 2 讲 · T1-③",
+        q: "深度为 6 的二叉树，最多有几个结点？最少呢？",
+        opts: ["最多 63，最少 6", "最多 64，最少 6", "最多 63，最少 12", "最多 32，最少 6"],
+        right: 0,
+        why: "<b>最多</b>：每层都塞满（满二叉树）：1 + 2 + 4 + 8 + 16 + 32 = 63 = 2⁶ − 1。<b>最少</b>：每层只放 1 个（斜树）：6 层就是 6 个。范围题就是在这两个极端之间做文章。"
+      },
+      {
+        tag: "第 2 讲 · T2",
+        q: "讲义 T2 的输入就是这棵示例树。程序输出的三行（结点数、深度、叶子数）应该是什么？",
+        fig: "t2",
+        opts: ["8、4、3", "8、3、4", "7、4、3", "8、4、4"],
+        right: 0,
+        why: "对着图数一数、量一量：结点一共 <b>8</b> 个；最深走到 G，在第 4 层，深度 <b>4</b>；叶子是 G、H、F，一共 <b>3</b> 个。第 4 站的三个按钮算的正是这三个数，可以回去播一遍核对。"
+      },
+      {
+        tag: "第 2 讲 · T1-⑤",
+        q: "3 个结点的二叉树有几种样子？普通树呢？",
+        opts: ["二叉树 5 种，普通树 2 种", "二叉树 3 种，普通树 3 种", "二叉树 5 种，普通树 5 种", "二叉树 2 种，普通树 5 种"],
+        right: 0,
+        why: "二叉树要<b>分左右</b>：同一个孩子，挂左边和挂右边算两棵不同的树，所以 3 个结点能摆出 <b>5 种</b>样子。普通树不分左右，就只有「排成一串」和「摊成一排」<b>2 种</b>。"
+      },
+      {
+        tag: "第 4 讲 · 完全二叉树",
+        q: "完全二叉树用数组存（根编号 1），6 号结点的双亲和左孩子编号是？",
+        opts: ["双亲 3，左孩子 12", "双亲 2，左孩子 11", "双亲 3，左孩子 13", "双亲 12，左孩子 3"],
+        right: 0,
+        why: "双亲 = ⌊6/2⌋ = <b>3</b>，左孩子 = 2×6 = <b>12</b>。下标就是门牌号，亲戚全靠算。"
+      },
+      {
+        tag: "第 6 讲 · 哈夫曼",
+        q: "叶子重量 2、3、5、7 构造哈夫曼树，WPL（带权路径长度）是多少？",
+        opts: ["17", "27", "32", "34"],
+        right: 2,
+        why: "每次挑最轻两个合并：2+3=5，5+5=10，10+7=17。WPL = 三次合并值相加 = 5+10+17 = <b>32</b>。回第 6 站播一遍就清楚了。"
+      },
+      {
+        tag: "第 7 讲 · Trie",
+        q: "Trie 里已经有 cat、car、card。查询 ca 的结果是？",
+        opts: ["有这个单词", "没有单词 ca，但有 3 个单词以 ca 开头", "什么都没有", "有 2 个单词以 ca 开头"],
+        right: 1,
+        why: "ca 这条路走得通，但终点没有结束标记，所以 <b>ca 不是单词</b>；它结点的 cnt = 3，对应 cat、car、card 三个词。"
+      },
+      {
+        tag: "第 8 讲 · 树状数组",
+        q: "lowbit(6) 是多少？查前缀和 sum(6) 时，tree[6] 之后下一个要加的是哪个？",
+        opts: ["lowbit = 2，下一个 tree[4]", "lowbit = 6，下一个 tree[0]", "lowbit = 1，下一个 tree[5]", "lowbit = 3，下一个 tree[3]"],
+        right: 0,
+        why: "6 的二进制是 110，最低位的 1 代表 2，所以 lowbit(6) = <b>2</b>；查询时 i −= lowbit(i)：6 − 2 = 4，下一个是 <b>tree[4]</b>。"
+      },
+      {
+        tag: "第 10 讲 · DP 基础",
+        q: "爬楼梯 f[1]=1、f[2]=2，f[n]=f[n−1]+f[n−2]。f[5] 是多少？",
+        opts: ["5", "8", "7", "10"],
+        right: 1,
+        why: "顺着填：f[3]=3，f[4]=5，f[5]=<b>8</b>。这就是填表——每个格子只算一次。"
+      },
+      {
+        tag: "第 12 讲 · 01 背包",
+        q: "01 背包压成一维数组时，容量 w 为什么必须从大到小倒着遍历？",
+        opts: ["倒着算得快", "防止同一件物品被重复装多次", "为了从答案往回找方案", "没有原因，习惯而已"],
+        right: 1,
+        why: "倒着走，用到的 f[w−重量] 还是上一件物品时的旧值，<b>一件物品最多装一次</b>。正着走旧值会被本轮更新覆盖，同一件能装很多次——那就变成完全背包了。"
+      },
+      {
+        tag: "第 14 讲 · 区间 DP",
+        q: "石子合并里 f[l][r] 的转移，要枚举什么？",
+        opts: ["枚举先拿哪一堆", "枚举最后一个分界点 k，把 [l,r] 分成 [l,k] 和 [k+1,r]", "枚举总共合几次", "枚举最大的那堆"],
+        right: 1,
+        why: "最后一步一定是左右两坨拼起来，所以枚举<b>分界点 k</b>：f[l][r] = min(f[l][k] + f[k+1][r]) + 区间总和。填表顺序按区间长度从小到大。"
+      },
+      {
+        tag: "第 16 讲 · 拓扑排序",
+        q: "Kahn 算法每一步取走的是哪种点？如果取着取着没有这种点、但还有点没取完，说明什么？",
+        opts: ["度最大的点；说明图不连通", "入度为 0 的点；说明图里有环", "编号最小的点；说明排完了", "叶子点；说明有负权边"],
+        right: 1,
+        why: "每步取<b>入度为 0</b>的点（没有先修要求）。中途取不出但还有剩余点 = 它们互相等对方先 → <b>有环</b>，拓扑排序不存在。"
+      },
+      {
+        tag: "第 17 讲 · Dijkstra",
+        q: "边 1→2 权 2，1→3 权 5，2→3 权 1。从 1 出发，dis[3] 最终是多少？",
+        opts: ["5", "2", "3", "1"],
+        right: 2,
+        why: "直达是 5，但绕道 2 号点：2 + 1 = <b>3</b> 更近。Dijkstra 的松弛就是不断发现这种更近的绕法。"
+      },
+      {
+        tag: "第 18 讲 · Kruskal",
+        q: "Kruskal 挑到一条边时，什么情况下要跳过它？",
+        opts: ["它是当前最长的边", "它的两个端点已经在同一个连通块里（收了会成环）", "它连接的点度数太大", "已经收了 3 条边"],
+        right: 1,
+        why: "两端已经一伙，再连就会<b>形成环</b>，生成树不能有环，所以跳过。用并查集查「是不是一伙」。"
+      },
+    ];
+    let quizDone = {}, quizRight = 0;
+    function renderQuiz() {
+      quizDone = {}; quizRight = 0;
+      $("quizBox").innerHTML = QUIZ.map((item, qi) =>
+        '<div class="quiz-q"><h3>第 ' + (qi + 1) + " 题（" + item.tag + "）· " + item.q + "</h3>" +
+        (item.fig ? '<div class="qfig"><svg id="qfig_' + item.fig + '" viewBox="0 0 470 320" role="img" aria-label="题目配图"></svg></div>' : "") +
+        '<div class="opts">' + item.opts.map((o, oi) =>
+          '<button class="opt" data-q="' + qi + '" data-o="' + oi + '">' + o + "</button>").join("") + "</div>" +
+        '<div class="explain" id="exp' + qi + '"></div></div>'
+      ).join("");
+      $("quizBox").querySelectorAll(".opt").forEach((b) =>
+        b.addEventListener("click", () => answerQuiz(Number(b.getAttribute("data-q")), Number(b.getAttribute("data-o")), b)));
+      const qf1 = document.getElementById("qfig_t1");
+      if (qf1) drawTree(qf1, pos1, edges1, labels1, { sx: 58, sy: 70, px: 40, py: 40, r: 20, noClick: true });
+      const qf2 = document.getElementById("qfig_t2");
+      if (qf2) drawTree(qf2, pos2, edges2, labels2, { sx: 56, sy: 76, px: 44, py: 42, r: 22, noClick: true });
+      updScore();
+    }
+    function answerQuiz(qi, oi, btn) {
+      if (quizDone[qi]) return;
+      quizDone[qi] = true;
+      const item = QUIZ[qi];
+      const box = btn.parentElement;
+      box.querySelectorAll(".opt").forEach((b) => {
+        b.disabled = true;
+        if (Number(b.getAttribute("data-o")) === item.right) b.classList.add("right");
+      });
+      if (oi === item.right) { quizRight++; }
+      else btn.classList.add("wrong");
+      const exp = $("exp" + qi);
+      exp.innerHTML = (oi === item.right ? "✅ <b>答对了！</b>" : "❌ <b>再想想。</b>") + " " + item.why;
+      exp.classList.add("show");
+      updScore();
+    }
+    function updScore() {
+      const done = Object.keys(quizDone).length;
+      $("scoreText").textContent = "答对 " + quizRight + " / " + QUIZ.length + (done === QUIZ.length ? (quizRight === QUIZ.length ? " · 全对，树这一关过了！🎉" : " · 全部做完，错的题回上面几站再看看") : "");
+      $("scoreFill").style.width = (quizRight / QUIZ.length * 100) + "%";
+    }
+    $("btnQuizReset").addEventListener("click", renderQuiz);
+    renderQuiz();
+
+    /* ================================================================
+       SECTION 6 — code snippets
+       ================================================================ */
+    const SNIPS = [
+      {
+        title: "① 通法三件套（第 1 讲 · 必须背下来，后面 9 讲全靠它）",
+        code:
+'#include <bits/stdc++.h>\nusing namespace std;\n\nconst int N = 1e5 + 5;\nint n;\nvector<int> g[N];        // g[u] 只存 u 的孩子（有向：父亲 → 孩子）\nint fa[N], dep[N], cnt[N];\nint height_ = 0;\n\nvoid dfs(int u, int p) {\n    fa[u] = p;\n    dep[u] = dep[p] + 1;              // dep[0] = 0，所以根的深度 = 1\n    height_ = max(height_, dep[u]);\n    cnt[dep[u]]++;\n    for (int v : g[u]) dfs(v, u);     // g[u] 全是孩子，不会回头\n}\n\nint main() {\n    cin >> n;\n    for (int i = 1; i < n; i++) {\n        int u, v;\n        cin >> u >> v;                // u 是父亲，v 是孩子\n        g[u].push_back(v);            // ⚠ 只加这一条！方向写反树就倒过来了\n    }\n    dfs(1, 0);\n    int width = 0;\n    for (int d = 1; d <= height_; d++) width = max(width, cnt[d]);\n    cout << "height = " << height_ << " width = " << width << "\\n";\n    return 0;\n}'
+      },
+      {
+        title: "② 双亲表示法 fa[]：往上跳三招（第 1 讲 · 存储一）",
+        code:
+'int fa[N];   // fa[i] = i 的父亲编号，根的父亲记 0\n\nint findRoot(int x) {              // 求根：一路往上跳\n    while (fa[x] != 0) x = fa[x];\n    return x;\n}\nint depth(int x) {                 // 求深度：跳一次 +1（根 = 1）\n    int d = 1;\n    while (fa[x] != 0) { x = fa[x]; d++; }\n    return d;\n}\n// 求祖先也是往上跳，一边跳一边记下来就行\n// ⚠ 它的短板：找孩子、找兄弟只能把全表扫一遍 O(n)'
+      },
+      {
+        title: "③ 链式存储 lch[] / rch[] 的读入（第 2 讲）",
+        code:
+'const int N = 1e6 + 5;\nint lch[N], rch[N];   // i 号结点的左 / 右孩子，0 = 空\n                      // 一句话：下标就是指针，0 就是 nullptr\n\n// 读入（孩子表形式）：n 行，每行 l r\ncin >> n;\nfor (int i = 1; i <= n; i++)\n    cin >> lch[i] >> rch[i];\n\n// ⚠ 别和第 1 讲的「边集」输入搞混：边集是 n−1 行 u v'
+      },
+      {
+        title: "④ 递归三件套（第 2 讲 · 一个模具通吃统计题）",
+        code:
+'int cnt(int u) {                          // 结点数\n    if (u == 0) return 0;                 // 万能出口：空子树\n    return cnt(lch[u]) + cnt(rch[u]) + 1;\n}\nint depth(int u) {                        // 深度：空树 0，根 1\n    if (u == 0) return 0;\n    return max(depth(lch[u]), depth(rch[u])) + 1;\n}\nint leaves(int u) {                       // 叶子数\n    if (u == 0) return 0;\n    if (lch[u] == 0 && rch[u] == 0) return 1;   // 左右都空，用 &&\n    return leaves(lch[u]) + leaves(rch[u]);\n}\n// 这就是 T2 的答案骨架：main 里依次输出 cnt(1)、depth(1)、leaves(1)'
+      },
+      {
+        title: "⑤ 遍历：普通树先根 / 后根 + 二叉树前序（第 1、2 讲）",
+        code:
+'void preorder(int u) {              // 普通树 · 先根：拿到就打印\n    cout << u << " ";\n    for (int v : g[u]) preorder(v);\n}\nvoid postorder(int u) {             // 普通树 · 后根：孩子干完再打印\n    for (int v : g[u]) postorder(v);\n    cout << u << " ";\n}\nvoid preorderB(int u) {             // 二叉树 · 前序：根 左 右\n    if (u == 0) return;\n    cout << u << " ";\n    preorderB(lch[u]);\n    preorderB(rch[u]);\n    // 中序、后序不用重学：只把 cout 挪个位置（第 3 讲正式对答案）\n}'
+      }
+,
+      {
+        title: "⑥ 完全二叉树 · 数组存储（第 4 讲）",
+        code:
+'int a[N];  // 下标从 1 开始，a[i] 存 i 号结点\n// 双亲 i/2，左孩子 2*i，右孩子 2*i+1（先判有没有超过 n）\nbool isLeaf(int i, int n) { return i > n / 2; }\n// 层序就是按下标 1..n 依次输出，天然不用队列'
+      },
+      {
+        title: "⑦ 哈夫曼构造（第 6 讲 · 小根堆）",
+        code:
+'priority_queue<long long, vector<long long>, greater<long long>> pq;\nfor (每个叶子重量 w) pq.push(w);\nlong long WPL = 0;\nwhile (pq.size() > 1) {\n    long long x = pq.top(); pq.pop();\n    long long y = pq.top(); pq.pop();\n    WPL += x + y;          // 每次合并值累加就是 WPL\n    pq.push(x + y);\n}'
+      },
+      {
+        title: "⑧ Trie 字典树（第 7 讲）",
+        code:
+'struct Node { int next[26]; int cnt; bool end; } trie[N];\nint tot = 0;  // 0 号是根\nvoid insert(string s) {\n    int u = 0; trie[u].cnt++;\n    for (char c : s) { int id = c - \'a\';\n        if (!trie[u].next[id]) trie[u].next[id] = ++tot;\n        u = trie[u].next[id]; trie[u].cnt++; }\n    trie[u].end = true;\n}\nbool find(string s) {  // 走不通或没结束标记都是没有\n    int u = 0;\n    for (char c : s) { int id = c - \'a\';\n        if (!trie[u].next[id]) return false;\n        u = trie[u].next[id]; }\n    return trie[u].end;\n}'
+      },
+      {
+        title: "⑨ 树状数组 BIT（第 8 讲）",
+        code:
+'int n; long long bit[N];\nint lowbit(int x) { return x & -x; }\nvoid add(int x, long long v) {          // a[x] += v，往上跳\n    for (; x <= n; x += lowbit(x)) bit[x] += v;\n}\nlong long sum(int x) {                  // 前 x 个的和，往回跳\n    long long s = 0;\n    for (; x >= 1; x -= lowbit(x)) s += bit[x];\n    return s;\n}\n// 区间 [l, r] 的和 = sum(r) - sum(l - 1)'
+      },
+      {
+        title: "⑩ DP 三件套 + 线性 DP（第 10、11 讲）",
+        code:
+'// 爬楼梯：状态 f[i]=走到第 i 级的走法，转移 f[i]=f[i-1]+f[i-2]，边界 f[1]=1, f[2]=2\n// 数字三角形：f[i][j] += max(f[i-1][j-1], f[i-1][j])（从上往下）或倒着填\n// LIS: f[i]=1; for j<i if a[j]<a[i] f[i]=max(f[i], f[j]+1);\n// LCS: if s[i]==t[j] f[i][j]=f[i-1][j-1]+1; else f[i][j]=max(f[i-1][j], f[i][j-1]);'
+      },
+      {
+        title: "⑪ 背包全家桶（第 12、13 讲）",
+        code:
+'// 01 背包（每件 1 次）：容量倒序\nfor (每件物品 w, v)\n  for (int c = W; c >= w; c--) f[c] = max(f[c], f[c-w] + v);\n// 完全背包（无限次）：容量正序，其余相同\n  for (int c = w; c <= W; c++) f[c] = max(f[c], f[c-w] + v);\n// 求方案数：把 max 换成加法，f[0]=1\n  f[c] += f[c-w];'
+      },
+      {
+        title: "⑫ 区间 DP · 石子合并（第 14 讲）",
+        code:
+'// f[l][r] = 合并第 l..r 堆的最小代价，按长度从小到大填\nfor (int len = 2; len <= n; len++)\n  for (int l = 1; l + len - 1 <= n; l++) {\n    int r = l + len - 1;\n    f[l][r] = INF;\n    for (int k = l; k < r; k++)\n      f[l][r] = min(f[l][r], f[l][k] + f[k+1][r] + sum(l, r));\n  }'
+      },
+      {
+        title: "⑬ 图：建图 + DFS/BFS（第 15 讲）",
+        code:
+'vector<int> g[N]; bool vis[N];\n// 无向边加两条，有向边加一条\nvoid addEdge(int u, int v) { g[u].push_back(v); g[v].push_back(u); }\nvoid dfs(int u) { vis[u] = true; cout << u << " ";\n  for (int v : g[u]) if (!vis[v]) dfs(v); }\nvoid bfs(int s) { queue<int> q; q.push(s); vis[s] = true;\n  while (!q.empty()) { int u = q.front(); q.pop(); cout << u << " ";\n    for (int v : g[u]) if (!vis[v]) { vis[v] = true; q.push(v); } } }'
+      },
+      {
+        title: "⑭ 拓扑排序 Kahn（第 16 讲）",
+        code:
+'// indeg[v] = 入度；queue 装当前入度为 0 的点\nqueue<int> q;\nfor (int i = 1; i <= n; i++) if (indeg[i] == 0) q.push(i);\nvector<int> ans;\nwhile (!q.empty()) { int u = q.front(); q.pop(); ans.push_back(u);\n  for (int v : g[u]) if (--indeg[v] == 0) q.push(v); }\n// ans.size() < n 说明图里有环'
+      },
+      {
+        title: "⑮ 最短路：Dijkstra 堆优化 / Floyd / SPFA（第 17、18 讲）",
+        code:
+'// Dijkstra（无负权）：优先队列取当前最小的点\npriority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<pair<ll,int>>> pq;\ndis[s] = 0; pq.push({0, s});\nwhile (!pq.empty()) { auto [d, u] = pq.top(); pq.pop();\n  if (d != dis[u]) continue;\n  for (auto [v, w] : g[u]) if (dis[v] > d + w) { dis[v] = d + w; pq.push({dis[v], v}); } }\n// Floyd：k 最外层 for k for i for j dis[i][j]=min(dis[i][j], dis[i][k]+dis[k][j]);\n// SPFA：队列松弛，点入队 >= n 次判负环，能处理负权边'
+      },
+      {
+        title: "⑯ 最小生成树：Kruskal + 并查集（第 18 讲）",
+        code:
+'int fa[N];\nint find(int x) { return fa[x] == x ? x : fa[x] = find(fa[x]); }\n// 边按权从小到大排序，逐条判断\nsort(edges.begin(), edges.end());\nlong long mst = 0; int taken = 0;\nfor (auto e : edges) if (find(e.u) != find(e.v)) {\n    fa[find(e.u)] = find(e.v); mst += e.w; taken++; }\n// taken == n-1 时完成；Prim 是每次把离集合最近的点拉进来，适合稠密图'
+      }
+    ];
+    function escHtml(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+    $("snips").innerHTML = SNIPS.map((s, i) =>
+      '<div class="snip"><div class="snip-head"><h3>' + s.title + '</h3>' +
+      '<button class="btn copybtn" data-snip="' + i + '">复制代码</button></div>' +
+      '<div class="codeblock">' + escHtml(s.code) + "</div></div>"
+    ).join("");
+    document.querySelectorAll("[data-snip]").forEach((b) =>
+      b.addEventListener("click", async () => {
+        const s = SNIPS[Number(b.getAttribute("data-snip"))];
+        try { await navigator.clipboard.writeText(s.code); b.textContent = "已复制 ✓"; }
+        catch (e) { b.textContent = "复制失败，长按代码手动复制"; }
+        setTimeout(() => { b.textContent = "复制代码"; }, 1800);
+      }));
+    
+    /* ================= NEW STATIONS JS (4,6,7,8,9,10,11,12,13,14,15,16,17,18) ================= */
+    function cellsRow(el, n, valFn, clsFn, labelFn){
+      let h=""; for(let i=1;i<=n;i++){ h+='<div class="cell '+(clsFn?clsFn(i):"")+'" data-i="'+i+'"><span class="idx">'+(labelFn?labelFn(i):i)+'</span><span class="val">'+valFn(i)+'</span></div>'; }
+      el.innerHTML=h;
+    }
+    /* ---- S4 complete binary tree ---- */
+    (function(){
+      const N=10, L={}, R={}, lab={};
+      for(let i=1;i<=N;i++){ L[i]=2*i<=N?2*i:0; R[i]=2*i+1<=N?2*i+1:0; lab[i]=i; }
+      const pos=layoutBinary(1,u=>L[u],u=>R[u]); const edges=[];
+      for(let i=1;i<=N;i++){ if(L[i])edges.push([i,L[i]]); if(R[i])edges.push([i,R[i]]); }
+      let sel=6;
+      function render(){
+        drawTree($("treeCbt"),pos,edges,lab,{sx:56,sy:70,px:44,py:40,r:20,cls:id=>{id=Number(id); if(id===sel)return"active"; if(id===Math.floor(sel/2))return"isparent"; if(id===2*sel||id===2*sel+1)return"ischild"; return"";}});
+        $("treeCbt").querySelectorAll(".node").forEach(g=>g.addEventListener("click",()=>{sel=Number(g.getAttribute("data-node"));render();}));
+        cellsRow($("cbtRow"),N,i=>i,i=>i===sel?"on":(i===Math.floor(sel/2)?"par":(i===2*sel||i===2*sel+1?"kid":"")),i=>"a["+i+"]");
+        $("cbtRow").querySelectorAll(".cell").forEach(c=>c.addEventListener("click",()=>{sel=Number(c.getAttribute("data-i"));render();}));
+        const par=Math.floor(sel/2);
+        $("sayCbt").textContent = sel+" 号结点：双亲 = ⌊"+sel+"/2⌋ = "+(par||"无，它是根")+"；左孩子 = 2×"+sel+" = "+(L[sel]||"超过 10，不存在，它是叶子")+(L[sel]?("；右孩子 = "+(R[sel]?R[sel]:"超过 10，不存在")):"")+"。编号大于 5（n/2）的都是叶子，"+sel+(sel>5?" 正好是叶子。":" 不是叶子。");
+      }
+      render();
+    })();
+    /* ---- S6 Huffman ---- */
+    (function(){
+      const steps=[
+        {pool:[2,3,5,7],text:"初始：2、3、5、7 四片叶子。每次挑最轻的两个合并。"},
+        {pool:[5,5,7],text:"第 1 次：挑最轻的 2 和 3，合成新结点 5 放回去。现在池子里是 5（新）、5、7。"},
+        {pool:[7,10],text:"第 2 次：挑 5（新）和 5，合成 10。池子里剩 7 和 10。"},
+        {pool:[17],text:"第 3 次：挑 7 和 10，合成根 17，合并结束！WPL = 5+10+17 = 32。编码：沿左记 0、右记 1 —— 5→01，7→1，2→000，3→001。重的 7 只用 1 位，轻的 2 用 3 位，这就是哈夫曼省地方的原因。"}
+      ];
+      let i=0;
+      function render(){
+        $("chipsHuff").innerHTML=steps[i].pool.map(v=>'<div class="chip w">'+v+"</div>").join("");
+        $("sayHuff").textContent=steps[i].text;
+        $("progHuff").textContent="第 "+i+" / 3 次合并";
+        $("btnHuff").disabled=i>=3;
+      }
+      $("btnHuff").addEventListener("click",()=>{ if(i<3)i++; render(); });
+      $("btnHuffReset").addEventListener("click",()=>{ i=0; render(); });
+      render();
+    })();
+    /* ---- S7 Trie ---- */
+    (function(){
+      function newNode(){ return {next:{},cnt:0,end:false}; }
+      let root;
+      function insert(w){ let u=root; u.cnt++; for(const ch of w){ if(!u.next[ch])u.next[ch]=newNode(); u=u.next[ch]; u.cnt++; } u.end=true; }
+      function walk(w){ let u=root; for(const ch of w){ if(!u.next[ch])return null; u=u.next[ch]; } return u; }
+      function render(){
+        let lines=["(根)"];
+        (function dfs(u,pre){ Object.keys(u.next).sort().forEach(ch=>{ const v=u.next[ch]; lines.push(pre+"─ "+ch+(v.end?" *":"")+"  (经过 "+v.cnt+" 个词)"); dfs(v,pre+"   "); }); })(root,"");
+        $("trieBox").textContent=lines.join("\n");
+      }
+      function reset(){ root=newNode(); ["cat","car","card","dog"].forEach(insert); render(); $("sayTrie").textContent="已重置：树里有 cat、car、card、dog。试试查询 car、ca，或数以 ca 开头的单词（3 个）。"; }
+      function getWord(){ return ($("trieInput").value||"").trim().toLowerCase(); }
+      $("btnTrieInsert").addEventListener("click",()=>{ const w=getWord(); if(!/^[a-z]{1,8}$/.test(w)){ $("sayTrie").textContent="先输入一个只含小写字母的单词（1~8 个字母）。"; return; } insert(w); render(); $("sayTrie").textContent="插入 "+w+" 完成：从根出发，"+w.split("").join(" → ")+"，没有的路就新建，走完打上结束标记 *。"; });
+      $("btnTrieQuery").addEventListener("click",()=>{ const w=getWord(); if(!w){ $("sayTrie").textContent="先输入要查的单词。"; return; } const u=walk(w); if(!u) $("sayTrie").textContent="查 "+w+"：半路走不通了——树里没有以它开头的任何单词。"; else if(!u.end) $("sayTrie").textContent="查 "+w+"：路走得通，但这个结点没有结束标记 * —— 它只是别的单词的前半截，本身不是单词。"; else $("sayTrie").textContent="查 "+w+"：一路走通，终点有结束标记 * —— 树里有这个单词 ✓"; });
+      $("btnTriePrefix").addEventListener("click",()=>{ const w=getWord(); if(!w){ $("sayTrie").textContent="先输入一个前缀，比如 ca。"; return; } const u=walk(w); $("sayTrie").textContent=!u?("以 "+w+" 开头的单词：0 个（路都走不通）。"):("以 "+w+" 开头的单词有 "+u.cnt+" 个——就是走到 "+w+" 终点时，这个结点记的 cnt。"); });
+      $("btnTrieReset").addEventListener("click",reset);
+      root=newNode(); ["cat","car","card","dog"].forEach(insert); render();
+    })();
+    /* ---- S8 BIT ---- */
+    (function(){
+      const N=8; let a,tree;
+      const lowbit=x=>x&-x;
+      function build(){ tree=new Array(N+1).fill(0); for(let i=1;i<=N;i++){ tree[i]=0; for(let j=i-lowbit(i)+1;j<=i;j++) tree[i]+=a[j]; } }
+      function reset(){ a=[0,1,2,3,4,5,6,7,8]; build(); render(-1); $("sayBit").textContent="已重置：a[i] = i。点「查前 x 个的和」看它怎么跳。"; }
+      function render(hi){ cellsRow($("bitARow"),N,i=>a[i],i=>i===hi?"on":"",i=>"a["+i+"]"); cellsRow($("bitTRow"),N,i=>tree[i],i=>i===hi?"on":"",i=>"t["+i+"]"); }
+      $("btnBitSum").addEventListener("click",()=>{ const x=Math.max(1,Math.min(8,Number($("bitX").value)||1)); let s=0; const parts=[]; for(let i=x;i>=1;i-=lowbit(i)){ s+=tree[i]; parts.push("tree["+i+"]="+tree[i]); } render(x); $("sayBit").textContent="查前 "+x+" 个：从 i="+x+" 出发，每次减 lowbit 往回跳："+parts.join(" + ")+" = "+s+"。只问了 "+parts.length+" 个组长，不用把 "+x+" 个数挨个加。"; });
+      $("btnBitAdd").addEventListener("click",()=>{ const x=Math.max(1,Math.min(8,Number($("bitX").value)||1)); const d=Number($("bitDelta").value)||0; a[x]+=d; const ups=[]; for(let i=x;i<=N;i+=lowbit(i)){ tree[i]+=d; ups.push("tree["+i+"]"); } render(x); $("sayBit").textContent="a["+x+"] 加了 "+d+"（现在是 "+a[x]+"）。要通知的组长：从 i="+x+" 出发每次加 lowbit 往上跳 —— "+ups.join("、")+"，共 "+ups.length+" 个，都已经 +"+d+"。"; });
+      $("btnBitReset").addEventListener("click",reset);
+      a=[0,1,2,3,4,5,6,7,8]; build(); render(-1);
+    })();
+    /* ---- S9 diameter on T1 ---- */
+    (function(){
+      const adj={}; for(let i=1;i<=12;i++)adj[i]=[];
+      Object.keys(T1.kids).forEach(p=>T1.kids[p].forEach(k=>{ adj[Number(p)].push(k); adj[k].push(Number(p)); }));
+      function farthest(src){ const dist={}; dist[src]=0; const q=[src]; let far=src; while(q.length){ const u=q.shift(); far=u; adj[u].forEach(v=>{ if(dist[v]===undefined){ dist[v]=dist[u]+1; q.push(v); } }); } return {far,dist}; }
+      $("btnDiam").addEventListener("click",()=>{ const a1=farthest(1); const a2=farthest(a1.far); $("sayDiam").textContent="第一遍：从根 1 出发，离它最远的是 "+a1.far+" 号（距离 "+a1.dist[a1.far]+" 条边）。第二遍：从 "+a1.far+" 出发，最远到 "+a2.far+" 号，距离 "+a2.dist[a2.far]+" 条边 —— 这就是这棵树的直径（按边数算）。两遍 BFS/DFS 就够，不用把每对点都试一遍。"; });
+    })();
+    /* ---- S10 stairs ---- */
+    (function(){
+      const F=[0,1,2]; for(let i=3;i<=8;i++)F[i]=F[i-1]+F[i-2];
+      let shown=2;
+      function render(){ cellsRow($("stairsRow"),8,i=>i<=shown?F[i]:"?",i=>i===shown?"on":(i<shown?"kid":""),i=>"f["+i+"]"); $("progStairs").textContent="已填到 f["+shown+"]"; $("btnStairs").disabled=shown>=8; }
+      $("btnStairs").addEventListener("click",()=>{ if(shown<8){ shown++; $("sayStairs").textContent="f["+shown+"] = f["+(shown-1)+"] + f["+(shown-2)+"] = "+F[shown-1]+" + "+F[shown-2]+" = "+F[shown]+"。最后一步不是从 "+(shown-1)+" 迈上来，就是从 "+(shown-2)+" 跨上来，没有第三种。"; render(); } });
+      $("btnStairsReset").addEventListener("click",()=>{ shown=2; $("sayStairs").textContent="边界先写死：f[1]=1（只有 1 种），f[2]=2（1+1 或直接跨 2）。后面的格子全靠转移方程算。"; render(); });
+      render();
+    })();
+    /* ---- S11 triangle ---- */
+    (function(){
+      const tri=[[7],[3,8],[8,1,0],[2,7,4,4]];
+      const dp=tri.map(r=>r.slice());
+      // stages: 0 show raw, 1 bottom row done, 2 row3 done, 3 row2, 4 row1
+      let stage=0;
+      function render(){
+        let h='<table class="dptable">';
+        for(let i=0;i<4;i++){ h+="<tr>"; for(let j=0;j<=i;j++){ let cls=""; if(stage>=1){ if(i===3)cls="done"; else if(stage>=4-i)cls="done"; if(stage>=4&&((i===0&&j===0)||(i===1&&j===0)||(i===2&&j===0)||(i===3&&j===1)))cls="path"; } h+="<td class='"+cls+"'>"+(stage>=4-i||i===3?dp[i][j]:tri[i][j])+"</td>"; } h+="</tr>"; }
+        h+="</table>"; $("triBox").innerHTML=h; $("progTri").textContent="第 "+stage+" / 4 步"; $("btnTri").disabled=stage>=4;
+      }
+      const texts=["原始三角形。从下往上：每个格子 = 自己的值 + 下面两个格子中较大的那个。",
+        "最底行不用算，原样抄下来就是 dp 值：2、7、4、4。",
+        "第 3 行：8+max(2,7)=15，1+max(7,4)=8，0+max(4,4)=4。",
+        "第 2 行：3+max(15,8)=18，8+max(8,4)=16。",
+        "第 1 行：7+max(18,16)=25。最大路径和 = 25，路径是 7 → 3 → 8 → 7（蓝色）。注意：如果从上往下贪心选大的，第一步选 8 就错了——DP 不贪心，它先把下面的答案都算好。"];
+      $("btnTri").addEventListener("click",()=>{ // recompute dp progressively
+        if(stage<4){ stage++; if(stage>=2){ for(let i=2;i>=0;i--)for(let j=0;j<=i;j++)dp[i][j]=tri[i][j]+Math.max(dp[i+1][j],dp[i+1][j+1]); }
+          $("sayTri").textContent=texts[stage]; render(); } });
+      $("btnTriReset").addEventListener("click",()=>{ stage=0; for(let i=0;i<4;i++)for(let j=0;j<=i;j++)dp[i][j]=tri[i][j]; $("sayTri").textContent=texts[0]; render(); });
+      render();
+    })();
+    /* ---- S12 knapsack ---- */
+    (function(){
+      const items=[[1,15],[3,20],[4,30]], W=5;
+      const f=[[0,0,0,0,0,0]];
+      for(let i=1;i<=3;i++){ f[i]=[]; for(let w=0;w<=W;w++){ f[i][w]= items[i-1][0]>w? f[i-1][w] : Math.max(f[i-1][w], f[i-1][w-items[i-1][0]]+items[i-1][1]); } }
+      let row=0;
+      function render(){
+        let h='<table class="dptable"><tr><th>物品\\容量</th>'; for(let w=0;w<=W;w++)h+="<th>"+w+"</th>"; h+="</tr>";
+        for(let i=0;i<=row;i++){ h+="<tr><th>"+(i===0?"不拿":("第"+i+"件 (重"+items[i-1][0]+",值"+items[i-1][1]+")"))+"</th>"; for(let w=0;w<=W;w++)h+="<td class='"+(i===row?"on":"done")+"'>"+f[i][w]+"</td>"; h+="</tr>"; }
+        h+="</table>"; $("knapBox").innerHTML=h; $("progKnap").textContent="已填 "+row+" / 3 行"; $("btnKnap").disabled=row>=3;
+      }
+      const texts=["第 0 行：一件都不拿，价值全是 0。",
+        "第 1 件（重1，值15）：容量 ≥1 就能装，价值变 15。",
+        "第 2 件（重3，值20）：容量 4 时比一比——不装它 15，装它 = f[1][1]+20 = 35，装更值。",
+        "第 3 件（重4，值30）：容量 5 时——不装 35，装它 = f[2][1]+30 = 15+30 = 45。答案 f[3][5] = 45：装第 1 件和第 3 件（总重正好 5）。"];
+      $("btnKnap").addEventListener("click",()=>{ if(row<3){ row++; $("sayKnap").textContent=texts[row]; render(); } });
+      $("btnKnapReset").addEventListener("click",()=>{ row=0; $("sayKnap").textContent="一行一件物品：一行行往下填。最后右下角就是答案。"; render(); });
+      render();
+    })();
+    /* ---- S13 coins ---- */
+    (function(){
+      const coins=[1,2,5]; let f=[1,0,0,0,0,0]; let step=0;
+      function render(){ cellsRow($("coinRow"),6,i=>f[i-1],i=>"",i=>"f["+(i-1)+"]"); $("progCoin").textContent="已用 "+step+" / 3 种硬币"; $("btnCoin").disabled=step>=3; }
+      $("btnCoin").addEventListener("click",()=>{ if(step<3){ const c=coins[step]; for(let w=c;w<=5;w++)f[w]+=f[w-c]; step++; $("sayCoin").textContent="用硬币 "+c+" 更新完：f = ["+f.join(", ")+"]。正着从小到大走，所以同一枚硬币可以反复用。"+(step===3?" 全部硬币用完：f[5] = 4 种凑法 ✓":""); render(); } });
+      $("btnCoinReset").addEventListener("click",()=>{ f=[1,0,0,0,0,0]; step=0; $("sayCoin").textContent="重置了：只有 f[0]=1（凑 0 元有 1 种：什么都不拿）。依次用硬币 1、2、5 更新。"; render(); });
+      render();
+    })();
+    /* ---- S14 stones ---- */
+    (function(){
+      const seq=[
+        {piles:[4,1,2,3],text:"四堆：4、1、2、3。先找最便宜的一对邻居。"},
+        {piles:[4,3,3],text:"第 1 步：合并 1 和 2 → 新堆 3，花费 3。现在：4、3、3。"},
+        {piles:[4,6],text:"第 2 步：合并两个 3 → 新堆 6，花费 6（累计 9）。现在：4、6。"},
+        {piles:[10],text:"第 3 步：合并 4 和 6 → 10，花费 10（累计 19）。总代价 19 —— 这就是 f[1][4]。如果一开始从左往右硬合，要花 22。DP 枚举所有分界点 k，保证找到最省的。"}
+      ];
+      let i=0;
+      function render(){ $("chipsStone").innerHTML=seq[i].piles.map(v=>'<div class="chip w">'+v+"</div>").join(""); $("sayStone").textContent=seq[i].text; $("progStone").textContent="第 "+i+" / 3 步"; $("btnStone").disabled=i>=3; }
+      $("btnStone").addEventListener("click",()=>{ if(i<3)i++; render(); });
+      $("btnStoneReset").addEventListener("click",()=>{ i=0; render(); });
+      render();
+    })();
+    /* ---- S15 graph DFS/BFS ---- */
+    (function(){
+      const adjG={1:[2,3],2:[1,4],3:[1,4],4:[2,3,5],5:[4]};
+      const posG={1:{x:0,depth:1},2:{x:1,depth:0},3:{x:1,depth:2},4:{x:2,depth:1},5:{x:3,depth:1}};
+      const edgesG=[[1,2],[1,3],[2,4],[3,4],[4,5]]; const labG={1:1,2:2,3:3,4:4,5:5};
+      let mode="dfs", order=[], idx=-1;
+      function compute(){ order=[]; const vis={}; if(mode==="dfs"){ (function dfs(u){ vis[u]=1; order.push(u); adjG[u].forEach(v=>{ if(!vis[v])dfs(v); }); })(1); } else { const q=[1]; vis[1]=1; while(q.length){ const u=q.shift(); order.push(u); adjG[u].forEach(v=>{ if(!vis[v]){ vis[v]=1; q.push(v); } }); } } }
+      function render(){ const seen=idx>=0?order.slice(0,idx+1):[]; drawTree($("graphSvg"),posG,edgesG,labG,{sx:100,sy:95,px:55,py:45,r:21,noClick:true,cls:id=>{ if(idx>=0&&Number(id)===order[idx])return"active"; if(seen.indexOf(Number(id))>=0)return"visited"; return""; }}); $("chipsGraph").innerHTML=seen.length?seen.map(v=>'<div class="chip">'+v+"</div>").join(""):'<div class="chip empty">还没出发</div>'; $("progGraph").textContent="已访问 "+seen.length+" / 5"; $("btnGraph").disabled=idx>=order.length-1; }
+      function reset(){ compute(); idx=-1; $("sayGraph").textContent=mode==="dfs"?"DFS：从 1 出发，一条路走到底（1 → 2 → 4 → 3 → 5）——先钻到 4，再回头处理 3。":"BFS：像涟漪扩散（1 → 2 → 3 → 4 → 5）——先把离 1 最近的一圈走完，再往外一圈。"; render(); }
+      $("btnGraph").addEventListener("click",()=>{ if(idx<order.length-1){ idx++; $("sayGraph").textContent="访问 "+order[idx]+" 号点。"+(mode==="dfs"?"（DFS：先把它没走过的邻居一路钻到底）":"（BFS：它出队，它的邻居排到队尾）"); render(); } });
+      $("btnGraphReset").addEventListener("click",reset);
+      document.querySelectorAll("#graphModeSeg button").forEach(b=>b.addEventListener("click",()=>{ mode=b.getAttribute("data-m"); document.querySelectorAll("#graphModeSeg button").forEach(x=>x.classList.toggle("on",x===b)); reset(); }));
+      reset();
+    })();
+    /* ---- S16 topo ---- */
+    (function(){
+      const edgesT={1:[2,3],2:[4],3:[4],4:[5],5:[]};
+      let indeg, done, avail;
+      function reset(){ indeg={1:0,2:1,3:1,4:2,5:1}; done=[]; avail=[1]; $("sayTopo").textContent="开始：只有 1 号入度为 0（没有先修课），先排它。"; render(); }
+      function render(){ $("chipsTopo").innerHTML=done.length?done.map(v=>'<div class="chip">'+v+"</div>").join(""):'<div class="chip empty">还没排</div>'; $("topoState").textContent=done.length>=5?"全部排完：1 → 2 → 3 → 4 → 5（2 和 3 谁先都行，拓扑序不唯一）。":"当前入度为 0、可排的："+avail.join("、")+"；还剩 "+(5-done.length)+" 门没排。"; $("progTopo").textContent="已排 "+done.length+" / 5"; $("btnTopo").disabled=!avail.length; }
+      $("btnTopo").addEventListener("click",()=>{ if(!avail.length)return; const u=avail.shift(); done.push(u); edgesT[u].forEach(v=>{ indeg[v]--; if(indeg[v]===0)avail.push(v); }); $("sayTopo").textContent="排上 "+u+" 号，划掉它指出的边，受影响的课入度 −1。"+(done.length>=5?" 全部排完，而且没剩下排不出的——这个图没有环。":"现在入度为 0 的是："+avail.join("、")+"。"); render(); });
+      $("btnTopoReset").addEventListener("click",reset);
+      reset();
+    })();
+    /* ---- S17 Dijkstra ---- */
+    (function(){
+      const rounds=[
+        {dis:[0,"∞","∞","∞"],text:"初始：只有起点 dis[1] = 0，其余都是 ∞（还没找到路）。"},
+        {dis:[0,2,5,"∞"],text:"定案 1 号（最小，0）。用它松弛：dis[2] = 2，dis[3] = 5。"},
+        {dis:[0,2,3,6],text:"定案 2 号（未定案里最小，2）。松弛：dis[3] 可改成 2+1 = 3（比 5 小，更新！），dis[4] = 2+4 = 6。"},
+        {dis:[0,2,3,6],text:"定案 3 号（3）。松弛：dis[4] 可改成 3+1 = 4（比 6 小，更新！）。"},
+        {dis:[0,2,3,4],text:"定案 4 号（4）。全部定案：dis = [0, 2, 3, 4] ✓ 注意每次被定案的都是当时最小的那个——它已经不可能更短了，这就是 Dijkstra 敢拍板的原因。"}
+      ];
+      let i=0;
+      function render(){ const d=rounds[i].show||rounds[i].dis; let h='<table class="dptable"><tr><th>点</th><th>1</th><th>2</th><th>3</th><th>4</th></tr><tr><th>dis</th>'+d.map(v=>"<td>"+v+"</td>").join("")+"</tr></table>"; $("dijBox").innerHTML=h; $("sayDij").textContent=rounds[i].text; $("progDij").textContent="第 "+i+" / 4 步"; $("btnDij").disabled=i>=4; }
+      $("btnDij").addEventListener("click",()=>{ if(i<4)i++; render(); });
+      $("btnDijReset").addEventListener("click",()=>{ i=0; render(); });
+      render();
+    })();
+    /* ---- S18 Kruskal ---- */
+    (function(){
+      const cand=[["1–2",1],["3–4",1],["2–3",2],["1–3",3],["2–4",4]];
+      const parent={1:1,2:2,3:3,4:4};
+      function find(x){ return parent[x]===x?x:(parent[x]=find(parent[x])); }
+      let i=0, picked=[];
+      function resetState(){ for(let k=1;k<=4;k++)parent[k]=k; i=0; picked=[]; }
+      function render(){ $("chipsKrus").innerHTML=picked.length?picked.map(s=>'<div class="chip w">'+s+"</div>").join(""):'<div class="chip empty">还没挑边，MST 总权 = 0</div>'; $("progKrus").textContent="已看 "+i+" / 5 条候选边"; $("btnKrus").disabled=i>=5; }
+      $("btnKrus").addEventListener("click",()=>{ if(i>=5)return; const [name,w]=cand[i]; const a=Number(name[0]), b=Number(name[2]); i++; if(find(a)!==find(b)){ parent[find(a)]=find(b); picked.push(name+"（权"+w+"）"); $("sayKrus").textContent="挑 "+name+"（权 "+w+"）：两端不在同一伙，收下！已收 "+picked.length+" 条。"+(picked.length===3?" 已经收满 n−1 = 3 条，MST 完成，总权 = 1+1+2 = 4。后面的边不用看了。":""); } else { $("sayKrus").textContent="看 "+name+"（权 "+w+"）：两端已经连成一伙了，收了会成环——跳过。这就是 Kruskal 唯一的判断：成环不要。"; } render(); });
+      $("btnKrusReset").addEventListener("click",()=>{ resetState(); $("sayKrus").textContent="重置了。规则：挑当前最短的边，两端不在同一伙就收下（并查集判断），成环就跳过。"; render(); });
+      render();
+    })();
+
+    </script>
+  </body>
+</html>

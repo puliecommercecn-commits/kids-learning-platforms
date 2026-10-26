@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>少科院数学学习平台 · 数论三讲</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        color-scheme: light dark;
+        --bg:#f7f3ea; --paper:#fffdf7; --surface:#ffffff;
+        --ink:#26313a; --muted:#64707a; --faint:#8b96a0;
+        --line:#e4dcc8; --line-soft:#eee7d5;
+        --teal:#0e7a64; --teal-deep:#0a5c4c; --teal-soft:#e2f1ec;
+        --amber:#d98e1b; --amber-soft:#fdf0da;
+        --red:#c0453a; --red-soft:#fbeae8;
+        --blue:#2f6db3; --blue-soft:#e6eff8;
+        --shadow:0 2px 10px rgba(60,50,20,.07), 0 12px 32px rgba(60,50,20,.05);
+        --r-lg:18px; --r-md:12px; --r-sm:8px;
+        --font:"Noto Sans SC",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+        --serif:"Noto Serif SC",serif;
+        --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg:#131a1c; --paper:#1a2224; --surface:#1e282a;
+          --ink:#ece5d3; --muted:#a7b0a8; --faint:#7d8a8c;
+          --line:#37413f; --line-soft:#2c3634;
+          --teal:#3ec9a7; --teal-deep:#7adbbf; --teal-soft:#173830;
+          --amber:#e5a83e; --amber-soft:#3a2f16;
+          --red:#e07a6d; --red-soft:#3d201c;
+          --blue:#7db1e8; --blue-soft:#1d2f42;
+          --shadow:0 2px 10px rgba(0,0,0,.35), 0 12px 32px rgba(0,0,0,.3);
+        }
+      }
+      *{box-sizing:border-box}
+      html{scroll-behavior:smooth}
+      body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16.5px;line-height:1.75;-webkit-font-smoothing:antialiased}
+      ::selection{background:var(--amber-soft)}
+      .wrap{max-width:880px;margin:0 auto;padding:0 18px 80px}
+
+      /* ---------- hero ---------- */
+      .hero{padding:38px 0 8px}
+      .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(27px,5.6vw,40px);line-height:1.25;margin:0 0 10px;letter-spacing:.01em}
+      .hero h1 .hl{color:var(--teal)}
+      .hero p{margin:0;color:var(--muted);font-size:16px;max-width:640px}
+      .hero .howto{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:14px 18px;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow)}
+      .hero .howto .n{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:900;font-size:15px;margin-top:2px}
+      .hero .howto p{color:var(--ink);font-size:15px}
+      .hero .howto p b{color:var(--teal-deep)}
+
+      /* ---------- module nav ---------- */
+      .modnav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:12px 0 10px;margin-top:22px}
+      .modnav .row{display:flex;gap:10px;flex-wrap:wrap}
+      .modnav a{flex:1 1 150px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 14px;display:block;transition:border-color .15s,transform .15s}
+      .modnav a:hover{border-color:var(--teal)}
+      .modnav a .t{font-weight:900;font-size:15.5px;display:block;line-height:1.4}
+      .modnav a .s{font-size:12.5px;color:var(--muted);display:block;line-height:1.5}
+      .modnav a .prog{font-size:12px;color:var(--teal);font-weight:700}
+      .scorebar{margin-top:10px;font-size:13.5px;color:var(--muted)}
+      .scorebar b{color:var(--teal-deep);font-size:15px}
+
+      /* ---------- module / station ---------- */
+      .module{margin-top:54px}
+      .module-head{display:flex;align-items:baseline;gap:14px;border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:6px}
+      .module-head .no{font-family:var(--mono);font-weight:700;color:var(--amber);font-size:15px;letter-spacing:.08em}
+      .module-head h2{font-family:var(--serif);font-weight:900;font-size:clamp(23px,4.6vw,31px);margin:0;line-height:1.3}
+      .module-head .goal{margin-left:auto;text-align:right;font-size:13px;color:var(--muted);max-width:260px;line-height:1.55}
+      @media (max-width:620px){.module-head .goal{display:none}}
+      .station{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:26px 26px 22px;margin-top:22px}
+      @media (max-width:620px){.station{padding:20px 16px 18px}}
+      .station .kicker{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:700;letter-spacing:.14em;color:var(--amber);margin-bottom:6px}
+      .station .kicker::after{content:"";flex:1;height:1px;background:var(--line)}
+      .station h3{font-size:21px;font-weight:900;margin:0 0 4px;line-height:1.45}
+      .station h3 .tag{font-size:12px;font-weight:700;color:var(--teal);background:var(--teal-soft);border-radius:99px;padding:2px 10px;vertical-align:3px;margin-left:8px;white-space:nowrap}
+      .one-line{font-size:17.5px;font-weight:700;background:var(--teal-soft);border-radius:var(--r-md);padding:12px 16px;margin:12px 0 4px;line-height:1.65}
+      .one-line .q{color:var(--teal-deep)}
+      .analogy{color:var(--muted);font-size:15.5px;margin:10px 0 0}
+      .analogy b{color:var(--ink)}
+      .concept{margin-top:12px;font-size:16px}
+      .concept p{margin:8px 0}
+      .formula{font-family:var(--mono);background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r-md);padding:12px 16px;margin:12px 0;font-size:16px;line-height:1.8}
+      .formula b{color:var(--teal-deep)}
+      .warn{background:var(--amber-soft);border-radius:var(--r-md);padding:11px 15px;font-size:15px;margin:12px 0}
+      .warn b{color:#9a6206}
+      @media (prefers-color-scheme: dark){.warn b{color:var(--amber)}}
+
+      /* ---------- widgets ---------- */
+      .widget{margin-top:18px;border:1px dashed var(--line);border-radius:var(--r-md);padding:16px;background:var(--surface)}
+      .widget .wtitle{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-bottom:10px}
+      .btn{appearance:none;border:1px solid var(--teal);background:var(--teal);color:#fff;font-family:var(--font);font-weight:700;font-size:15px;border-radius:99px;padding:9px 22px;cursor:pointer;transition:transform .12s,background .15s,opacity .15s}
+      .btn:hover{background:var(--teal-deep)}
+      .btn:active{transform:scale(.97)}
+      .btn.ghost{background:transparent;color:var(--teal-deep);border-color:var(--line)}
+      .btn.ghost:hover{border-color:var(--teal);background:var(--teal-soft)}
+      .btn:disabled{opacity:.45;cursor:default}
+      .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center}
+      .readout{font-size:15.5px;margin-top:12px;min-height:28px;line-height:1.7}
+      .readout b{color:var(--teal-deep)}
+      .readout .big{font-family:var(--mono);font-size:19px;font-weight:700}
+
+      /* sieve grid */
+      .sieve{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;max-width:520px}
+      .sieve .cell{aspect-ratio:1;display:grid;place-items:center;font-family:var(--mono);font-size:14.5px;font-weight:600;border-radius:8px;background:var(--paper);border:1px solid var(--line-soft);transition:all .3s}
+      .sieve .cell.crossed{opacity:.28;text-decoration:line-through;background:transparent}
+      .sieve .cell.prime{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700}
+      .sieve .cell.one{opacity:.4}
+      @media (max-width:480px){.sieve .cell{font-size:12px;border-radius:6px}.sieve{gap:3px}}
+
+      /* short division ladder */
+      .ladder{font-family:var(--mono);font-size:17px;line-height:2}
+      .ladder .step{display:flex;gap:0;align-items:baseline;opacity:0;transform:translateY(4px);transition:opacity .35s,transform .35s}
+      .ladder .step.show{opacity:1;transform:none}
+      .ladder .div{color:var(--amber);font-weight:700;min-width:34px}
+      .ladder .quot{border-left:2px solid var(--ink);padding-left:12px}
+      .ladder .note{font-family:var(--font);font-size:13.5px;color:var(--muted);margin-left:14px}
+
+      /* chips / presets */
+      .chips{display:flex;gap:8px;flex-wrap:wrap}
+      .chip{appearance:none;font-family:var(--mono);font-size:15.5px;font-weight:700;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:99px;padding:6px 18px;cursor:pointer;transition:all .15s}
+      .chip:hover{border-color:var(--teal)}
+      .chip.on{border-color:var(--teal);background:var(--teal-soft);color:var(--teal-deep)}
+      .factorline{font-family:var(--mono);font-size:19px;margin:14px 0 4px;line-height:1.9}
+      .factorline .exp{color:var(--amber);font-weight:700}
+      .calcsteps{font-size:15.5px;line-height:2}
+      .calcsteps .hl-num{font-family:var(--mono);font-weight:700;color:var(--teal-deep)}
+
+      /* remainder playground */
+      .pg-inputs{display:flex;gap:14px;flex-wrap:wrap}
+      .pg-inputs label{font-size:13.5px;color:var(--muted);font-weight:700;display:flex;flex-direction:column;gap:5px}
+      .pg-inputs input{font-family:var(--mono);font-size:18px;font-weight:700;width:96px;padding:8px 10px;border:1.5px solid var(--line);border-radius:var(--r-sm);background:var(--paper);color:var(--ink);text-align:center}
+      .pg-inputs input:focus{outline:none;border-color:var(--teal)}
+      .pg-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:15px}
+      .pg-table th,.pg-table td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line-soft)}
+      .pg-table th{font-size:13px;color:var(--muted);letter-spacing:.04em}
+      .pg-table td.num{font-family:var(--mono);font-weight:700;white-space:nowrap}
+      .pg-table td .ok{color:var(--teal);font-weight:900}
+      @media (max-width:560px){.pg-table{font-size:13.5px}.pg-table th,.pg-table td{padding:6px 6px}}
+
+      /* method cards */
+      .methods{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+      @media (max-width:680px){.methods{grid-template-columns:1fr}}
+      .method{border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;background:var(--paper)}
+      .method h4{margin:0 0 6px;font-size:16.5px;font-weight:900;color:var(--teal-deep)}
+      .method p{margin:0;font-size:14.5px;color:var(--muted);line-height:1.65}
+      .method .ex{font-family:var(--mono);font-size:13.5px;color:var(--ink);display:block;margin-top:8px;line-height:1.7}
+
+      /* stepper (例题精讲) */
+      .problem{background:var(--amber-soft);border-radius:var(--r-md);padding:14px 18px;font-size:16.5px;line-height:1.8;margin-top:14px}
+      .problem .src{font-size:12.5px;font-weight:700;color:#9a6206;letter-spacing:.08em;display:block;margin-bottom:4px}
+      @media (prefers-color-scheme: dark){.problem .src{color:var(--amber)}}
+      .steps{margin-top:14px}
+      .stepitem{display:none;gap:13px;padding:11px 0;border-bottom:1px dashed var(--line-soft)}
+      .stepitem.show{display:flex}
+      .stepitem .sn{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--amber);color:#fff;font-weight:900;font-size:14px;display:grid;place-items:center;margin-top:3px}
+      .stepitem .sb{flex:1;font-size:16px;line-height:1.75}
+      .stepitem .sb .mono{font-family:var(--mono);font-weight:700}
+      .stepitem .sb .why{color:var(--muted);font-size:14.5px;display:block}
+      .answer{display:none;margin-top:16px;background:var(--teal-soft);border-radius:var(--r-md);padding:13px 17px;font-size:16.5px}
+      .answer.show{display:block}
+      .answer b{color:var(--teal-deep)}
+
+      /* homework （课后作业解答） */
+      .hw{border-top:1px solid var(--line-soft);padding:17px 0 6px;margin-top:8px}
+      .hw-head{display:flex;gap:11px;align-items:flex-start}
+      .hw-no{flex:0 0 auto;font-size:12px;font-weight:900;color:#9a6206;background:var(--amber-soft);border-radius:99px;padding:3px 11px;margin-top:4px;letter-spacing:.05em;white-space:nowrap}
+      @media (prefers-color-scheme: dark){.hw-no{color:var(--amber)}}
+      .hw-q{font-size:16.5px;line-height:1.8;font-weight:500}
+      .hw-q .mono,.hw-sol .mono{font-family:var(--mono);font-weight:700}
+      .hw-btn{margin-top:11px}
+      .hw-sol{display:none;margin-top:12px;background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r-md);padding:13px 17px;font-size:15.5px;line-height:1.8}
+      .hw.open .hw-sol{display:block}
+      .hw-sol p{margin:7px 0}
+      .hw-sol p:first-child{margin-top:0}
+      .hw-sol .hw-ans{background:var(--teal-soft);border-radius:var(--r-sm);padding:9px 13px;margin-top:11px}
+      .hw-sol .hw-ans b{color:var(--teal-deep)}
+
+      /* digit splitter */
+      .digits{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 4px}
+      .digit-card{flex:1 1 70px;max-width:110px;text-align:center;border:1.5px solid var(--line);border-radius:var(--r-md);padding:10px 4px 8px;background:var(--paper)}
+      .digit-card .d{font-family:var(--mono);font-size:30px;font-weight:700;line-height:1.15}
+      .digit-card .p{font-size:12px;color:var(--muted)}
+      .digit-card .v{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--teal-deep)}
+      .numinput{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+      .numinput input{font-family:var(--mono);font-size:20px;font-weight:700;width:170px;padding:9px 12px;border:1.5px solid var(--line);border-radius:var(--r-sm);background:var(--paper);color:var(--ink);text-align:center;letter-spacing:.06em}
+      .numinput input:focus{outline:none;border-color:var(--teal)}
+
+      /* pairing visual */
+      .pairs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+      .pair{font-family:var(--mono);font-weight:700;font-size:15.5px;border:1.5px solid var(--line);border-radius:99px;padding:5px 15px;background:var(--paper)}
+      .pair.lonely{border-color:var(--amber);background:var(--amber-soft);color:#9a6206}
+      @media (prefers-color-scheme: dark){.pair.lonely{color:var(--amber)}}
+
+      /* bulbs */
+      .bulbs{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;max-width:430px}
+      .bulb{aspect-ratio:1;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:14px;font-weight:700;color:var(--faint);background:var(--paper);transition:all .25s}
+      .bulb.on{background:#ffd964;border-color:#e3b93c;color:#6b5200;box-shadow:0 0 14px rgba(255,200,40,.55)}
+      .bulb.square{outline:3px solid var(--teal);outline-offset:2px}
+      @media (prefers-color-scheme: dark){.bulb.on{background:#c9a227;border-color:#e3b93c;color:#fff8dd}}
+
+      /* quiz */
+      .quiz{margin-top:16px}
+      .q{border-top:1px solid var(--line-soft);padding:16px 0 6px}
+      .q:first-child{border-top:none;padding-top:4px}
+      .q .qtext{font-size:16.5px;font-weight:500;line-height:1.8}
+      .q .qtext .src{font-size:12px;color:var(--faint);font-weight:700;letter-spacing:.06em;margin-right:8px}
+      .opts{display:flex;gap:9px;flex-wrap:wrap;margin-top:11px}
+      .opt{appearance:none;font-family:var(--mono);font-size:16px;font-weight:700;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:var(--r-sm);padding:8px 20px;cursor:pointer;transition:all .15s;min-width:74px}
+      .opt:hover{border-color:var(--teal)}
+      .opt.right{border-color:var(--teal);background:var(--teal-soft);color:var(--teal-deep)}
+      .opt.wrong{border-color:var(--red);background:var(--red-soft);color:var(--red)}
+      .opt:disabled{cursor:default;opacity:.85}
+      .explain{display:none;margin-top:11px;font-size:15px;color:var(--muted);background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r-md);padding:11px 15px;line-height:1.75}
+      .explain.show{display:block}
+      .explain b{color:var(--ink)}
+      .explain .verdict{font-weight:900}
+      .explain .verdict.ok{color:var(--teal)}
+      .explain .verdict.no{color:var(--red)}
+
+      .foot{margin-top:56px;border-top:1px solid var(--line);padding-top:16px;font-size:13.5px;color:var(--faint);line-height:1.8}
+      @media (prefers-reduced-motion: reduce){
+        html{scroll-behavior:auto}
+        .sieve .cell,.ladder .step,.bulb{transition:none}
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+
+      <header class="hero">
+        <h1>数论三讲：<span class="hl">从一句话概念</span>，走到讲义原题</h1>
+        <p>这是少科院选拔课的数论部分。讲义默认你已经会「把文字翻译成算式」，所以听不懂多半卡在这一步。下面每一站都按同一个节奏走，不跳步：</p>
+        <div class="howto">
+          <div class="n">1</div>
+          <p><b>先懂概念</b>——每个知识点先用一句话说清，再配一个生活比方；接着 <b>动手玩一玩</b>——筛质数、短除、翻灯泡，都能点着看；然后 <b>拆一道讲义原题</b>——一步一步点着往下走；最后 <b>做一道同类演练</b>，答完马上知道错在哪。</p>
+        </div>
+      </header>
+
+      <nav class="modnav" aria-label="模块导航">
+        <div class="row">
+          <a href="#m1"><span class="t">模块一 · 因倍质合</span><span class="s">质数、分解质因数、因数个数</span><span class="prog" id="prog-m1"></span></a>
+          <a href="#m2"><span class="t">模块二 · 整除与余数</span><span class="s">余数性质、同余、剩余问题</span><span class="prog" id="prog-m2"></span></a>
+          <a href="#m3"><span class="t">模块三 · 位值与平方数</span><span class="s">位值原理、完全平方数</span><span class="prog" id="prog-m3"></span></a>
+          <a href="#final"><span class="t">学懂了吗 · 终测</span><span class="s">两道小题，检验三讲</span><span class="prog" id="prog-final"></span></a>
+        </div>
+        <div class="scorebar">得分：<b id="score">0 / 11</b>（每个模块 3 道演练 + 最后 2 道小测，答对才算分，答错可以看解析再想；课后作业的解答在每个模块里，先自己做再点开对）</div>
+      </nav>
+
+      <!-- ================= 模块一 ================= -->
+      <section class="module" id="m1">
+        <div class="module-head">
+          <span class="no">MODULE 01</span>
+          <h2>因倍质合综合</h2>
+          <span class="goal">这一讲的总开关只有一句话：遇到数论题，先分解质因数。</span>
+        </div>
+
+        <!-- 1-1 质数与合数 -->
+        <article class="station" id="s1-1">
+          <div class="kicker">知识点 1</div>
+          <h3>质数与合数：只能被 1 和自己整除的数</h3>
+          <div class="one-line"><span class="q">一句话：</span>一个数的因数如果只有 1 和它本身两个，它就是<b>质数</b>；因数超过两个，就是<b>合数</b>。1 很特殊——它只有一个因数，所以既不是质数，也不是合数。</div>
+          <p class="analogy">打个比方：一块乐高积木如果只能整块用、拆不开，它就是质数；能拆成小块拼起来的，就是合数。100 以内一共有 <b>25 个质数</b>，除了 2 以外全是奇数；除了 2 和 5，其余质数的个位只能是 1、3、7、9。</p>
+          <div class="widget">
+            <div class="wtitle">动手玩 · 埃拉托斯特尼筛法：把合数一个个划掉，剩下的就是质数</div>
+            <div class="sieve" id="sieve"></div>
+            <div class="btnrow">
+              <button class="btn" id="sieveBtn">开始筛</button>
+              <button class="btn ghost" id="sieveReset">重来</button>
+            </div>
+            <div class="readout" id="sieveRead">点「开始筛」：先划掉 2 的倍数，再划掉 3、5、7 的倍数——为什么只筛到 7？因为下一个质数 11 的平方是 121，已经超过 100 了。</div>
+          </div>
+          <div class="concept">
+            <p><b>判断一个数是不是质数</b>（讲义的方法）：找一个比它大一点的平方数，比如判断 149，想到 144 = 12²，就只需要试除不大于 12 的质数：2、3、5、7、11。一个都除不尽，149 就是质数。道理是：如果它能被一个大数整除，就一定先能被一个小数整除。</p>
+          </div>
+        </article>
+
+        <!-- 1-2 分解质因数 -->
+        <article class="station" id="s1-2">
+          <div class="kicker">知识点 2 · 全讲的总开关</div>
+          <h3>分解质因数：把数字拆到不能再拆</h3>
+          <div class="one-line"><span class="q">一句话：</span>把一个合数写成几个质数相乘的形式，就叫<b>分解质因数</b>。这一步是几乎所有数论题的突破口——数字拆开以后，它的因数有几个、能不能整除、末尾有几个 0，全都看得见了。</div>
+          <p class="analogy">就像把一台机器拆成零件：没拆之前你只知道「它坏了」，拆开以后才知道哪个零件出了问题。下面用<b>短除法</b>拆一个数：1764——记住它，射箭那道例题马上要用。</p>
+          <div class="widget">
+            <div class="wtitle">动手看 · 短除法拆 1764（一步一步点）</div>
+            <div class="ladder" id="ladder1764">
+              <div class="step"><span class="div">2</span><span class="quot">1764</span><span class="note">偶数，先除以最小的质数 2</span></div>
+              <div class="step"><span class="div">2</span><span class="quot">882</span><span class="note">还是偶数，再除以 2</span></div>
+              <div class="step"><span class="div">3</span><span class="quot">441</span><span class="note">各位数字和 4+4+1=9，能被 3 整除</span></div>
+              <div class="step"><span class="div">3</span><span class="quot">147</span><span class="note">1+4+7=12，还能被 3 整除</span></div>
+              <div class="step"><span class="div">7</span><span class="quot">49</span><span class="note">49 是 7 的「地盘」</span></div>
+              <div class="step"><span class="div">7</span><span class="quot">7</span><span class="note">再除以 7</span></div>
+              <div class="step"><span class="div"></span><span class="quot">1</span><span class="note">拆到底了</span></div>
+            </div>
+            <div class="btnrow">
+              <button class="btn" data-step-next="ladder1764">下一步</button>
+              <button class="btn ghost" data-step-reset="ladder1764">重来</button>
+            </div>
+            <div class="readout" id="ladder1764Read">把左边的除数收集起来：<span class="big">1764 = 2² × 3² × 7²</span>。注意每个质数都出现了 2 次——这个「2、2、2」等会儿是解题的关键。</div>
+          </div>
+        </article>
+
+        <!-- 1-3 因数个数定理 -->
+        <article class="station" id="s1-3">
+          <div class="kicker">知识点 3</div>
+          <h3>因数个数定理：指数加 1 再相乘</h3>
+          <div class="one-line"><span class="q">一句话：</span>把 N 分解质因数，每个质数的<b>指数加 1</b>，再把这些数乘起来，就是 N 的因数个数。</div>
+          <p class="analogy">为什么是「加 1」？拼一个因数的时候，每个质数都有「选 0 个、选 1 个、……选到最高次」这么多种选法。比如 2³ 里的 2，可以选 0、1、2、3 个——共 4 种，正好是 3+1。选法相乘，就是因数的总数。</p>
+          <div class="widget">
+            <div class="wtitle">动手算 · 选一个数，看它的因数个数怎么数出来</div>
+            <div class="chips" id="dcountChips">
+              <button class="chip on" data-n="1400">1400</button>
+              <button class="chip" data-n="1764">1764</button>
+              <button class="chip" data-n="21000">21000</button>
+              <button class="chip" data-n="36">36</button>
+            </div>
+            <div class="factorline" id="dcountFactor"></div>
+            <div class="calcsteps" id="dcountSteps"></div>
+          </div>
+          <div class="concept">
+            <p>顺带记住<b>因数和</b>的算法：每种质因数从 1 开始加到它的最高次幂，各算一份，再把几份相乘。例如 21000 = 2³×3×5³×7，因数和 = (1+2+4+8)×(1+3)×(1+5+25+125)×(1+7) = 74880。</p>
+          </div>
+        </article>
+
+        <!-- 1-4 最大公因数与最小公倍数 -->
+        <article class="station" id="s1-4">
+          <div class="kicker">知识点 4</div>
+          <h3>最大公因数与最小公倍数：一对好搭档</h3>
+          <div class="one-line"><span class="q">一句话：</span>几个数共有的因数里最大的，叫<b>最大公因数</b>，记作 (A, B)；共有的倍数里最小的，叫<b>最小公倍数</b>，记作 [A, B]。如果两个数的最大公因数是 1，就说它们<b>互质</b>。</div>
+          <p class="analogy">最有用的一个关系，先记住它：<b>A × B = (A, B) × [A, B]</b>。就像两个人合伙开店：总钱数不变，分法只有两种——按「最大公因数 × 剩下的」算，或者按「最小公倍数」算，乘积永远对得上。所以知道其中三个量，第四个立刻能算出来。</p>
+          <div class="formula">例：A = 48，B = 180 → (A, B) = <b>12</b>，[A, B] = <b>720</b>；验算：48 × 180 = 8640 = 12 × 720 ✓</div>
+          <div class="concept">
+            <p><b>短除模型</b>（讲义的写法）：若 (A, B) = d，就写 A = d×a，B = d×b，其中 a、b 互质。这时 [A, B] = d×a×b。很多「已知最大公因数和两数之和」的题，都是先把 A、B 设成 d×a、d×b 再往下做——把两个未知数变成「一份是多少」的问题。</p>
+          </div>
+        </article>
+
+        <!-- 1-5 例题：射箭 -->
+        <article class="station" id="s1-5">
+          <div class="kicker">例题精讲</div>
+          <h3>射箭 1764：乘积定死之后，怎么凑每一箭<span class="tag">讲义例 2</span></h3>
+          <div class="problem"><span class="src">讲义原题 · 模块一例 2</span>在一次射箭运动中，每箭射中的环数是不超过 10 的自然数。甲、乙两名运动员各射 5 箭，每人环数的乘积都是 1764，但甲的总环数比乙少 4 环。求甲、乙每箭的环数分别是多少。</div>
+          <div class="steps" data-stepper>
+            <div class="stepitem"><span class="sn">1</span><div class="sb"><b>先拆 1764。</b>这就是刚练过的：<span class="mono">1764 = 2² × 3² × 7²</span>。<span class="why">为什么先拆？因为每一箭的环数都是 1764 的因数，5 箭相乘要正好凑出这些质因数，一个不多、一个不少。</span></div></div>
+            <div class="stepitem"><span class="sn">2</span><div class="sb"><b>看看一箭能是几环。</b>每箭 ≤ 10，且必须是 1764 的因数：只能由 2、3、7 拼，且不能出现 14（2×7）、21（3×7）这种超过 10 的组合，所以每箭只能是 <span class="mono">1、2、3、4、6、7、9</span>。</div></div>
+            <div class="stepitem"><span class="sn">3</span><div class="sb"><b>先安顿两个 7。</b>质因数里有两个 7，而一箭最多含一个 7（49 &gt; 10），所以 5 箭里<b>必有两箭是 7 环</b>，甲、乙都一样。</div></div>
+            <div class="stepitem"><span class="sn">4</span><div class="sb"><b>剩下三箭凑 36。</b>1764 ÷ 49 = 36 = 2²×3²，剩下三箭的乘积必须是 36，每箭从 {1,2,3,4,6,9} 里选。一共只有 5 种凑法：<span class="mono">(9,4,1) 和 14、(9,2,2) 和 13、(6,6,1) 和 13、(6,3,2) 和 11、(4,3,3) 和 10</span>。</div></div>
+            <div class="stepitem"><span class="sn">5</span><div class="sb"><b>用「差 4 环」定位。</b>加上两箭 7 环，总环数的可能值是 28、27、27、25、24。甲比乙少 4 环，只有 <span class="mono">28 − 24 = 4</span> 对得上。所以乙是和为 28 的那组，甲是和为 24 的那组。</div></div>
+          </div>
+          <div class="btnrow"><button class="btn" data-step-btn>看第一步</button></div>
+          <div class="answer" data-answer><b>答案：</b>甲每箭 <b>3、3、4、7、7</b>（共 24 环）；乙每箭 <b>1、4、7、7、9</b>（共 28 环）。验算：3×3×4×7×7 = 1764 ✓，1×4×7×7×9 = 1764 ✓。</div>
+        </article>
+
+        <!-- 1-6 例题：6个因数 -->
+        <article class="station" id="s1-6">
+          <div class="kicker">例题精讲</div>
+          <h3>恰好有 6 个因数的数：从指数的形状倒推<span class="tag">讲义例 3</span></h3>
+          <div class="problem"><span class="src">讲义原题 · 模块一例 3</span>在 1 到 100 中，恰好有 6 个因数的数有多少个？</div>
+          <div class="steps" data-stepper>
+            <div class="stepitem"><span class="sn">1</span><div class="sb"><b>先想「6 是怎么乘出来的」。</b>因数个数 = 各（指数+1）相乘。要乘出 6，只有两种形状：<span class="mono">6 = 6</span>（一个质数，指数 5，即 p⁵），或 <span class="mono">6 = 3 × 2</span>（两个质数，指数 2 和 1，即 p²×q）。<span class="why">这一步叫「从结果倒推形状」——不用一个一个试 100 个数，先把符合条件的数的样子定下来。</span></div></div>
+            <div class="stepitem"><span class="sn">2</span><div class="sb"><b>数 p⁵ 型：</b>2⁵ = 32 ✓；3⁵ = 243 已经超过 100。所以只有 <span class="mono">32</span> 一个。</div></div>
+            <div class="stepitem"><span class="sn">3</span><div class="sb"><b>数 p²×q 型（p、q 是不同质数）：</b>逐个试平方的底数——<br>4×q：q 取 3、5、7、11、13、17、19、23 → 12、20、28、44、52、68、76、92，共 <span class="mono">8</span> 个；<br>9×q：q 取 2、5、7、11 → 18、45、63、99，共 <span class="mono">4</span> 个；<br>25×q：q 取 2、3 → 50、75，共 <span class="mono">2</span> 个；<br>49×q：q 取 2 → 98，共 <span class="mono">1</span> 个。</div></div>
+          </div>
+          <div class="btnrow"><button class="btn" data-step-btn>看第一步</button></div>
+          <div class="answer" data-answer><b>答案：</b>1 + 8 + 4 + 2 + 1 = <b>16 个</b>。这类题的套路就是：先按指数形状分类，再逐类数个数。</div>
+        </article>
+
+        <!-- 1-hw 课后作业 -->
+        <article class="station" id="s1-hw">
+          <div class="kicker">课后作业 · 讲义巩固演练</div>
+          <h3>模块一作业解答<span class="tag">讲义演练 1–5</span></h3>
+          <p class="analogy">这 5 道就是讲义最后留的作业，解答全在这里。规矩不变：<b>先自己在草稿纸上做完，再点「看解答」对</b>。做错的那道，回到前面对应的知识点再看一遍——错题才是真正要补的洞。</p>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 1</span><span class="hw-q">已知 P、Q 都是质数，并且 P × 11 − Q × 93 = 2003，则 P × Q = ________。</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p><b>盯住奇偶。</b>2003 是奇数；两个乘积相减得到奇数，说明 11P 和 93Q 必须一奇一偶。11 和 93 都是奇数，所以乘积的奇偶就跟着 P、Q 走——P、Q 里必有一个是偶数，而质数里只有 <b>2</b> 是偶数。</p>
+              <p><b>排除一种可能。</b>如果偶数是 P（P = 2），那么 11P = 22，还没 2003 大，减不出正数，不可能。所以偶数只能是 Q：<span class="mono">Q = 2</span>。</p>
+              <p><b>代入求 P。</b>11P = 2003 + 93 × 2 = 2189，P = 2189 ÷ 11 = <span class="mono">199</span>，199 是质数 ✓。</p>
+              <p class="hw-ans"><b>答案：P × Q = 199 × 2 = 398。</b>这类「质数方程」先别急着试数，先看奇偶——质数里藏着一个唯一的偶数 2，这是最常用的突破口。</p>
+            </div>
+          </div>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 2</span><span class="hw-q">甲、乙、丙、丁四个人打靶，每人打三枪。四人各自的环数之积都是 60，且环数是不超过 10 的自然数。把四人的成绩按总环数由高到低排列，依次是甲、乙、丙、丁。如果四人中只有一个人打出过 4 环，那么这个人是________。</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p><b>和射箭例题同一招：先拆 60。</b><span class="mono">60 = 2² × 3 × 5</span>。三枪乘积是 60、每枪在 1 到 10 之间，可能的组合只有 4 种（按总环数从高到低）：</p>
+              <p><span class="mono">(1, 6, 10) 和 17；(2, 3, 10) 和 15；(2, 5, 6) 和 13；(3, 4, 5) 和 12</span>。</p>
+              <p><b>对号入座。</b>正好 4 个人、4 种组合，总环数由高到低依次是甲、乙、丙、丁，所以甲 17 环、乙 15 环、丙 13 环、丁 12 环。</p>
+              <p><b>找 4 环。</b>四个组合里带 4 的只有 <span class="mono">(3, 4, 5)</span>，正是总环数最低的丁——和题目「只有一个人打出过 4 环」对得上。</p>
+              <p class="hw-ans"><b>答案：丁。</b></p>
+            </div>
+          </div>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 3</span><span class="hw-q">S = 101 × 102 × 103 × … × 200 的末尾有几个连续的 0？</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p><b>还是例 5 那一招：</b>末尾有几个 0，就看乘积里能凑出几对 (2, 5)。这串数里 2 管够，只数因数 <b>5</b> 的个数。</p>
+              <p><b>分层数 5。</b>101 到 200 中：5 的倍数有 <span class="mono">20</span> 个，各贡献至少 1 个 5；25 的倍数（125、150、175、200）有 <span class="mono">4</span> 个，各再多贡献 1 个；125 = 5³ 还要再多 1 个。合计 <span class="mono">20 + 4 + 1 = 25</span> 个 5。</p>
+              <p class="hw-ans"><b>答案：25 个。</b>最容易漏的就是 125 这一层——它一个数就藏着 3 个 5，数的时候要一层一层剥。</p>
+            </div>
+          </div>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 4</span><span class="hw-q">已知 A、B 两数的最小公倍数是 180，最大公因数是 30，若 A = 90，则 B = ________。</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p>这道就是下面演练区的第 1 题，完整过程再走一遍：用好搭档关系 <span class="mono">A × B = (A, B) × [A, B]</span>，所以 <span class="mono">B = 30 × 180 ÷ 90 = 60</span>。</p>
+              <p>验算：(90, 60) = 30 ✓，[90, 60] = 180 ✓。</p>
+              <p class="hw-ans"><b>答案：60。</b></p>
+            </div>
+          </div>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 5</span><span class="hw-q">用红色和黑色两种刻度线将一根长木棍等分成若干份，沿每条刻度线把木棍锯断。若红、黑刻度线分别将长木棍分成 6 等份和 12 等份，最终木棍被锯成________段。</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p><b>先数刻度线。</b>分成 6 等份要画 <span class="mono">5</span> 条红线；分成 12 等份要画 <span class="mono">11</span> 条黑线。锯的刀数 = <b>不同位置</b>的刻度线条数，所以关键是看有多少条线重合。</p>
+              <p><b>看重合。</b>红线的位置在全长的 1/6、2/6、3/6、4/6、5/6 处，换成十二分之几就是 2/12、4/12、6/12、8/12、10/12——全都正好落在黑线的位置上。5 条红线和黑线<b>完全重合</b>。</p>
+              <p><b>数段数。</b>不同位置的刻度线一共只有 11 条，锯 11 刀，段数 = 11 + 1。</p>
+              <p class="hw-ans"><b>答案：12 段。</b>对照讲义例 7(1)：分成 10 等份和 12 等份时，红线 9 条、黑线 11 条，只在正中间重合 1 条，共 19 条线，锯成 20 段——重合几条，就少锯几刀。</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 1-7 演练 -->
+        <article class="station" id="s1-7">
+          <div class="kicker">演练区 · 答完马上对答案</div>
+          <h3>模块一演练</h3>
+          <div class="quiz" data-quiz="m1">
+            <div class="q">
+              <div class="qtext"><span class="src">讲义演练 4</span>已知 A、B 两数的最小公倍数是 180，最大公因数是 30，若 A = 90，则 B = ？</div>
+              <div class="opts">
+                <button class="opt" data-correct>60</button><button class="opt">45</button><button class="opt">90</button><button class="opt">120</button>
+              </div>
+              <div class="explain"><span class="verdict"></span>用好搭档关系：A × B = (A, B) × [A, B]，所以 B = 30 × 180 ÷ 90 = <b>60</b>。验算：(90, 60) = 30 ✓，[90, 60] = 180 ✓。</div>
+            </div>
+            <div class="q">
+              <div class="qtext"><span class="src">讲义例 5</span>201 × 202 × 203 × … × 300 的结果反复除以 10（商再除以 10，一直重复），在第几次除以 10 时，首次出现不为 0 的余数？</div>
+              <div class="opts">
+                <button class="opt">24</button><button class="opt">25</button><button class="opt" data-correct>26</button><button class="opt">28</button>
+              </div>
+              <div class="explain"><span class="verdict"></span>能除尽一次 10，就要消耗一对 (2, 5)。这串乘积里 2 管够，数 5 的个数：201~300 中 5 的倍数贡献 20 个、25 的倍数再贡献 4 个、125 的倍数再贡献 1 个，共 <b>25</b> 个 5。所以前 25 次都能除尽，第 <b>26</b> 次首次出现余数。</div>
+            </div>
+            <div class="q">
+              <div class="qtext"><span class="src">讲义例 1 改编</span>A、B、C、D 均为质数，A + B = 33，B + C = 44，C + D = 66，则 C × D = ？（提示：和是奇数时，两个加数里必有一个是偶数——而质数里只有 2 是偶数）</div>
+              <div class="opts">
+                <button class="opt">611</button><button class="opt" data-correct>689</button><button class="opt">731</button><button class="opt">403</button>
+              </div>
+              <div class="explain"><span class="verdict"></span>A + B = 33 是奇数，所以 A、B 里有一个是 2；B + C = 44 是偶数，B、C 同奇偶，只能都是奇质数，于是 <b>A = 2</b>。顺藤摸瓜：B = 31，C = 44 − 31 = 13，D = 66 − 13 = 53，C × D = 13 × 53 = <b>689</b>。</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ================= 模块二 ================= -->
+      <section class="module" id="m2">
+        <div class="module-head">
+          <span class="no">MODULE 02</span>
+          <h2>整除与余数综合</h2>
+          <span class="goal">这一讲的总开关：只盯着余数算，最后再还原。</span>
+        </div>
+
+        <!-- 2-1 带余除法 -->
+        <article class="station" id="s2-1">
+          <div class="kicker">知识点 1</div>
+          <h3>带余除法：除不尽的时候，把剩下的记下来</h3>
+          <div class="one-line"><span class="q">一句话：</span>被除数 = 除数 × 商 + 余数，而且<b>余数必须比除数小</b>。写成式子：a = b × q + r（0 ≤ r &lt; b）。</div>
+          <p class="analogy">就像分糖果：23 颗糖分给 5 个人，每人 4 颗，还剩 3 颗——23 = 5 × 4 + 3。如果「剩下 6 颗」，那说明还能再分一轮，商就写错了。这就是「余数 &lt; 除数」的意思。</p>
+          <div class="concept">
+            <p>一条马上能用的推论：<b>（被除数 − 余数）一定是除数和商的倍数</b>。很多题就是把余数先减掉，把「除不尽」变成「正好除尽」来处理。</p>
+          </div>
+        </article>
+
+        <!-- 2-2 余数性质 -->
+        <article class="station" id="s2-2">
+          <div class="kicker">知识点 2</div>
+          <h3>余数的加减乘：只看余数，结果不变</h3>
+          <div class="one-line"><span class="q">一句话：</span>两个数相加、相减、相乘之后再求余数，等于<b>先各自求余数、再加减乘</b>，最后如果超过除数，再除一次取余。</div>
+          <p class="analogy">为什么可以这样？把每个数想成「一堆整捆 + 一把零头」：加减乘的时候，整捆永远凑得出整捆，只有零头决定最后剩下多少。所以大数字的余数问题，可以先把每个数「瘦身」成它的余数再算。</p>
+          <div class="widget">
+            <div class="wtitle">动手算 · 改一改数字，看看「直接算」和「只算余数」是不是永远一样</div>
+            <div class="pg-inputs">
+              <label>a<input type="number" id="pgA" value="23" min="0" max="9999"></label>
+              <label>b<input type="number" id="pgB" value="19" min="0" max="9999"></label>
+              <label>除数 m<input type="number" id="pgM" value="5" min="2" max="99"></label>
+            </div>
+            <table class="pg-table">
+              <tr><th>运算</th><th>直接算的余数</th><th>只用余数算</th><th></th></tr>
+              <tr><td>a + b</td><td class="num" id="pgSumD"></td><td class="num" id="pgSumR"></td><td class="ok" data-ok></td></tr>
+              <tr><td>a − b</td><td class="num" id="pgDifD"></td><td class="num" id="pgDifR"></td><td class="ok" data-ok></td></tr>
+              <tr><td>a × b</td><td class="num" id="pgMulD"></td><td class="num" id="pgMulR"></td><td class="ok" data-ok></td></tr>
+            </table>
+            <div class="readout" id="pgRead"></div>
+            <p class="analogy" style="margin-top:6px">注意两个小坑：余数相加超过除数，要再减掉除数（7 对 5 取余是 2）；余数相减不够减，要先借一个除数（3 − 4 不够，借 5：3 + 5 − 4 = 4）。讲义原例：23、19 除以 5 余 3 和 4，(23 − 19) 除以 5 的余数就是 3 + 5 − 4 = 4。</p>
+          </div>
+        </article>
+
+        <!-- 2-3 同余 -->
+        <article class="station" id="s2-3">
+          <div class="kicker">知识点 3</div>
+          <h3>同余：余数相同，就是「差能被整除」</h3>
+          <div class="one-line"><span class="q">一句话：</span>a、b 除以 m 的余数相同，就说 a、b 对模 m <b>同余</b>，记作 a ≡ b (mod m)。它等价于一件事：<b>a − b 能被 m 整除</b>。</div>
+          <p class="analogy">打个比方：两个人站在同一级台阶上（余数相同），他们之间隔着的台阶数一定是整整几层楼（一层 = m 级）。例：17 和 11 除以 3 都余 2，所以 17 − 11 = 6 能被 3 整除。</p>
+          <div class="concept">
+            <p>这条等价关系是双向的，两个方向都常用：<b>知道余数相同 → 就用它们的差</b>；<b>想证明余数相同 → 就看差能不能整除</b>。下一站的剩余问题，本质上都是在找一个数，让它同时满足几个同余条件。</p>
+            <p>还有一条顺手的推论：如果 a ≡ b (mod m)，那么 a 的几次方 ≡ b 的几次方——幂的余数只看底数的余数。比如求 2019 除以 7 的余数：2019 = 7 × 288 + 3，余数是 3（讲义例 3）。数字再大，先瘦身再说。</p>
+          </div>
+        </article>
+
+        <!-- 2-4 剩余问题三方法 + 例6 -->
+        <article class="station" id="s2-4">
+          <div class="kicker">知识点 4 + 例题精讲</div>
+          <h3>剩余问题三招：减同余、加同补、逐级满足</h3>
+          <div class="one-line"><span class="q">一句话：</span>「一个数除以 a 余 x、除以 b 余 y，求这个数」——先看余数有没有偷懒的机会，没有就一个条件一个条件慢慢筛。</div>
+          <div class="methods">
+            <div class="method"><h4>第一招 · 减同余</h4><p>几个余数<b>都相同</b>时最省事：这个数 = 除数的公倍数 + 那个相同的余数。</p><span class="ex">除以 5 余 3、除以 7 余 3<br>→ 35k + 3</span></div>
+            <div class="method"><h4>第二招 · 加同补</h4><p>余数不同，但「除数 − 余数」<b>都相同</b>（这个差叫补数）时：这个数 = 公倍数 − 补数。</p><span class="ex">除以 5 余 3（差 2）<br>除以 7 余 5（差 2）<br>→ 35k − 2</span></div>
+            <div class="method"><h4>第三招 · 逐级满足</h4><p>什么巧都没有，就老老实实筛：先列满足第一个条件的数，在里面找满足第二个的；再以此类推，步子越迈越大。</p><span class="ex">下面的例题就用这招<br>一步一步点着看</span></div>
+          </div>
+          <div class="problem"><span class="src">讲义原题 · 模块二例 6</span>一个三位数除以 5 余 3，除以 6 余 4，除以 7 余 1，求满足条件的最大的自然数。</div>
+          <div class="steps" data-stepper>
+            <div class="stepitem"><span class="sn">1</span><div class="sb"><b>先列满足第一个条件的数：</b>除以 5 余 3 的数：<span class="mono">3, 8, 13, 18, 23, 28, …</span>（从余数 3 开始，每次加 5）。</div></div>
+            <div class="stepitem"><span class="sn">2</span><div class="sb"><b>在里面找除以 6 余 4 的：</b>逐个试，<span class="mono">28 ÷ 6 = 4 … 4</span> ✓。28 就是同时满足前两个条件的最小的数。以后每加一个「5 和 6 的最小公倍数 30」，两个条件都保持：<span class="mono">28, 58, 88, 118, 148, …</span></div></div>
+            <div class="stepitem"><span class="sn">3</span><div class="sb"><b>再在里面找除以 7 余 1 的：</b>看这些数除以 7 的余数：28→0，58→2，88→4，118→6，148→<span class="mono">1</span> ✓（每次加 30，余数每次加 2，因为 30 除以 7 余 2）。所以最小的满足全部条件的数是 <span class="mono">148</span>。</div></div>
+            <div class="stepitem"><span class="sn">4</span><div class="sb"><b>推到最大三位数：</b>满足全部条件的数每隔 <span class="mono">[5, 6, 7] = 210</span> 出现一次：148, 358, 568, 778, <span class="mono">988</span>, 1198…。三位数里最大的就是 988。</div></div>
+          </div>
+          <div class="btnrow"><button class="btn" data-step-btn>看第一步</button></div>
+          <div class="answer" data-answer><b>答案：988。</b>验算：988 ÷ 5 = 197…3 ✓，988 ÷ 6 = 164…4 ✓，988 ÷ 7 = 141…1 ✓。小窍门（讲义提示）：枚举时优先从除数大的条件开始列，试的次数更少。</div>
+        </article>
+
+        <!-- 2-5 例题：被45整除 -->
+        <article class="station" id="s2-5">
+          <div class="kicker">例题精讲</div>
+          <h3>左右各添一个数码：整除特征要拆开用<span class="tag">讲义例 1</span></h3>
+          <div class="problem"><span class="src">讲义原题 · 模块二例 1(1)</span>在 8264 的左右各添一个数码，使新得到的六位数能被 45 整除，那么这个六位数可能是多少？</div>
+          <div class="steps" data-stepper>
+            <div class="stepitem"><span class="sn">1</span><div class="sb"><b>把 45 拆开：</b>45 = 5 × 9，且 5 与 9 互质。所以「能被 45 整除」＝「既能被 5 整除，又能被 9 整除」，两个条件分开管。<span class="why">这就是模块一的互质在这里的用法：合数整除可以拆成几个互质的整除条件。</span></div></div>
+            <div class="stepitem"><span class="sn">2</span><div class="sb"><b>先管个位（被 5 整除）：</b>右边添的数码只能是 <span class="mono">0 或 5</span>。</div></div>
+            <div class="stepitem"><span class="sn">3</span><div class="sb"><b>再管数字和（被 9 整除）：</b>能被 9 整除的数，各位数字之和能被 9 整除。设左边添 a、右边添 b，数字和 = a + 8 + 2 + 6 + 4 + b = a + b + 20。<br>若 b = 0：a + 20 能被 9 整除 → a = 7，得到 <span class="mono">782640</span>。<br>若 b = 5：a + 25 能被 9 整除 → a = 2，得到 <span class="mono">282645</span>。</div></div>
+          </div>
+          <div class="btnrow"><button class="btn" data-step-btn>看第一步</button></div>
+          <div class="answer" data-answer><b>答案：782640 或 282645。</b>两个都验一下：782640 ÷ 45 = 17392 ✓，282645 ÷ 45 = 6281 ✓。「左右各添」这类题，答案常常不止一个，别找到一个就停。</div>
+        </article>
+
+        <!-- 2-hw 课后作业 -->
+        <article class="station" id="s2-hw">
+          <div class="kicker">课后作业 · 讲义巩固演练</div>
+          <h3>模块二作业解答<span class="tag">讲义演练 1–5</span></h3>
+          <p class="analogy">同样：<b>先自己做完，再点「看解答」对</b>。其中演练 3、演练 4 就是本页演练区的题目，这里把完整过程再写一遍，做对了的也可以对照看看步骤有没有更简洁的写法。</p>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 1</span><span class="hw-q">一个七位数 2058xyz 能同时被 2、3、4、5、6、7、8、9 整除，则 x + y + z = ________。</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p><b>条件一大堆，就让它们一个一个上，候选越来越少。</b></p>
+              <p><b>第一关，2 和 5 定个位：</b>同时被 2 和 5 整除，个位只能是 <span class="mono">z = 0</span>。</p>
+              <p><b>第二关，9 定数字和：</b>能被 9 整除（被 3 整除自动满足），各位数字之和 2+0+5+8+x+y+0 = 15 + x + y 要能被 9 整除，所以 <span class="mono">x + y = 3 或 12</span>。</p>
+              <p><b>第三关，8 筛末三位：</b>能被 8 整除只看末三位 xyz。把 x + y = 3 或 12 的组合逐个代入试末三位能不能被 8 整除，只剩三组候选：<span class="mono">(x, y, z) = (1, 2, 0)、(4, 8, 0)、(8, 4, 0)</span>。（被 4、6 整除的条件这时已经自动满足，不用再管。）</p>
+              <p><b>最后一关，7 来验：</b>2058120 ÷ 7 余 1 ✗；2058480 ÷ 7 余 4 ✗；2058840 ÷ 7 = 294120 ✓。只剩最后一组。</p>
+              <p class="hw-ans"><b>答案：x + y + z = 8 + 4 + 0 = 12。</b>这种「同时被一串数整除」的题别想一口吃下：挑最强的条件先上，一关一关筛，和逐级满足法是一个思路。</p>
+            </div>
+          </div>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 2</span><span class="hw-q">已知 N = 1111 + 2 × 1111 + 3 × 1111 + … + 1111 × 1111，求 N 除以 7 的余数。</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p><b>先把 N 整理成乘积。</b>每一项都有因数 1111，提出来：<span class="mono">N = 1111 × (1 + 2 + 3 + … + 1111)</span>。括号里是从 1 加到 1111，等于 1111 × 1112 ÷ 2 = 1111 × 556。所以 <span class="mono">N = 1111 × 1111 × 556</span>。</p>
+              <p><b>只带着余数算。</b>1111 ÷ 7 = 158 … 5；556 ÷ 7 = 79 … 3。余数相乘：<span class="mono">5 × 5 × 3 = 75</span>，75 ÷ 7 = 10 … 5。</p>
+              <p class="hw-ans"><b>答案：余数是 5。</b>N 本人是个 9 位数，根本不用真乘出来——先整理成乘积，再只算余数，这正是余数性质的用武之地。</p>
+            </div>
+          </div>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 3</span><span class="hw-q">某个大于 1 的整数除 412、133、257 得到的余数相同，那么这个整数可能是几？</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p>就是本页演练区的第 2 题，完整过程：设这个数是 d。三个数除以 d 的余数相同，由同余的等价关系，<b>两两之差都能被 d 整除</b>：412 − 133 = 279，412 − 257 = 155，257 − 133 = 124。</p>
+              <p>279、155、124 的最大公因数是 <span class="mono">31</span>，31 的大于 1 的因数只有它本身，所以 d = 31。验算：412、133、257 除以 31 都余 9 ✓。</p>
+              <p class="hw-ans"><b>答案：31。</b></p>
+            </div>
+          </div>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 4</span><span class="hw-q">一个自然数除以 4 余 3，除以 7 余 1，除以 9 余 5，那么这个数最小是________。</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p>就是本页演练区的第 1 题，用<b>逐级满足法</b>：先列除以 7 余 1 的数：1、8、<span class="mono">15</span>……15 除以 4 正好余 3，所以同时满足前两个条件的数是 <span class="mono">15 + 28k</span>（28 是 4 和 7 的最小公倍数）。</p>
+              <p>再看除以 9 的余数：15 除以 9 余 6；每加一个 28，余数加 1（28 除以 9 余 1）。要让余数从 6 变到 5，需要加 8 次：15 + 28 × 8 = <span class="mono">239</span>。验算：239 ÷ 4 余 3 ✓，÷ 7 余 1 ✓，÷ 9 余 5 ✓。</p>
+              <p class="hw-ans"><b>答案：239。</b></p>
+            </div>
+          </div>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 5</span><span class="hw-q">记 N = (2¹ + 1) × (2² + 1) × … × (2²⁰¹¹ + 1)，则 N 的末两位数字是________。</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p><b>2011 个因数相乘，当然不能硬算——盯住其中一个特殊的。</b>算到第 10 项：<span class="mono">2¹⁰ + 1 = 1025 = 25 × 41</span>。所以 N 是 <b>25 的倍数</b>。</p>
+              <p><b>再看奇偶。</b>每一项 (2 的几次方 + 1) 都是奇数，奇数乘奇数还是奇数，所以 N 是奇数。25 的奇数倍，末两位只能是 <span class="mono">25 或 75</span>。</p>
+              <p><b>最后用除以 4 的余数二选一。</b>第一项 2¹ + 1 = 3，除以 4 余 3；从第二项起，2 的平方及以上除以 4 都余 0，所以每一项除以 4 都余 1。于是 N 除以 4 的余数 = 3 × 1 × 1 × … = <span class="mono">3</span>。而 25 除以 4 余 1，75 除以 4 余 3。</p>
+              <p class="hw-ans"><b>答案：末两位是 75。</b>三步都用的是「只看余数」的想法：先用 25 卡住范围，再用奇偶砍掉一半，最后用模 4 定胜负。</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2-6 演练 -->
+        <article class="station" id="s2-6">
+          <div class="kicker">演练区 · 答完马上对答案</div>
+          <h3>模块二演练</h3>
+          <div class="quiz" data-quiz="m2">
+            <div class="q">
+              <div class="qtext"><span class="src">讲义演练 4</span>一个自然数除以 4 余 3，除以 7 余 1，除以 9 余 5，那么这个数最小是多少？（用逐级满足法：先在除以 7 余 1 的数里找除以 4 余 3 的）</div>
+              <div class="opts">
+                <button class="opt">159</button><button class="opt" data-correct>239</button><button class="opt">227</button><button class="opt">491</button>
+              </div>
+              <div class="explain"><span class="verdict"></span>除以 7 余 1：1, 8, <b>15</b>…，15 除以 4 正好余 3，所以前两个条件的解是 15 + 28k。再看除以 9 的余数：15 余 6，每加 28（除以 9 余 1）余数加 1，要变余 5 需加 8 次：15 + 28 × 8 = <b>239</b>。验算：239 ÷ 4 余 3 ✓，÷ 7 余 1 ✓，÷ 9 余 5 ✓。</div>
+            </div>
+            <div class="q">
+              <div class="qtext"><span class="src">讲义演练 3</span>某个大于 1 的整数除 412、133、257 得到的余数相同，那么这个整数可能是几？（提示：余数相同 → 两两之差能被这个数整除）</div>
+              <div class="opts">
+                <button class="opt">29</button><button class="opt">37</button><button class="opt" data-correct>31</button><button class="opt">41</button>
+              </div>
+              <div class="explain"><span class="verdict"></span>设这个数是 d。三个数除以 d 余数相同，由同余可知两两之差都能被 d 整除：412 − 133 = 279，412 − 257 = 155，257 − 133 = 124。279、155、124 的最大公因数是 <b>31</b>，而 31 的大于 1 的因数只有 31 本身。验算：412、133、257 除以 31 都余 9 ✓。</div>
+            </div>
+            <div class="q">
+              <div class="qtext"><span class="src">自编 · 余数性质</span>已知 47 除以 6 余 5，35 除以 6 余 5。不许算出 47 × 35，也能知道 47 × 35 除以 6 的余数是几？</div>
+              <div class="opts">
+                <button class="opt">5</button><button class="opt">4</button><button class="opt" data-correct>1</button><button class="opt">3</button>
+              </div>
+              <div class="explain"><span class="verdict"></span>用乘法性质：余数乘余数，5 × 5 = 25，25 除以 6 余 <b>1</b>。验算：47 × 35 = 1645，1645 ÷ 6 = 274…1 ✓。余数的乘积超过除数时，记得再除一次。</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ================= 模块三 ================= -->
+      <section class="module" id="m3">
+        <div class="module-head">
+          <span class="no">MODULE 03</span>
+          <h2>位值原理与完全平方数</h2>
+          <span class="goal">这一讲的总开关：数字可以拆开看，平方数有一条「指数全偶」的铁链。</span>
+        </div>
+
+        <!-- 3-1 位值原理 -->
+        <article class="station" id="s3-1">
+          <div class="kicker">知识点 1</div>
+          <h3>位值原理：同一个数字，站在哪一位就值多少</h3>
+          <div class="one-line"><span class="q">一句话：</span>一个数字的值 = 它本身 × 它所在数位的权重。把一个数按数位拆开写成和的形式，就能把「数字谜」变成可以算的式子。</div>
+          <p class="analogy">就像足球队员：同一个人，站在前锋位置和站在守门员位置，作用完全不同。数字「2」在个位只值 2，跑到百位就值 200——位置决定身价。</p>
+          <div class="widget">
+            <div class="wtitle">动手拆 · 输入一个数（最多 6 位），看它被拆成什么样</div>
+            <div class="numinput">
+              <input type="text" id="splitInput" value="1234" inputmode="numeric" maxlength="6" aria-label="要拆的数">
+              <button class="btn" id="splitBtn">拆开看</button>
+            </div>
+            <div class="digits" id="splitCards"></div>
+            <div class="readout" id="splitRead"></div>
+          </div>
+          <div class="concept">
+            <p>两种拆法：<b>完全拆分</b>是拆到每一位，如 1234 = 1×1000 + 2×100 + 3×10 + 4；<b>整体拆分</b>是把几位捆在一起看，如三位数 abc = a×100 + bc。遇到含未知数字的题，就设字母、拆开、列式子——下面的例题就是这么做的。</p>
+          </div>
+        </article>
+
+        <!-- 3-2 例题：67倍 -->
+        <article class="station" id="s3-2">
+          <div class="kicker">例题精讲</div>
+          <h3>十位是 0 的三位数：拆开之后，答案自己浮出来<span class="tag">讲义例 1</span></h3>
+          <div class="problem"><span class="src">讲义原题 · 模块三例 1</span>一个十位数字是 0 的三位数，等于它的各位数字之和的 67 倍。交换这个三位数的个位数字和百位数字，得到的新三位数是它的各位数字之和的多少倍？</div>
+          <div class="steps" data-stepper>
+            <div class="stepitem"><span class="sn">1</span><div class="sb"><b>设字母、拆开。</b>设百位是 a、个位是 c，这个三位数按位值原理写出来是 <span class="mono">100a + c</span>，各位数字之和是 <span class="mono">a + c</span>（十位是 0，不贡献）。</div></div>
+            <div class="stepitem"><span class="sn">2</span><div class="sb"><b>按题意列式：</b><span class="mono">100a + c = 67 × (a + c)</span>。展开：100a + c = 67a + 67c，移项得 <span class="mono">33a = 66c</span>，也就是 <span class="mono">a = 2c</span>。<span class="why">注意：这个三位数并不唯一（c 取 1、2、3、4，得到 201、402、603、804）。别慌——题目问的「倍数」可能对每个都一样。</span></div></div>
+            <div class="stepitem"><span class="sn">3</span><div class="sb"><b>算交换后的数：</b>交换百位和个位，新数 = <span class="mono">100c + a = 100c + 2c = 102c</span>；数字之和不变，还是 <span class="mono">a + c = 3c</span>。倍数 = 102c ÷ 3c = <span class="mono">34</span>，c 被约掉了——所以不管原来是哪个数，答案都一样。</div></div>
+          </div>
+          <div class="btnrow"><button class="btn" data-step-btn>看第一步</button></div>
+          <div class="answer" data-answer><b>答案：34 倍。</b>拿 201 验一下：201 = 67 × 3 ✓；交换得 102，102 ÷ 3 = 34 ✓。位值题的固定动作：设字母 → 按位拆开 → 列等式 → 移项。</div>
+        </article>
+
+        <!-- 3-3 完全平方数 -->
+        <article class="station" id="s3-3">
+          <div class="kicker">知识点 2</div>
+          <h3>完全平方数：一条环环相扣的判定链</h3>
+          <div class="one-line"><span class="q">一句话：</span>一个数 × 它自己得到的数（如 6×6=36）叫完全平方数。记住这条链：<b>是平方数 ⇔ 分解质因数后每个指数都是偶数 ⇔ 因数个数是奇数</b>，三头是通的。</div>
+          <p class="analogy">为什么因数个数是奇数？因数总是成双成对出现：36 的因数 1 和 36、2 和 18、3 和 12、4 和 9——每对乘起来都是 36。只有平方数会多出一个「自己跟自己配对」的因数（6 和 6），总数就成了奇数。就像跳舞配对，所有人都有舞伴，只有一个人是单人舞者。</p>
+          <div class="widget">
+            <div class="wtitle">动手看 · 36 的因数配对：谁落了单？</div>
+            <div class="pairs">
+              <span class="pair">1 × 36</span><span class="pair">2 × 18</span><span class="pair">3 × 12</span><span class="pair">4 × 9</span><span class="pair lonely">6 × 6（自己和自己）</span>
+            </div>
+            <div class="readout">36 = 2² × 3²，指数都是偶数 → 因数个数 (2+1) × (2+1) = <b>9 个（奇数）</b> → 36 是平方数。再看 48 = 2⁴ × 3¹：指数里有个 1（奇数）→ 因数个数 (4+1) × (1+1) = 10 个（偶数）→ 48 不是平方数。</div>
+          </div>
+          <div class="concept">
+            <p><b>另外三条常用性质：</b></p>
+            <p>① 末位只能是 0、1、4、5、6、9——看到末位是 2、3、7、8，直接排除。② 夹在两个连续平方数之间的数不是平方数，如 50 在 49 和 64 之间，不是平方数。③ 平方数除以 3 只能余 0 或 1，除以 4 只能余 0 或 1——余数也能当「排除器」。</p>
+            <p>32 以内的平方数建议背熟：1、4、9、16、25、36、49、64、81、100、121、144、169、196、225、256、289、324、361、400……一直到 32² = 1024。</p>
+          </div>
+        </article>
+
+        <!-- 3-4 例题：灯泡 -->
+        <article class="station" id="s3-4">
+          <div class="kicker">例题精讲</div>
+          <h3>250 个灯泡：最后亮着的是哪些编号<span class="tag">讲义例 4(2)</span></h3>
+          <div class="problem"><span class="src">讲义原题 · 模块三例 4(2)</span>少年宫游乐厅内悬挂着 250 个彩色灯泡，按 1~250 编号。第 1 秒全部灯泡亮；第 2 秒，凡编号为 2 的倍数的灯泡改变状态（亮变暗、暗变亮）；第 3 秒，凡编号为 3 的倍数的灯泡改变状态……第 n 秒，凡编号为 n 的倍数的灯泡改变状态。这样继续下去，第 250 秒时，亮着的灯泡有多少个？</div>
+          <p class="concept">先别想 250 个，拿 <b>25 个</b>灯泡在下面亲手模拟一遍，规律自己会跳出来：</p>
+          <div class="widget">
+            <div class="wtitle">动手玩 · 25 个灯泡模拟（第 1 秒全亮，之后每秒翻一次倍数编号的灯）</div>
+            <div class="bulbs" id="bulbs"></div>
+            <div class="btnrow">
+              <button class="btn" id="bulbPlay">开始模拟</button>
+              <button class="btn ghost" id="bulbReset">重来</button>
+            </div>
+            <div class="readout" id="bulbRead">准备好了就开始。边看边想：编号 n 的灯泡，一共会被翻多少次？</div>
+          </div>
+          <div class="steps" data-stepper>
+            <div class="stepitem"><span class="sn">1</span><div class="sb"><b>把「翻几次」翻译出来：</b>编号 n 的灯泡，在第 d 秒被翻，当且仅当 d 是 n 的因数。所以它一共被翻的次数，<b>正好是 n 的因数个数</b>。</div></div>
+            <div class="stepitem"><span class="sn">2</span><div class="sb"><b>奇数次才亮：</b>灯从亮开始，翻奇数次 → 还是亮（亮→暗→亮…），翻偶数次 → 暗。所以最后亮着的编号，就是<b>因数个数为奇数</b>的编号。</div></div>
+            <div class="stepitem"><span class="sn">3</span><div class="sb"><b>接上判定链：</b>因数个数为奇数 ⇔ 完全平方数。所以 250 以内亮着的是 1²、2²、…、15² = 225（16² = 256 已超过 250），一共 <span class="mono">15</span> 个。和上面 25 个灯泡的模拟对一对：亮着的是 1、4、9、16、25——正好是 1² 到 5²。</div></div>
+          </div>
+          <div class="btnrow"><button class="btn" data-step-btn>看第一步</button></div>
+          <div class="answer" data-answer><b>答案：15 个。</b>这道题表面在讲灯泡，实际考的是「翻的次数 = 因数个数」这个翻译。选拔题最爱这一手：换个故事外壳，内核还是刚学的性质。</div>
+        </article>
+
+        <!-- 3-hw 课后作业 -->
+        <article class="station" id="s3-hw">
+          <div class="kicker">课后作业 · 讲义巩固演练</div>
+          <h3>模块三作业解答<span class="tag">讲义演练 1–5</span></h3>
+          <p class="analogy">老规矩：<b>先自己做完，再点「看解答」对</b>。这个模块的作业里藏着两个小提醒：演练 1 的答案不止一个，演练 5 甚至没有唯一答案——做题时把条件读全，比算得快更重要。</p>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 1</span><span class="hw-q">一个两位数，是它各个数位数字和的 7 倍，求这个两位数。</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p><b>位值原理列式。</b>设十位是 a、个位是 b：<span class="mono">10a + b = 7(a + b)</span>，展开移项得 3a = 6b，也就是 <span class="mono">a = 2b</span>——十位正好是个位的 2 倍。</p>
+              <p><b>逐个取 b。</b>b 取 1、2、3、4，得到 <span class="mono">21、42、63、84</span>；b 取 0 不是两位数，b 取 5 时 a = 10 就不是一位数了。验算一个：42 的数字和是 6，6 × 7 = 42 ✓。</p>
+              <p class="hw-ans"><b>答案：满足条件的有 4 个——21、42、63、84。</b>题目问「求这个两位数」，其实答案不止一个；考试时只写一个会丢分，列出式子后记得把 b 的取值走完。</p>
+            </div>
+          </div>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 2</span><span class="hw-q">一个六位数，把它的末三位和前三位整体换位，得到一个新的六位数，并且原六位数的 7 倍正好等于新六位数的 6 倍。原来的六位数是________。</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p><b>用整体拆分。</b>把前三位看成一个数 A、末三位看成一个数 B：原数 = <span class="mono">1000A + B</span>，换位后的新数 = <span class="mono">1000B + A</span>。</p>
+              <p><b>列式化简。</b>7 × (1000A + B) = 6 × (1000B + A)，展开得 7000A + 7B = 6000B + 6A，移项：<span class="mono">6994A = 5993B</span>。</p>
+              <p><b>约分定倍数。</b>6994 和 5993 有公因数 13：6994 = 13 × 538，5993 = 13 × 461，约掉 13 得 <span class="mono">538A = 461B</span>。538 和 461 互质，所以 A 必须是 461 的倍数、B 必须是 538 的倍数。A、B 都是三位数，只能取一组：<span class="mono">A = 461，B = 538</span>。</p>
+              <p>验算：461538 × 7 = 3230766；538461 × 6 = 3230766 ✓。</p>
+              <p class="hw-ans"><b>答案：461538。</b></p>
+            </div>
+          </div>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 3</span><span class="hw-q">在 1! × 2! × 3! × … × 99! × 100! 中，至少要删去几项才能使剩下的项的乘积是完全平方数？</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p><b>先换个方式数这个大乘积。</b>数字 m 出现在 m!、(m+1)!、…、100! 里，一共出现 <span class="mono">101 − m</span> 次。所以总乘积 = 1¹⁰⁰ × 2⁹⁹ × 3⁹⁸ × … × 100¹。</p>
+              <p><b>只看指数的奇偶。</b>101 − m 是奇数时（也就是 m 为偶数），这一项没法完全配成平方，会「露头」；m 为奇数时，m 的幂本身就是平方的一部分。把露头的偶数全乘起来：2 × 4 × 6 × … × 100 = 2⁵⁰ × 50!，而 2⁵⁰ = (2²⁵)² 本身就是平方数。所以一句话：<span class="mono">总乘积 = 50! × 一个完全平方数</span>。</p>
+              <p><b>结论。</b>把 50! 这一项删掉，剩下的乘积正好是完全平方数。而删 0 项不行：50! 不是平方数（比如质数 47 在 50! 里只出现 1 次），所以总乘积本身也不是平方数。</p>
+              <p class="hw-ans"><b>答案：至少删 1 项，删去 50!。</b></p>
+            </div>
+          </div>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 4</span><span class="hw-q">从 0、2、4、6、8 中挑出 4 个各不相同的数字，能组成一个四位完全平方数，那么这个完全平方数是________。</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p><b>先定个位。</b>平方数的个位只能是 0、1、4、5、6、9，这里只能选 0、4、6。个位是 0 的话，平方数末两位会是 00，数字 0 要用两次，和「各不相同」冲突，排除。个位只剩 <span class="mono">4 或 6</span>。</p>
+              <p><b>再定根的范围。</b>组成的数全是偶数，它的根也一定是偶数；四位数的根在 32 到 99 之间，千位还得是 2、4、6、8 之一，根的范围缩到 45 到 94。再看根的个位：平方个位是 4，根个位就是 2 或 8；平方个位是 6，根个位就是 4 或 6。</p>
+              <p><b>逐个平方试。</b>把符合的偶数根逐个平方：大多数平方里会混进奇数数字（比如 46² = 2116、64² = 4096），立刻淘汰；4624、8464 这种又重复了数字。最后只剩一个：<span class="mono">78² = 6084</span>，数字 6、0、8、4 全在备选里且各不相同 ✓。</p>
+              <p class="hw-ans"><b>答案：6084。</b>这种「拼数字」的题，靠的不是运气试，而是先用个位、范围一层层筛，候选少了再逐个验。</p>
+            </div>
+          </div>
+
+          <div class="hw">
+            <div class="hw-head"><span class="hw-no">演练 5</span><span class="hw-q">已知 98 个互不相同的质数 p₁、p₂、…、p₉₈，记 N = p₁² + p₂² + … + p₉₈²，问：N 被 3 除的余数是多少？</span></div>
+            <button class="btn ghost hw-btn">看解答</button>
+            <div class="hw-sol">
+              <p><b>先看单个 p² 的余数。</b>用模块三的性质：平方数除以 3 只能余 0 或 1。具体说：p = 3 时，p² 除以 3 余 <span class="mono">0</span>；p 是其他质数时，p 不是 3 的倍数，p² 除以 3 余 <span class="mono">1</span>。</p>
+              <p><b>所以整道题只取决于一件事：这 98 个质数里有没有 3。</b></p>
+              <p>如果<b>有 3</b>：其余 97 个平方各余 1，N 的余数 = 97 ÷ 3 的余数 = <span class="mono">1</span>。<br>如果<b>没有 3</b>：98 个平方各余 1，N 的余数 = 98 ÷ 3 的余数 = <span class="mono">2</span>。</p>
+              <p class="hw-ans"><b>答案：不唯一——含 3 时余 1，不含 3 时余 2。</b>题目没说这 98 个质数具体是哪些，所以答案要分情况讨论。这不是题目出错，而是在提醒你：条件没给全的时候，先分情况再下结论，选拔考试里这种意识很值钱。</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3-5 演练 -->
+        <article class="station" id="s3-5">
+          <div class="kicker">演练区 · 答完马上对答案</div>
+          <h3>模块三演练</h3>
+          <div class="quiz" data-quiz="m3">
+            <div class="q">
+              <div class="qtext"><span class="src">讲义例 6</span>从 2、3、5、7、9 中选择 4 个数字组成一个四位完全平方数，这个数是多少？（提示：先看个位能是几，再想十位）</div>
+              <div class="opts">
+                <button class="opt">3725</button><button class="opt" data-correct>5329</button><button class="opt">7925</button><button class="opt">9537</button>
+              </div>
+              <div class="explain"><span class="verdict"></span>平方数个位只能是 0、1、4、5、6、9，所以个位只能选 5 或 9。个位是 5 的平方数十位必为 2，但剩下的数字里拼不出（试 75² = 5625 含 6、25² = 625 太短…）。个位 9：逐个试以 3、7 结尾的数：57² = 3249 含 4 ✗，73² = <b>5329</b> ✓，数字 5、3、2、9 全在备选中。</div>
+            </div>
+            <div class="q">
+              <div class="qtext"><span class="src">讲义演练 1 改编</span>一个两位数，是它各个数位数字和的 7 倍。这样的两位数有几个？（先用位值原理列出式子：10a + b = 7(a + b)）</div>
+              <div class="opts">
+                <button class="opt">2 个</button><button class="opt">3 个</button><button class="opt" data-correct>4 个</button><button class="opt">5 个</button>
+              </div>
+              <div class="explain"><span class="verdict"></span>10a + b = 7a + 7b，化简得 3a = 6b，即 a = 2b。b 取 1、2、3、4，得到 <b>21、42、63、84</b>，共 4 个。验算 42：数字和 6，6 × 7 = 42 ✓。（讲义原题问「求这个两位数」，其实满足的有 4 个，写全才不丢分。）</div>
+            </div>
+            <div class="q">
+              <div class="qtext"><span class="src">自编 · 平方数判定链</span>72 的因数个数是偶数还是奇数？72 是完全平方数吗？</div>
+              <div class="opts">
+                <button class="opt">奇数个，是平方数</button><button class="opt" data-correct>偶数个，不是平方数</button><button class="opt">奇数个，不是平方数</button><button class="opt">偶数个，是平方数</button>
+              </div>
+              <div class="explain"><span class="verdict"></span>72 = 2³ × 3²，指数里有奇数（3），所以不是平方数；因数个数 (3+1) × (2+1) = 12 个，是<b>偶数</b>。判定链三头通：指数有奇 → 因数个数偶 → 不是平方数，一个结论带出另外两个。</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ================= 终测 ================= -->
+      <section class="module" id="final">
+        <div class="module-head">
+          <span class="no">FINAL CHECK</span>
+          <h2>学懂了吗 · 两道小题</h2>
+          <span class="goal">两道题都是刚学过的方法换了身衣服：数字变了，套路没变。</span>
+        </div>
+
+        <article class="station" id="s-final">
+          <div class="kicker">终测 · 答完马上对答案</div>
+          <h3>换个数字，再考一次</h3>
+          <p class="analogy">这两道不许翻前面找答案——能独立做出来，才说明方法是真学会了，不是把例题背下来了。</p>
+          <div class="quiz" data-quiz="final">
+            <div class="q">
+              <div class="qtext"><span class="src">终测 1 · 换区间</span>201 × 202 × 203 × … × 400 的乘积末尾有几个连续的 0？（方法和作业演练 3 一样：数因数 5 的个数，一层一层剥，别漏了 125 的倍数）</div>
+              <div class="opts">
+                <button class="opt">40 个</button><button class="opt">48 个</button><button class="opt" data-correct>50 个</button><button class="opt">52 个</button>
+              </div>
+              <div class="explain"><span class="verdict"></span>数因数 5：201 到 400 中，5 的倍数有 <b>40</b> 个；25 的倍数有 8 个，各再多 1 个 5；125 的倍数有 2 个（250 和 375），各再多 1 个。合计 40 + 8 + 2 = <b>50</b> 个 5，所以末尾有 50 个 0。只数第一层会得到 40——那正是这道题的坑。</div>
+            </div>
+            <div class="q">
+              <div class="qtext"><span class="src">终测 2 · 换数量</span>还是灯泡题的规则：120 个灯泡按 1~120 编号，第 1 秒全部亮，第 2 秒翻所有 2 的倍数的灯，第 3 秒翻所有 3 的倍数的灯……第 120 秒结束时，亮着的灯泡有几个？</div>
+              <div class="opts">
+                <button class="opt" data-correct>10 个</button><button class="opt">11 个</button><button class="opt">12 个</button><button class="opt">15 个</button>
+              </div>
+              <div class="explain"><span class="verdict"></span>和讲义 250 个灯泡那道一模一样：编号 n 的灯被翻的次数 = n 的因数个数，翻奇数次才亮，所以亮着的编号就是<b>完全平方数</b>。120 以内的平方数是 1²、2²、…、10² = 100（11² = 121 已经超了），共 <b>10</b> 个。250 个时答案是 15 个（15² = 225），换个数就换个答案，方法一点没变。</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <footer class="foot">
+        例题、演练与课后作业均出自少科院数论讲义三个模块：《因倍质合综合》《整除与余数综合》《数论问题综合（位值原理与完全平方数）》，个别题目标注「改编 / 自编」的是为了配合讲解调整过的版本；最后的终测两题是按同一方法改编的新题。三讲的通用心法：先把题目翻译成算式，再动手算——数论题难的从来不是计算，是翻译。
+      </footer>
+    </div>
+
+    <script>
+      (function(){
+        "use strict";
+        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        /* ---------- 通用步进器（例题精讲） ---------- */
+        document.querySelectorAll("[data-stepper]").forEach(function(block){
+          var wrap = block.parentElement;
+          var items = block.querySelectorAll(".stepitem");
+          var btn = wrap.querySelector("[data-step-btn]");
+          var answer = wrap.querySelector("[data-answer]");
+          var idx = 0;
+          if(!btn) return;
+          btn.addEventListener("click", function(){
+            if(idx < items.length){
+              items[idx].classList.add("show");
+              idx++;
+              btn.textContent = idx < items.length ? ("看下一步（" + idx + " / " + items.length + "）") : "看答案";
+            } else {
+              if(answer) answer.classList.add("show");
+              btn.disabled = true;
+              btn.textContent = "讲完了，回看每一步想想为什么";
+            }
+          });
+        });
+        // 短除梯子：使用同一逻辑，但结构不同，单独处理
+        document.querySelectorAll("[data-step-next]").forEach(function(btn){
+          var id = btn.getAttribute("data-step-next");
+          var ladder = document.getElementById(id);
+          var steps = ladder.querySelectorAll(".step");
+          var idx = 0;
+          btn.addEventListener("click", function(){
+            if(idx < steps.length){
+              steps[idx].classList.add("show");
+              idx++;
+              btn.textContent = idx < steps.length ? ("下一步（" + idx + " / " + steps.length + "）") : "拆完了";
+              if(idx >= steps.length) btn.disabled = true;
+            }
+          });
+          var resetBtn = document.querySelector('[data-step-reset="' + id + '"]');
+          if(resetBtn) resetBtn.addEventListener("click", function(){
+            steps.forEach(function(s){ s.classList.remove("show"); });
+            idx = 0; btn.disabled = false; btn.textContent = "下一步";
+          });
+        });
+
+        /* ---------- 筛法 ---------- */
+        var sieveEl = document.getElementById("sieve");
+        var sieveRead = document.getElementById("sieveRead");
+        var sieveCells = [];
+        function buildSieve(){
+          sieveEl.innerHTML = ""; sieveCells = [];
+          for(var n = 1; n <= 100; n++){
+            var c = document.createElement("div");
+            c.className = "cell" + (n === 1 ? " one" : "");
+            c.textContent = n;
+            sieveEl.appendChild(c);
+            sieveCells[n] = c;
+          }
+        }
+        buildSieve();
+        var sieveTimer = null;
+        document.getElementById("sieveReset").addEventListener("click", function(){
+          if(sieveTimer){ clearInterval(sieveTimer); sieveTimer = null; }
+          buildSieve();
+          sieveRead.textContent = "点「开始筛」：先划掉 2 的倍数，再划掉 3、5、7 的倍数——为什么只筛到 7？因为下一个质数 11 的平方是 121，已经超过 100 了。";
+          document.getElementById("sieveBtn").disabled = false;
+        });
+        document.getElementById("sieveBtn").addEventListener("click", function(){
+          var btn = this; btn.disabled = true;
+          var primes = [2,3,5,7];
+          var stage = 0;
+          function cross(p){
+            for(var m = p * 2; m <= 100; m += p){
+              if(sieveCells[m]) sieveCells[m].classList.add("crossed");
+            }
+          }
+          function finish(){
+            var count = 0;
+            for(var n = 2; n <= 100; n++){
+              if(!sieveCells[n].classList.contains("crossed")){ sieveCells[n].classList.add("prime"); count++; }
+            }
+            sieveRead.innerHTML = "筛完了：没被划掉的就是质数，一共 <b>" + count + " 个</b>：2、3、5、7、11、13、17、19、23、29、31、37、41、43、47、53、59、61、67、71、73、79、83、89、97。注意 1 既没被划掉、也不是质数——它只有一个因数，是个例外。";
+          }
+          if(reduced){ primes.forEach(cross); finish(); return; }
+          sieveTimer = setInterval(function(){
+            if(stage < primes.length){
+              cross(primes[stage]);
+              sieveRead.textContent = "正在划掉 " + primes[stage] + " 的倍数（" + primes[stage] + " 本身保留）……";
+              stage++;
+            } else {
+              clearInterval(sieveTimer); sieveTimer = null; finish();
+            }
+          }, 650);
+        });
+
+        /* ---------- 因数个数演示 ---------- */
+        var dcData = {
+          "1400": { f: '1400 = 2<span class="exp">³</span> × 5<span class="exp">²</span> × 7<span class="exp">¹</span>', exps: [3,2,1] },
+          "1764": { f: '1764 = 2<span class="exp">²</span> × 3<span class="exp">²</span> × 7<span class="exp">²</span>', exps: [2,2,2] },
+          "21000": { f: '21000 = 2<span class="exp">³</span> × 3<span class="exp">¹</span> × 5<span class="exp">³</span> × 7<span class="exp">¹</span>', exps: [3,1,3,1] },
+          "36": { f: '36 = 2<span class="exp">²</span> × 3<span class="exp">²</span>', exps: [2,2] }
+        };
+        var dcFactor = document.getElementById("dcountFactor");
+        var dcSteps = document.getElementById("dcountSteps");
+        function renderDcount(key){
+          var d = dcData[key]; if(!d) return;
+          dcFactor.innerHTML = d.f;
+          var parts = d.exps.map(function(e){ return "(" + e + "+1)"; });
+          var vals = d.exps.map(function(e){ return e + 1; });
+          var total = vals.reduce(function(a,b){ return a*b; }, 1);
+          dcSteps.innerHTML = "每个指数加 1：<span class='hl-num'>" + parts.join(" × ") + "</span> = <span class='hl-num'>" + vals.join(" × ") + "</span> = <span class='hl-num'>" + total + " 个因数</span>。" +
+            (key === "36" ? " 9 是奇数——这正是模块三判断平方数要用的结论。" : "");
+        }
+        renderDcount("1400");
+        document.getElementById("dcountChips").addEventListener("click", function(e){
+          var b = e.target.closest(".chip"); if(!b) return;
+          this.querySelectorAll(".chip").forEach(function(c){ c.classList.remove("on"); });
+          b.classList.add("on");
+          renderDcount(b.getAttribute("data-n"));
+        });
+
+        /* ---------- 余数演算场 ---------- */
+        var pgA = document.getElementById("pgA"), pgB = document.getElementById("pgB"), pgM = document.getElementById("pgM");
+        function mod(n, m){ return ((n % m) + m) % m; }
+        function setCell(id, v){ document.getElementById(id).textContent = v; }
+        function renderPg(){
+          var a = parseInt(pgA.value || "0", 10), b = parseInt(pgB.value || "0", 10), m = parseInt(pgM.value || "2", 10);
+          if(!(m >= 2)) m = 2;
+          var ra = mod(a, m), rb = mod(b, m);
+          setCell("pgSumD", mod(a + b, m)); setCell("pgSumR", mod(ra + rb, m));
+          setCell("pgDifD", mod(a - b, m)); setCell("pgDifR", mod(ra - rb, m));
+          setCell("pgMulD", mod(a * b, m)); setCell("pgMulR", mod(ra * rb, m));
+          document.querySelectorAll("[data-ok]").forEach(function(td){ td.textContent = "✓ 一样"; });
+          document.getElementById("pgRead").innerHTML = a + " 除以 " + m + " 余 <b>" + ra + "</b>，" + b + " 除以 " + m + " 余 <b>" + rb + "</b>。右边一列只用了这两个余数，结果和直接算完全相同——数字再大，也只需要带着余数算。";
+        }
+        [pgA, pgB, pgM].forEach(function(inp){ inp.addEventListener("input", renderPg); });
+        renderPg();
+
+        /* ---------- 位值拆分器 ---------- */
+        var placeNames = ["个位","十位","百位","千位","万位","十万位"];
+        var placeVals = [1,10,100,1000,10000,100000];
+        function renderSplit(){
+          var raw = document.getElementById("splitInput").value.replace(/\D/g, "").slice(0, 6);
+          var cards = document.getElementById("splitCards");
+          var read = document.getElementById("splitRead");
+          cards.innerHTML = "";
+          if(!raw || /^0+$/.test(raw)){ read.textContent = "输入一个 1 到 999999 之间的数，再点「拆开看」。"; return; }
+          var digits = raw.split("");
+          var n = digits.length;
+          var terms = [];
+          digits.forEach(function(dg, i){
+            var pos = n - 1 - i;
+            var card = document.createElement("div");
+            card.className = "digit-card";
+            card.innerHTML = '<div class="d">' + dg + '</div><div class="p">' + placeNames[pos] + " · ×" + placeVals[pos] + '</div><div class="v">' + (parseInt(dg,10) * placeVals[pos]) + "</div>";
+            cards.appendChild(card);
+            if(dg !== "0") terms.push(dg + "×" + placeVals[pos]);
+          });
+          read.innerHTML = "<span class='big'>" + parseInt(raw, 10) + " = " + (terms.length ? terms.join(" + ") : "0") + "</span><br>看最右边的卡片：数字在个位就只值它本身；每往左挪一位，身价 ×10。";
+        }
+        document.getElementById("splitBtn").addEventListener("click", renderSplit);
+        document.getElementById("splitInput").addEventListener("input", renderSplit);
+        renderSplit();
+
+        /* ---------- 灯泡模拟 ---------- */
+        var bulbsEl = document.getElementById("bulbs");
+        var bulbRead = document.getElementById("bulbRead");
+        var bulbState = [];
+        var bulbTimer = null;
+        function buildBulbs(){
+          bulbsEl.innerHTML = ""; bulbState = [];
+          for(var i = 1; i <= 25; i++){
+            var d = document.createElement("div");
+            d.className = "bulb on";
+            d.textContent = i;
+            bulbsEl.appendChild(d);
+            bulbState[i] = true;
+          }
+        }
+        buildBulbs();
+        document.getElementById("bulbReset").addEventListener("click", function(){
+          if(bulbTimer){ clearInterval(bulbTimer); bulbTimer = null; }
+          buildBulbs();
+          bulbRead.textContent = "准备好了就开始。边看边想：编号 n 的灯泡，一共会被翻多少次？";
+          document.getElementById("bulbPlay").disabled = false;
+        });
+        document.getElementById("bulbPlay").addEventListener("click", function(){
+          var btn = this; btn.disabled = true;
+          buildBulbs();
+          var round = 1;
+          function doRound(r){
+            for(var mlt = r; mlt <= 25; mlt += r){
+              bulbState[mlt] = !bulbState[mlt];
+              bulbsEl.children[mlt - 1].classList.toggle("on", bulbState[mlt]);
+            }
+            var lit = bulbState.slice(1).filter(Boolean).length;
+            bulbRead.textContent = "第 " + r + " 秒：翻了所有 " + r + " 的倍数，现在亮着 " + lit + " 个。";
+          }
+          function finish(){
+            var litNums = [];
+            for(var i = 1; i <= 25; i++) if(bulbState[i]) litNums.push(i);
+            litNums.forEach(function(i){ bulbsEl.children[i - 1].classList.add("square"); });
+            bulbRead.innerHTML = "25 秒全部结束，亮着的是 <b>" + litNums.join("、") + "</b>——全是完全平方数（1²、2²、3²、4²、5²）！因为只有平方数的因数个数是奇数，灯被翻奇数次，最后还亮着。换成讲义的 250 个：1² 到 15²，共 <b>15 个</b>。";
+          }
+          if(reduced){
+            for(var r = 2; r <= 25; r++) doRound(r);
+            finish(); return;
+          }
+          bulbTimer = setInterval(function(){
+            round++;
+            if(round > 25){ clearInterval(bulbTimer); bulbTimer = null; finish(); return; }
+            doRound(round);
+          }, 300);
+        });
+
+        /* ---------- 测验与计分 ---------- */
+        var totalQ = document.querySelectorAll(".quiz .q").length;
+        var solved = 0;
+        var solvedByMod = { m1: 0, m2: 0, m3: 0, final: 0 };
+        function updateScore(){
+          document.getElementById("score").textContent = solved + " / " + totalQ;
+          ["m1","m2","m3","final"].forEach(function(k){
+            var el = document.getElementById("prog-" + k);
+            if(!el) return;
+            if(solvedByMod[k] > 0){
+              var tot = document.querySelectorAll('.quiz[data-quiz="' + k + '"] .q').length;
+              el.textContent = (k === "final" ? "小测已完成 " : "演练已完成 ") + solvedByMod[k] + " / " + tot;
+            } else {
+              el.textContent = "";
+            }
+          });
+        }
+        document.querySelectorAll(".quiz").forEach(function(quiz){
+          var mod = quiz.getAttribute("data-quiz");
+          quiz.querySelectorAll(".q").forEach(function(q){
+            var opts = q.querySelectorAll(".opt");
+            var explain = q.querySelector(".explain");
+            var verdict = explain.querySelector(".verdict");
+            var done = false;
+            opts.forEach(function(opt){
+              opt.addEventListener("click", function(){
+                if(done) return;
+                if(opt.hasAttribute("data-correct")){
+                  done = true;
+                  opt.classList.add("right");
+                  opts.forEach(function(o){ o.disabled = true; });
+                  verdict.textContent = "答对了！";
+                  verdict.className = "verdict ok";
+                  explain.classList.add("show");
+                  solved++; solvedByMod[mod]++; updateScore();
+                } else {
+                  opt.classList.add("wrong");
+                  opt.disabled = true;
+                  verdict.textContent = "再想想——";
+                  verdict.className = "verdict no";
+                  explain.classList.add("show");
+                }
+              });
+            });
+          });
+        });
+        /* ---------- 课后作业：解答展开/收起 ---------- */
+        document.querySelectorAll(".hw-btn").forEach(function(btn){
+          btn.addEventListener("click", function(){
+            var hw = btn.closest(".hw");
+            var open = hw.classList.toggle("open");
+            btn.textContent = open ? "收起解答" : "看解答";
+          });
+        });
+
+        updateScore();
+      })();
+    </script>
+  </body>
+</html>
